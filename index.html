@@ -5,30 +5,26 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="artifact-type" content="tool">
   <meta name="design-style" content="vitals">
-  <title>Group Trip Kitty Pool — 10-Member Common Fund Tracker</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400;1,700&family=Figtree:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <title>Group Trip Kitty Pool — THB Common Fund Tracker</title>
+  <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400;1,700&family=Figtree:wght@300..900&display=swap" rel="stylesheet">
   <style>
     :root {
       color-scheme: light;
 
-      /* Page and surfaces (Vitals) */
+      /* Vitals palette */
       --background: #ffffff;
       --surface-container-low: #f1f7f8;
       --surface-container: #e3f1f3;
       --surface-container-high: #d5e9ec;
 
-      /* Text */
       --on-surface: #1b2b33;
       --on-surface-variant: #46585f;
 
-      /* Rules */
       --outline: #7b9198;
       --outline-variant: #d5e3e5;
 
-      /* Accents */
       --primary: #0f7c8a;
+      --primary-hover: #0b636e;
       --on-primary: #ffffff;
       --primary-container: #e3f1f3;
       --on-primary-container: #0a5560;
@@ -37,53 +33,55 @@
       --error: #b3261e;
       --on-error: #ffffff;
 
-      /* Data series */
       --data-1: #0f7c8a;
       --data-2: #2e7d4f;
       --data-3: #b86e00;
       --data-4: #5c5fb0;
       --data-context: #b8c7ca;
 
+      /* Semantic & status washes */
+      --positive: #2e7d4f;
+      --warning: #b86e00;
+      --focus: #0f7c8a;
+      --positive-tint: color-mix(in srgb, var(--tertiary) 14%, var(--background));
+      --warning-tint: color-mix(in srgb, var(--data-3) 14%, var(--background));
+      --warning-ink: #6e4100;
+      --error-tint: color-mix(in srgb, var(--error) 10%, var(--background));
+      --scrim: rgb(27 43 51 / 0.48);
+
       /* Fonts */
       --font-headline: 'Figtree', sans-serif;
       --font-body: 'Atkinson Hyperlegible', sans-serif;
       --font-label: 'Figtree', sans-serif;
+
+      /* Type scale — Focused Tool */
+      --display-size: clamp(1.75rem, 1.4rem + 1.2vw, 2.25rem);
+      --headline-size: clamp(1.25rem, 1.1rem + 0.5vw, 1.5rem);
+      --subhead-size: clamp(1.0625rem, 1rem + 0.25vw, 1.1875rem);
+      --body-size: clamp(0.9375rem, 0.9rem + 0.15vw, 1rem);
+      --label-size: 0.75rem;
+      --hero-metric-size: clamp(2rem, 1.65rem + 1.5vw, 2.65rem);
 
       /* Shape */
       --rounded: 0.625rem;
       --rounded-lg: 0.875rem;
       --rounded-full: 9999px;
 
-      /* Style effects */
-      --top-bar: 6px solid var(--primary);
-      --status-bar-width: 4px;
-      --card-border: 1px solid var(--outline-variant);
-      --card-lift: 0 1px 2px rgb(27 43 51 / 0.05), 0 6px 16px rgb(27 43 51 / 0.05);
-      --backdrop-scrim: rgb(27 43 51 / 0.45);
-
-      /* Shared semantic tokens */
-      --positive: var(--tertiary);
-      --warning: var(--data-3);
-      --warning-container: color-mix(in srgb, var(--data-3) 14%, var(--background));
-      --on-warning-container: #7a4900;
-      --positive-container: color-mix(in srgb, var(--tertiary) 14%, var(--background));
-      --error-container: color-mix(in srgb, var(--error) 10%, var(--background));
-      --focus: var(--primary);
-
-      /* Type scale (Focused Tool) */
-      --display-size: clamp(1.75rem, 1.4rem + 1.2vw, 2.25rem);
-      --headline-size: clamp(1.25rem, 1.1rem + 0.5vw, 1.5rem);
-      --subhead-size: clamp(1.0625rem, 1rem + 0.25vw, 1.1875rem);
-      --body-size: clamp(0.9375rem, 0.9rem + 0.15vw, 1rem);
-      --label-size: 0.75rem;
-
-      /* Spacing scale */
+      /* Spacing scale (4pt base) */
       --space-xs: 0.25rem;
       --space-sm: 0.5rem;
       --space-md: 1rem;
       --space-lg: 1.5rem;
       --space-xl: 2.5rem;
       --space-2xl: 4rem;
+
+      /* Effects */
+      --top-bar: 6px solid var(--primary);
+      --status-bar-width: 4px;
+      --card-border: 1px solid var(--outline-variant);
+      --input-border: 1px solid var(--outline);
+      --card-lift: 0 1px 2px rgb(27 43 51 / 0.05), 0 6px 16px rgb(27 43 51 / 0.05);
+      --modal-lift: 0 12px 32px rgb(27 43 51 / 0.18);
 
       /* Motion */
       --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
@@ -93,12 +91,13 @@
       --dur-long: 420ms;
     }
 
+    /* Base reset */
     *, *::before, *::after { box-sizing: border-box; }
     html, body {
       overflow-x: clip;
       margin: 0;
       padding: 0;
-      background: var(--surface-container-low);
+      background-color: var(--surface-container-low);
       color: var(--on-surface);
       font-family: var(--font-body);
       font-size: var(--body-size);
@@ -106,6 +105,7 @@
       -webkit-font-smoothing: antialiased;
     }
     header { position: static !important; }
+    button, input, select, textarea { font-family: inherit; }
 
     .app-shell {
       border-top: var(--top-bar);
@@ -117,7 +117,7 @@
       grid-template-columns: minmax(0, 1fr);
       gap: var(--space-lg);
       padding: var(--space-lg);
-      max-width: 1120px;
+      max-width: 1080px;
       margin: 0 auto;
       overflow: hidden;
     }
@@ -129,97 +129,53 @@
       outline-offset: 2px;
     }
 
-    /* Typography */
-    h1, h2, h3, .title {
-      font-family: var(--font-headline);
-      color: var(--on-surface);
-      margin: 0;
+    /* Header */
+    .app-header {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: var(--space-md);
+      padding-bottom: var(--space-sm);
     }
-    .title {
-      font-size: var(--display-size);
-      font-weight: 800;
-      letter-spacing: -0.015em;
-      line-height: 1.08;
+
+    .title-group {
+      flex: 1 1 260px;
     }
-    .section-heading {
-      font-size: var(--headline-size);
-      font-weight: 700;
-      letter-spacing: -0.01em;
-      line-height: 1.15;
-    }
-    .subhead {
-      font-size: var(--subhead-size);
-      font-weight: 700;
-      line-height: 1.25;
-    }
-    .lede {
-      font-size: 1.05em;
-      line-height: 1.55;
-      color: var(--on-surface-variant);
-      max-width: 62ch;
-      margin: var(--space-xs) 0 0;
-    }
+
     .kicker {
       font-family: var(--font-label);
       font-size: var(--label-size);
       font-weight: 600;
-      letter-spacing: 0.06em;
       text-transform: uppercase;
-      color: var(--on-surface-variant);
-      margin: 0;
-    }
-    .tabular {
-      font-variant-numeric: tabular-nums;
+      letter-spacing: 0.07em;
+      color: var(--on-primary-container);
+      margin: 0 0 var(--space-xs) 0;
     }
 
-    /* Header & Utility Bar */
-    .top-header {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
-      align-items: flex-start;
-      gap: var(--space-md);
-      padding-bottom: var(--space-md);
-      border-bottom: var(--card-border);
+    .title {
+      font-family: var(--font-headline);
+      font-size: var(--display-size);
+      font-weight: 800;
+      letter-spacing: -0.015em;
+      line-height: 1.08;
+      margin: 0;
+      color: var(--on-surface);
     }
+
+    .lede {
+      font-size: var(--body-size);
+      line-height: 1.55;
+      color: var(--on-surface-variant);
+      max-width: 60ch;
+      margin: var(--space-xs) 0 0 0;
+    }
+
     .header-actions {
       display: flex;
       flex-wrap: wrap;
       align-items: center;
       gap: var(--space-sm);
-    }
-
-    /* Chips */
-    .chip {
-      display: inline-flex;
-      align-items: center;
-      gap: var(--space-xs);
-      font-family: var(--font-label);
-      font-weight: 600;
-      font-size: var(--label-size);
-      padding: var(--space-xs) var(--space-md);
-      border-radius: var(--rounded-full);
-      background: var(--positive-container);
-      color: var(--secondary);
-      white-space: nowrap;
-      line-height: 1.3;
-    }
-    .chip[data-status="info"] {
-      background: var(--primary-container);
-      color: var(--on-primary-container);
-    }
-    .chip[data-status="warning"] {
-      background: var(--warning-container);
-      color: var(--on-warning-container);
-    }
-    .chip[data-status="alert"] {
-      background: var(--error-container);
-      color: var(--error);
-    }
-    .chip[data-status="neutral"] {
-      background: var(--surface-container-low);
-      color: var(--on-surface-variant);
-      border: var(--card-border);
     }
 
     /* Buttons */
@@ -231,166 +187,276 @@
       min-height: 44px;
       padding: var(--space-sm) var(--space-md);
       border-radius: var(--rounded);
-      font-family: var(--font-headline);
+      font-family: var(--font-label);
       font-weight: 600;
       font-size: var(--body-size);
       line-height: 1.2;
       cursor: pointer;
       border: 1px solid transparent;
-      text-decoration: none;
-      transition: background-color var(--dur-micro) var(--ease-in-out),
-                  color var(--dur-micro) var(--ease-in-out),
-                  box-shadow var(--dur-micro) var(--ease-in-out),
+      transition: background-color var(--dur-micro) var(--ease-out),
+                  color var(--dur-micro) var(--ease-out),
+                  box-shadow var(--dur-micro) var(--ease-out),
                   transform var(--dur-micro) var(--ease-out);
+      text-decoration: none;
+      white-space: nowrap;
     }
-    .btn:active { transform: translateY(1px); }
+    .btn:active:not(:disabled) {
+      transform: translateY(1px);
+    }
     .btn:disabled {
       opacity: 0.55;
       cursor: not-allowed;
-      transform: none;
     }
     .btn-primary {
-      background: var(--primary);
+      background-color: var(--primary);
       color: var(--on-primary);
     }
     .btn-primary:hover:not(:disabled) {
-      background: var(--on-primary-container);
+      background-color: var(--primary-hover);
     }
     .btn-secondary {
-      background: var(--background);
-      color: var(--on-primary-container);
+      background-color: var(--background);
+      color: var(--primary);
       border-color: var(--primary);
     }
     .btn-secondary:hover:not(:disabled) {
-      background: var(--primary-container);
+      background-color: var(--surface-container-low);
     }
     .btn-ghost {
-      background: var(--background);
+      background-color: var(--background);
       color: var(--on-surface);
       border-color: var(--outline-variant);
     }
     .btn-ghost:hover:not(:disabled) {
-      background: var(--surface-container);
+      background-color: var(--surface-container);
     }
     .btn-danger-outline {
-      background: var(--background);
+      background-color: var(--background);
       color: var(--error);
       border-color: var(--error);
     }
     .btn-danger-outline:hover:not(:disabled) {
-      background: var(--error-container);
+      background-color: var(--error-tint);
     }
     .btn-sm {
-      min-height: 36px;
-      padding: var(--space-xs) var(--space-sm);
+      min-height: 44px;
+      padding: var(--space-xs) var(--space-md);
       font-size: var(--label-size);
     }
-
-    /* Cards & Status Accent Bars */
-    .card {
-      background: var(--background);
-      border: var(--card-border);
-      border-radius: var(--rounded-lg);
-      padding: var(--space-lg);
+    .btn-block {
+      width: 100%;
     }
+
+    /* Status chips */
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-xs);
+      font-family: var(--font-label);
+      font-weight: 600;
+      font-size: var(--label-size);
+      padding: var(--space-xs) var(--space-md);
+      border-radius: var(--rounded-full);
+      background-color: var(--positive-tint);
+      color: var(--secondary);
+      white-space: nowrap;
+    }
+    .chip[data-status="info"] {
+      background-color: var(--primary-container);
+      color: var(--on-primary-container);
+    }
+    .chip[data-status="warn"] {
+      background-color: var(--warning-tint);
+      color: var(--warning-ink);
+    }
+    .chip[data-status="alert"] {
+      background-color: var(--error-tint);
+      color: var(--error);
+    }
+    .chip[data-status="neutral"] {
+      background-color: var(--surface-container);
+      color: var(--on-surface-variant);
+    }
+
+    /* Cards — Vitals status accent bar */
     .status-card {
-      background: var(--background);
+      background-color: var(--background);
       border: var(--card-border);
       border-left: var(--status-bar-width) solid var(--primary);
       border-radius: var(--rounded-lg);
       padding: var(--space-md) var(--space-lg);
-      display: flex;
-      flex-direction: column;
-      gap: var(--space-xs);
+      box-shadow: var(--card-lift);
     }
     .status-card[data-status="ok"] { border-left-color: var(--tertiary); }
-    .status-card[data-status="warning"] { border-left-color: var(--data-3); }
+    .status-card[data-status="warn"] { border-left-color: var(--data-3); }
     .status-card[data-status="alert"] { border-left-color: var(--error); }
 
-    /* Role & Actor Control Strip */
-    .role-bar {
-      background: var(--background);
+    .panel-card {
+      background-color: var(--background);
       border: var(--card-border);
       border-radius: var(--rounded-lg);
-      padding: var(--space-md) var(--space-lg);
+      padding: var(--space-lg);
+      box-shadow: var(--card-lift);
+    }
+
+    /* Telemetry Grid */
+    .telemetry-grid {
       display: grid;
-      grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+      grid-template-columns: repeat(12, minmax(0, 1fr));
       gap: var(--space-md);
-      align-items: end;
     }
-    .segmented-control {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-      gap: var(--space-xs);
-      background: var(--surface-container-low);
-      padding: var(--space-xs);
-      border-radius: var(--rounded);
-      border: var(--card-border);
-    }
-    .seg-btn {
-      min-height: 44px;
-      border: none;
-      border-radius: calc(var(--rounded) - 2px);
-      background: transparent;
-      color: var(--on-surface-variant);
-      font-family: var(--font-headline);
+    .tile-balance { grid-column: span 5; }
+    .tile-collected { grid-column: span 3; }
+    .tile-spent { grid-column: span 4; }
+
+    .metric-label {
+      font-family: var(--font-label);
+      font-size: var(--label-size);
       font-weight: 600;
-      font-size: var(--body-size);
-      cursor: pointer;
-      padding: var(--space-xs) var(--space-sm);
-      transition: background-color var(--dur-micro) var(--ease-in-out),
-                  color var(--dur-micro) var(--ease-in-out);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--on-surface-variant);
+      margin: 0 0 var(--space-xs) 0;
     }
-    .seg-btn[aria-pressed="true"] {
-      background: var(--primary);
-      color: var(--on-primary);
+
+    .metric-value {
+      font-family: var(--font-headline);
+      font-weight: 800;
+      font-variant-numeric: tabular-nums;
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      margin: 0;
+      color: var(--on-surface);
     }
-    .role-note {
-      grid-column: 1 / -1;
+    .metric-value.is-hero {
+      font-size: var(--hero-metric-size);
+    }
+    .metric-value.is-sub {
+      font-size: clamp(1.375rem, 1.2rem + 0.6vw, 1.75rem);
+    }
+
+    .metric-caption {
+      font-size: 0.875rem;
+      color: var(--on-surface-variant);
+      margin: var(--space-xs) 0 0 0;
+    }
+    .metric-caption.is-ok { color: var(--secondary); font-weight: 700; }
+    .metric-caption.is-alert { color: var(--error); font-weight: 700; }
+
+    /* Round & Burn Telemetry Bar */
+    .round-banner {
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+      gap: var(--space-lg);
+      align-items: center;
+    }
+    .round-header-row {
       display: flex;
       flex-wrap: wrap;
       align-items: center;
       justify-content: space-between;
       gap: var(--space-sm);
-      padding: var(--space-sm) var(--space-md);
-      border-radius: var(--rounded);
-      background: var(--primary-container);
-      color: var(--on-primary-container);
-      font-size: 0.9rem;
+      margin-bottom: var(--space-sm);
     }
-
-    /* KPI Row */
-    .kpi-grid {
-      display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: var(--space-md);
-    }
-    .kpi-value {
+    .section-heading {
       font-family: var(--font-headline);
+      font-size: var(--headline-size);
       font-weight: 800;
-      font-size: clamp(1.375rem, 1.1rem + 0.9vw, 1.85rem);
-      letter-spacing: -0.02em;
+      letter-spacing: -0.015em;
       line-height: 1.15;
-      color: var(--on-surface);
-      font-variant-numeric: tabular-nums;
-      word-break: break-word;
-    }
-    .kpi-caption {
-      font-size: 0.875rem;
-      color: var(--on-surface-variant);
       margin: 0;
+      color: var(--on-surface);
     }
-    .kpi-caption.is-ok { color: var(--secondary); font-weight: 700; }
-    .kpi-caption.is-warn { color: var(--on-warning-container); font-weight: 700; }
-    .kpi-caption.is-alert { color: var(--error); font-weight: 700; }
 
-    /* Forms Workspace */
-    .forms-grid {
+    .meter-track {
+      position: relative;
+      height: 14px;
+      border-radius: var(--rounded-full);
+      background-color: var(--surface-container-low);
+      border: var(--card-border);
+      overflow: hidden;
+    }
+    .meter-range-band {
+      position: absolute;
+      inset: 0;
+      background-color: var(--positive-tint);
+    }
+    .meter-fill {
+      position: relative;
+      height: 100%;
+      border-radius: var(--rounded-full);
+      background-color: var(--primary);
+      transition: width var(--dur-short) var(--ease-out);
+    }
+    .meter-fill.is-ok { background-color: var(--tertiary); }
+    .meter-fill.is-warn { background-color: var(--data-3); }
+    .meter-fill.is-alert { background-color: var(--error); }
+
+    .meter-meta {
+      display: flex;
+      justify-content: space-between;
+      gap: var(--space-sm);
+      margin-top: var(--space-xs);
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      font-weight: 600;
+      color: var(--on-surface-variant);
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* Main Workspace Grid (Input Form + Member Matrix / Ledger) */
+    .workspace-grid {
       display: grid;
-      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      grid-template-columns: minmax(0, 1.05fr) minmax(0, 1.25fr);
       gap: var(--space-lg);
       align-items: start;
     }
+
+    /* Role Switcher */
+    .role-tabs {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: var(--space-sm);
+      padding: var(--space-xs);
+      background-color: var(--surface-container-low);
+      border: var(--card-border);
+      border-radius: var(--rounded);
+      margin-bottom: var(--space-lg);
+    }
+    .role-tab {
+      min-height: 44px;
+      padding: var(--space-sm) var(--space-md);
+      border: 0;
+      border-radius: calc(var(--rounded) - 2px);
+      background-color: transparent;
+      color: var(--on-surface-variant);
+      font-family: var(--font-label);
+      font-weight: 600;
+      font-size: 0.875rem;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: center;
+      text-align: left;
+      transition: background-color var(--dur-micro) var(--ease-out),
+                  color var(--dur-micro) var(--ease-out),
+                  box-shadow var(--dur-micro) var(--ease-out);
+    }
+    .role-tab[aria-selected="true"] {
+      background-color: var(--background);
+      color: var(--on-surface);
+      box-shadow: var(--card-lift);
+      border-bottom: 3px solid var(--primary);
+    }
+    .role-tab-sub {
+      font-family: var(--font-body);
+      font-weight: 400;
+      font-size: var(--label-size);
+      color: var(--on-surface-variant);
+    }
+
+    /* Form elements */
     .form-stack {
       display: flex;
       flex-direction: column;
@@ -409,182 +475,189 @@
     }
     .field-label {
       font-family: var(--font-label);
+      font-size: var(--label-size);
       font-weight: 600;
-      font-size: 0.875rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
       color: var(--on-surface);
     }
-    .field-control {
+    .field-input, .field-select {
       width: 100%;
       min-height: 44px;
       padding: var(--space-sm) var(--space-md);
-      border: 1px solid var(--outline);
-      border-radius: var(--rounded);
-      background: var(--background);
+      background-color: var(--background);
       color: var(--on-surface);
-      font-family: var(--font-body);
+      border: var(--input-border);
+      border-radius: var(--rounded);
       font-size: var(--body-size);
-      transition: border-color var(--dur-micro) var(--ease-in-out),
-                  box-shadow var(--dur-micro) var(--ease-in-out);
+      line-height: 1.3;
+      transition: border-color var(--dur-micro) var(--ease-out),
+                  box-shadow var(--dur-micro) var(--ease-out);
     }
-    select.field-control {
+    .field-select {
       padding-right: var(--space-xl);
     }
-    .field-control:focus {
+    .field-input:focus, .field-select:focus {
       outline: none;
       border-color: var(--primary);
-      box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary) 20%, transparent);
+      box-shadow: 0 0 0 3px var(--primary-container);
     }
-    .quick-amounts {
+
+    /* Quick preset buttons */
+    .preset-row {
       display: flex;
       flex-wrap: wrap;
       gap: var(--space-sm);
     }
-    .quick-chip-btn {
-      min-height: 38px;
+    .preset-btn {
+      min-height: 44px;
       padding: var(--space-xs) var(--space-md);
-      border-radius: var(--rounded-full);
-      border: 1px solid var(--outline-variant);
-      background: var(--surface-container-low);
-      color: var(--on-primary-container);
+      border-radius: var(--rounded);
+      border: var(--card-border);
+      background-color: var(--surface-container-low);
+      color: var(--on-surface);
       font-family: var(--font-label);
       font-weight: 600;
-      font-size: var(--label-size);
+      font-size: 0.875rem;
+      font-variant-numeric: tabular-nums;
       cursor: pointer;
-      transition: background-color var(--dur-micro) var(--ease-in-out);
+      transition: background-color var(--dur-micro) var(--ease-out),
+                  color var(--dur-micro) var(--ease-out);
     }
-    .quick-chip-btn:hover {
-      background: var(--surface-container-high);
+    .preset-btn:hover {
+      background-color: var(--surface-container);
     }
-    .inline-feedback {
-      min-height: 1.25rem;
-      font-size: 0.875rem;
-      font-weight: 700;
-      margin: 0;
-    }
-    .inline-feedback[data-tone="ok"] { color: var(--secondary); }
-    .inline-feedback[data-tone="error"] { color: var(--error); }
-    .inline-feedback[data-tone="info"] { color: var(--on-primary-container); }
-
-    .fc-locked-callout {
-      background: var(--primary-container);
-      border-left: var(--status-bar-width) solid var(--primary);
-      border-radius: var(--rounded-lg);
-      padding: var(--space-lg);
+    .preset-btn.is-active {
+      background-color: var(--primary-container);
       color: var(--on-primary-container);
-      display: flex;
-      flex-direction: column;
-      gap: var(--space-md);
+      border-color: var(--primary);
     }
 
-    /* Telemetry Visuals */
-    .telemetry-grid {
-      display: grid;
-      grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
-      gap: var(--space-lg);
-      align-items: start;
-    }
-    .chart-wrap {
-      width: 100%;
-      min-height: 120px;
-    }
-    .chart-legend {
-      display: flex;
-      flex-wrap: wrap;
-      gap: var(--space-md);
-      margin-top: var(--space-sm);
+    /* Callout & inline feedback */
+    .callout {
+      padding: var(--space-sm) var(--space-md);
+      border-radius: var(--rounded);
+      border-left: var(--status-bar-width) solid var(--primary);
+      background-color: var(--primary-container);
+      color: var(--on-primary-container);
       font-size: 0.875rem;
-      color: var(--on-surface-variant);
     }
-    .legend-item {
-      display: inline-flex;
+    .callout[data-status="ok"] {
+      border-left-color: var(--tertiary);
+      background-color: var(--positive-tint);
+      color: var(--secondary);
+    }
+    .callout[data-status="warn"] {
+      border-left-color: var(--data-3);
+      background-color: var(--warning-tint);
+      color: var(--warning-ink);
+    }
+    .callout[data-status="alert"] {
+      border-left-color: var(--error);
+      background-color: var(--error-tint);
+      color: var(--error);
+    }
+
+    /* Member Matrix */
+    .member-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: var(--space-sm);
+      margin-top: var(--space-md);
+    }
+    .member-tile {
+      display: flex;
       align-items: center;
-      gap: var(--space-xs);
+      justify-content: space-between;
+      gap: var(--space-sm);
+      min-height: 48px;
+      padding: var(--space-sm) var(--space-md);
+      border-radius: var(--rounded);
+      border: var(--card-border);
+      background-color: var(--background);
+      cursor: pointer;
+      text-align: left;
+      transition: background-color var(--dur-micro) var(--ease-out),
+                  box-shadow var(--dur-micro) var(--ease-out);
     }
-    .legend-swatch {
-      width: 12px;
-      height: 12px;
-      border-radius: 3px;
-      display: inline-block;
+    .member-tile:hover {
+      background-color: var(--surface-container-low);
     }
-    .category-list {
+    .member-tile.is-selected {
+      background-color: var(--surface-container);
+      box-shadow: inset 3px 0 0 var(--primary);
+    }
+    .member-name {
+      font-family: var(--font-headline);
+      font-weight: 700;
+      font-size: 0.9375rem;
+      color: var(--on-surface);
+      display: block;
+    }
+    .member-total {
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      font-variant-numeric: tabular-nums;
+      color: var(--on-surface-variant);
+      display: block;
+    }
+
+    /* Category Breakdown Bars */
+    .cat-list {
       display: flex;
       flex-direction: column;
       gap: var(--space-sm);
       margin-top: var(--space-md);
     }
-    .category-row {
+    .cat-row {
       display: flex;
       flex-direction: column;
       gap: var(--space-xs);
     }
-    .category-meta {
+    .cat-row-head {
       display: flex;
       justify-content: space-between;
       font-size: 0.875rem;
-    }
-    .bar-track {
-      height: 10px;
-      border-radius: var(--rounded-full);
-      background: var(--surface-container-low);
-      overflow: hidden;
-    }
-    .bar-fill {
-      height: 100%;
-      border-radius: var(--rounded-full);
-      background: var(--data-1);
-      transition: width var(--dur-short) var(--ease-out);
-    }
-
-    /* Member Matrix Table / Mobile Cards */
-    .table-scroll {
-      overflow-x: auto;
-      margin-top: var(--space-md);
-    }
-    table.member-table {
-      width: 100%;
-      border-collapse: collapse;
       font-variant-numeric: tabular-nums;
     }
-    .member-table th {
-      text-align: left;
-      font-family: var(--font-label);
-      font-size: var(--label-size);
-      font-weight: 600;
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
-      color: var(--on-surface-variant);
-      background: var(--surface-container-low);
-      padding: var(--space-sm) var(--space-md);
-      border-bottom: var(--card-border);
+    .cat-name { font-weight: 700; color: var(--on-surface); }
+    .cat-amt { font-family: var(--font-label); font-weight: 600; color: var(--on-surface-variant); }
+    .cat-bar-track {
+      height: 8px;
+      border-radius: var(--rounded-full);
+      background-color: var(--surface-container-low);
+      overflow: hidden;
     }
-    .member-table td {
-      padding: var(--space-sm) var(--space-md);
-      border-bottom: var(--card-border);
-      vertical-align: middle;
+    .cat-bar-fill {
+      height: 100%;
+      border-radius: var(--rounded-full);
+      background-color: var(--data-1);
     }
-    .member-table th.num, .member-table td.num { text-align: right; }
-    .member-table tr:last-child td { border-bottom: none; }
+    .cat-bar-fill[data-series="1"] { background-color: var(--data-1); }
+    .cat-bar-fill[data-series="2"] { background-color: var(--data-2); }
+    .cat-bar-fill[data-series="3"] { background-color: var(--data-3); }
+    .cat-bar-fill[data-series="4"] { background-color: var(--data-4); }
 
-    /* Live Ledger */
+    /* Ledger */
     .ledger-controls {
-      display: grid;
-      grid-template-columns: minmax(0, 1.4fr) minmax(0, 0.9fr) auto;
-      gap: var(--space-sm);
+      display: flex;
+      flex-wrap: wrap;
       align-items: end;
-      margin-top: var(--space-md);
+      justify-content: space-between;
+      gap: var(--space-md);
+      margin: var(--space-md) 0;
     }
     .filter-pills {
       display: flex;
       flex-wrap: wrap;
       gap: var(--space-sm);
-      margin-top: var(--space-md);
     }
     .filter-pill {
-      min-height: 40px;
+      min-height: 44px;
       padding: var(--space-xs) var(--space-md);
       border-radius: var(--rounded-full);
       border: var(--card-border);
-      background: var(--background);
+      background-color: var(--background);
       color: var(--on-surface-variant);
       font-family: var(--font-label);
       font-weight: 600;
@@ -592,192 +665,162 @@
       cursor: pointer;
     }
     .filter-pill[aria-pressed="true"] {
-      background: var(--primary);
+      background-color: var(--primary);
       color: var(--on-primary);
       border-color: var(--primary);
     }
+
     .ledger-list {
       display: flex;
       flex-direction: column;
-      gap: var(--space-sm);
-      margin-top: var(--space-md);
     }
     .ledger-item {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
       gap: var(--space-md);
-      padding: var(--space-md);
-      border: var(--card-border);
-      border-left: var(--status-bar-width) solid var(--primary);
-      border-radius: var(--rounded);
-      background: var(--background);
+      align-items: center;
+      padding: var(--space-md) 0;
+      border-top: var(--card-border);
     }
-    .ledger-item[data-kind="contribution"] { border-left-color: var(--tertiary); }
-    .ledger-item[data-kind="expense"] { border-left-color: var(--primary); }
-    .ledger-main {
+    .ledger-item:first-child {
+      border-top: 0;
+    }
+    .ledger-title-row {
       display: flex;
-      flex-direction: column;
-      gap: var(--space-xs);
+      flex-wrap: wrap;
+      align-items: center;
+      gap: var(--space-sm);
+      margin-bottom: var(--space-xs);
     }
     .ledger-title {
       font-family: var(--font-headline);
       font-weight: 700;
+      font-size: var(--body-size);
       color: var(--on-surface);
     }
     .ledger-meta {
+      font-size: 0.8125rem;
+      color: var(--on-surface-variant);
       display: flex;
       flex-wrap: wrap;
       gap: var(--space-sm);
-      font-size: 0.85rem;
-      color: var(--on-surface-variant);
     }
     .ledger-right {
       display: flex;
       flex-direction: column;
       align-items: flex-end;
       gap: var(--space-xs);
-      flex-shrink: 0;
     }
     .ledger-amount {
       font-family: var(--font-headline);
       font-weight: 800;
-      font-size: 1.1rem;
+      font-size: var(--subhead-size);
       font-variant-numeric: tabular-nums;
+      white-space: nowrap;
     }
-    .ledger-amount.is-in { color: var(--secondary); }
-    .ledger-amount.is-out { color: var(--on-surface); }
+    .ledger-amount.is-credit { color: var(--tertiary); }
+    .ledger-amount.is-debit { color: var(--error); }
+
+    .ledger-actions {
+      display: flex;
+      gap: var(--space-xs);
+    }
 
     .empty-state {
       text-align: left;
       padding: var(--space-xl) var(--space-lg);
-      background: var(--surface-container-low);
-      border: var(--card-border);
+      background-color: var(--surface-container-low);
       border-radius: var(--rounded-lg);
-      margin-top: var(--space-md);
+      border: var(--card-border);
+    }
+    .empty-state h3 {
+      font-family: var(--font-headline);
+      font-weight: 700;
+      margin: 0 0 var(--space-xs) 0;
     }
     .empty-state p {
+      margin: 0 0 var(--space-md) 0;
       color: var(--on-surface-variant);
-      margin: var(--space-xs) 0 var(--space-md);
-      max-width: 52ch;
+      max-width: 55ch;
     }
 
-    /* Settings Modal */
+    /* Modal */
     .modal-backdrop {
       position: fixed;
       inset: 0;
-      background: var(--backdrop-scrim);
-      display: flex;
+      background-color: var(--scrim);
+      display: none;
       align-items: center;
       justify-content: center;
       padding: var(--space-md);
       z-index: 100;
     }
-    .modal-backdrop[hidden] { display: none; }
+    .modal-backdrop[data-open="true"] {
+      display: flex;
+    }
     .modal-dialog {
       width: 100%;
-      max-width: 580px;
+      max-width: 560px;
       max-height: 90vh;
       overflow-y: auto;
-      background: var(--background);
-      border: var(--card-border);
-      border-top: var(--top-bar);
+      background-color: var(--background);
       border-radius: var(--rounded-lg);
-      box-shadow: var(--card-lift);
+      border-top: var(--top-bar);
+      box-shadow: var(--modal-lift);
       padding: var(--space-lg);
-      display: flex;
-      flex-direction: column;
-      gap: var(--space-md);
     }
     .modal-header {
       display: flex;
-      justify-content: space-between;
       align-items: center;
+      justify-content: space-between;
       gap: var(--space-md);
-      padding-bottom: var(--space-sm);
-      border-bottom: var(--card-border);
+      margin-bottom: var(--space-md);
+    }
+    .modal-section {
+      padding-top: var(--space-md);
+      margin-top: var(--space-md);
+      border-top: var(--card-border);
     }
     .diag-box {
-      background: var(--surface-container-low);
+      background-color: var(--surface-container-low);
       border: var(--card-border);
       border-radius: var(--rounded);
-      padding: var(--space-md);
-      font-size: 0.85rem;
+      padding: var(--space-sm) var(--space-md);
+      font-size: 0.8125rem;
       color: var(--on-surface-variant);
-      overflow-x: auto;
-    }
-    .diag-box code {
-      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-      font-size: 0.8rem;
-      color: var(--on-surface);
-      word-break: break-all;
+      word-break: break-word;
     }
 
-    /* Utilities */
-    .section-head-row {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
-      align-items: center;
-      gap: var(--space-sm);
+    .hidden { display: none !important; }
+
+    .spin {
+      animation: spin 1s linear infinite;
     }
-    .svg-icon {
-      width: 18px;
-      height: 18px;
-      flex-shrink: 0;
-    }
-    .range-band {
-      fill: var(--tertiary);
-      fill-opacity: 0.14;
-      stroke: none;
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
     }
 
-    /* Mobile-First Responsive Breakpoints */
-    @media (max-width: 860px) {
-      .kpi-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-      }
-      .forms-grid,
-      .telemetry-grid {
-        grid-template-columns: minmax(0, 1fr);
-      }
+    /* Responsive breakpoints */
+    @media (max-width: 900px) {
+      .tile-balance { grid-column: span 12; }
+      .tile-collected { grid-column: span 6; }
+      .tile-spent { grid-column: span 6; }
+      .round-banner { grid-template-columns: minmax(0, 1fr); }
+      .workspace-grid { grid-template-columns: minmax(0, 1fr); }
     }
 
     @media (max-width: 640px) {
       .page-grid {
+        grid-template-columns: minmax(0, 1fr);
         padding: var(--space-md);
         gap: var(--space-md);
       }
-      .card, .status-card, .role-bar {
-        padding: var(--space-md);
-      }
-      .role-bar,
-      .form-row-2,
-      .ledger-controls {
-        grid-template-columns: minmax(0, 1fr);
-      }
-      .kpi-grid {
-        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-        gap: var(--space-sm);
-      }
-      .kpi-card-hero {
-        grid-column: 1 / -1;
-      }
-      .header-actions {
-        width: 100%;
-      }
-      .header-actions .btn {
-        flex: 1 1 auto;
-      }
-      .ledger-item {
-        flex-direction: column;
-      }
-      .ledger-right {
-        width: 100%;
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: center;
-      }
+      .tile-balance, .tile-collected, .tile-spent { grid-column: span 12; }
+      .form-row-2 { grid-template-columns: minmax(0, 1fr); }
+      .member-grid { grid-template-columns: minmax(0, 1fr); }
+      .ledger-item { grid-template-columns: minmax(0, 1fr); gap: var(--space-sm); }
+      .ledger-right { align-items: flex-start; flex-direction: row; justify-content: space-between; width: 100%; }
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -794,362 +837,321 @@
     <main class="page-grid">
 
       <!-- Header -->
-      <header class="top-header">
-        <div>
-          <h1 class="title" id="trip-title-display">10-Member Trip Kitty Pool</h1>
-          <p class="lede" id="trip-subtitle-display">Shared cash pool, coordinator expense log, and live Google Sheets sync for Thailand (Nov 26 – Dec 04, 2026).</p>
+      <header class="app-header">
+        <div class="title-group">
+          <p class="kicker">Common Fund · 10 Members · Thai Baht (THB)</p>
+          <h1 class="title">Group Trip Kitty Pool</h1>
+          <p class="lede">
+            Self-select your name to log ฿1,000 contribution rounds, or switch to Fund Coordinator (FC) to record shared trip expenses with live Google Sheets sync.
+          </p>
         </div>
         <div class="header-actions">
-          <span class="chip" id="sync-status-chip" data-status="info">Ready to sync</span>
-          <button type="button" class="btn btn-secondary" id="sync-now-btn" onclick="syncFromServer(true)">
-            <svg class="svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"/><path d="M16 16h5v5"/></svg>
-            <span>Sync</span>
+          <span id="sync-status-chip" class="chip" data-status="info">Ready · Local</span>
+          <button type="button" id="btn-sync-now" class="btn btn-secondary" onclick="syncFromSheet()">
+            <svg id="sync-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/>
+              <path d="M3 3v5h5"/>
+              <path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"/>
+              <path d="M16 16h5v5"/>
+            </svg>
+            <span>Sync Sheet</span>
           </button>
-          <button type="button" class="btn btn-ghost" id="open-settings-btn" onclick="openSettingsModal()">
-            <svg class="svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+          <button type="button" id="btn-open-settings" class="btn btn-ghost" onclick="openSettingsModal()">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="12" cy="12" r="3"/>
+              <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+            </svg>
             <span>Settings</span>
           </button>
         </div>
       </header>
 
-      <!-- Role Selector Bar -->
-      <section class="role-bar" aria-label="Role and active member selection">
-        <div class="field-group">
-          <span class="field-label" id="role-group-label">Active Role</span>
-          <div class="segmented-control" role="group" aria-labelledby="role-group-label">
-            <button type="button" class="seg-btn" id="role-member-btn" aria-pressed="true" onclick="setRole('member')">Trip Member</button>
-            <button type="button" class="seg-btn" id="role-fc-btn" aria-pressed="false" onclick="setRole('fc')">Fund Coordinator (FC)</button>
-          </div>
-        </div>
-        <div class="field-group">
-          <label class="field-label" for="active-member-select">Acting As</label>
-          <select class="field-control" id="active-member-select" onchange="setActiveMember(this.value)"></select>
-        </div>
-        <div class="role-note" id="role-status-banner">
-          <span id="role-status-text">Member mode: log cash contributions and check live kitty balances.</span>
-          <span class="chip" id="role-badge-chip" data-status="info">Member</span>
-        </div>
-      </section>
+      <!-- Hero Telemetry Cards -->
+      <section aria-label="Fund balance summary" class="telemetry-grid">
+        <article id="balance-card" class="status-card tile-balance" data-status="info">
+          <p class="metric-label">Remaining Cash Balance</p>
+          <p id="metric-balance" class="metric-value is-hero">฿0</p>
+          <p id="metric-balance-caption" class="metric-caption">No contributions or expenses recorded yet</p>
+        </article>
 
-      <!-- KPI Telemetry Cards -->
-      <section class="kpi-grid" aria-label="Common fund summary telemetry">
-        <article class="status-card kpi-card-hero" id="kpi-balance-card" data-status="ok">
-          <p class="kicker">Remaining Balance</p>
-          <div class="kpi-value" id="kpi-remaining-balance">THB 0.00</div>
-          <p class="kpi-caption" id="kpi-balance-caption">Awaiting first contribution or sync</p>
+        <article class="status-card tile-collected" data-status="ok">
+          <p class="metric-label">Total Collected (Credits)</p>
+          <p id="metric-collected" class="metric-value is-sub">฿0</p>
+          <p id="metric-collected-caption" class="metric-caption">0 contributions</p>
         </article>
-        <article class="status-card" data-status="ok">
-          <p class="kicker">Total Collected</p>
-          <div class="kpi-value" id="kpi-total-collected">THB 0.00</div>
-          <p class="kpi-caption" id="kpi-collected-caption">0 deposits recorded</p>
-        </article>
-        <article class="status-card" data-status="info">
-          <p class="kicker">Total Spent</p>
-          <div class="kpi-value" id="kpi-total-spent">THB 0.00</div>
-          <p class="kpi-caption" id="kpi-spent-caption">0 group expenses</p>
-        </article>
-        <article class="status-card" data-status="info">
-          <p class="kicker">Equal Share / Person</p>
-          <div class="kpi-value" id="kpi-per-person">THB 0.00</div>
-          <p class="kpi-caption" id="kpi-per-person-caption">Split across 10 members</p>
+
+        <article class="status-card tile-spent" data-status="info">
+          <p class="metric-label">Total Spent (Debits)</p>
+          <p id="metric-spent" class="metric-value is-sub">฿0</p>
+          <p id="metric-spent-caption" class="metric-caption">0 expenses · 0% utilized</p>
         </article>
       </section>
 
-      <!-- Forms Workspace: Member Contribution + FC Expense Logging -->
-      <section class="forms-grid" aria-label="Fund transaction entry forms">
-        <!-- Member Cash Contribution Form -->
-        <article class="card" id="contribution-card">
-          <div class="section-head-row">
-            <div>
-              <p class="kicker">Cash In</p>
-              <h2 class="section-heading">Member Cash Contribution</h2>
+      <!-- Active Contribution Round & Cash Runway -->
+      <section aria-label="Active contribution round" class="status-card" data-status="info">
+        <div class="round-banner">
+          <div>
+            <div class="round-header-row">
+              <h2 class="section-heading">Active Contribution Round</h2>
+              <span id="active-round-chip" class="chip" data-status="info">Round 1 · ฿1,000 / member</span>
             </div>
-            <span class="chip" data-status="ok">Kitty Deposit</span>
+            <div class="meter-track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="round-progressbar">
+              <div class="meter-range-band" aria-hidden="true"></div>
+              <div id="round-meter-fill" class="meter-fill is-ok" style="width: 0%;"></div>
+            </div>
+            <div class="meter-meta">
+              <span id="round-coverage-text">0 / 10 members settled Round 1</span>
+              <span id="round-target-text">฿0 / ฿10,000 target</span>
+            </div>
           </div>
-          <form class="form-stack" id="contribution-form" onsubmit="handleContributionSubmit(event)" style="margin-top: var(--space-md);">
+
+          <div>
+            <div class="round-header-row">
+              <p class="metric-label" style="margin: 0;">Kitty Utilization (Spent vs Collected)</p>
+              <span id="utilization-chip" class="chip" data-status="neutral">0% spent</span>
+            </div>
+            <div class="meter-track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="burn-progressbar">
+              <div id="burn-meter-fill" class="meter-fill" style="width: 0%;"></div>
+            </div>
+            <div class="meter-meta">
+              <span id="burn-left-text">฿0 remaining</span>
+              <span id="burn-per-person-text">฿0 avg net per person</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Main Workspace: Action Form + Member/Category Telemetry -->
+      <section class="workspace-grid">
+
+        <!-- Left Column: Role Switcher & Entry Form -->
+        <div class="panel-card">
+          <div class="role-tabs" role="tablist" aria-label="Select entry role">
+            <button type="button" id="tab-member" class="role-tab" role="tab" aria-selected="true" onclick="setActiveRole('member')">
+              <span>Member Top-Up (Credit)</span>
+              <span class="role-tab-sub">Self-select name &amp; add THB</span>
+            </button>
+            <button type="button" id="tab-fc" class="role-tab" role="tab" aria-selected="false" onclick="setActiveRole('fc')">
+              <span>Fund Coordinator (FC)</span>
+              <span class="role-tab-sub">Record trip expense (Debit)</span>
+            </button>
+          </div>
+
+          <!-- Member Contribution Form -->
+          <form id="member-form" class="form-stack" onsubmit="handleMemberSubmit(event)">
             <div class="form-row-2">
               <div class="field-group">
-                <label class="field-label" for="contrib-member">Member Name</label>
-                <select class="field-control" id="contrib-member" required></select>
-              </div>
-              <div class="field-group">
-                <label class="field-label" for="contrib-amount">Amount (<span id="contrib-currency-label">THB</span>)</label>
-                <input class="field-control tabular" type="number" id="contrib-amount" min="0.01" step="0.01" placeholder="0.00" required>
-              </div>
-            </div>
-
-            <div class="field-group">
-              <span class="field-label">Quick Deposit Presets</span>
-              <div class="quick-amounts" role="group" aria-label="Quick deposit amounts">
-                <button type="button" class="quick-chip-btn" onclick="setQuickAmount('contrib-amount', 500)">+500</button>
-                <button type="button" class="quick-chip-btn" onclick="setQuickAmount('contrib-amount', 1000)">+1,000</button>
-                <button type="button" class="quick-chip-btn" onclick="setQuickAmount('contrib-amount', 2000)">+2,000</button>
-                <button type="button" class="quick-chip-btn" onclick="setQuickAmount('contrib-amount', 5000)">+5,000</button>
-              </div>
-            </div>
-
-            <div class="form-row-2">
-              <div class="field-group">
-                <label class="field-label" for="contrib-method">Handover Method</label>
-                <select class="field-control" id="contrib-method">
-                  <option value="Cash to FC">Cash to FC</option>
-                  <option value="Bank / PromptPay Transfer">Bank / PromptPay Transfer</option>
-                  <option value="Top-up Round">Top-up Round</option>
+                <label class="field-label" for="member-select">Your Name (10 Members)</label>
+                <select id="member-select" class="field-select" onchange="onMemberSelected(this.value)">
+                  <!-- Populated alphabetically -->
                 </select>
               </div>
               <div class="field-group">
-                <label class="field-label" for="contrib-stop">Trip Stage</label>
-                <select class="field-control" id="contrib-stop"></select>
+                <label class="field-label" for="contribution-round">Contribution Round</label>
+                <select id="contribution-round" class="field-select">
+                  <option value="1">Round 1 (฿1,000)</option>
+                  <option value="2">Round 2 (฿1,000)</option>
+                  <option value="3">Round 3 (฿1,000)</option>
+                  <option value="4">Round 4 (฿1,000)</option>
+                  <option value="5">Round 5 (฿1,000)</option>
+                  <option value="6">Round 6 (฿1,000)</option>
+                </select>
               </div>
             </div>
 
             <div class="field-group">
-              <label class="field-label" for="contrib-note">Contribution Note (optional)</label>
-              <input class="field-control" type="text" id="contrib-note" maxlength="120" placeholder="e.g., Initial kitty buy-in">
+              <span class="field-label">Quick Amount (THB)</span>
+              <div class="preset-row">
+                <button type="button" class="preset-btn is-active" data-preset="1000" onclick="selectContributionPreset(1000, this)">+฿1,000 Round</button>
+                <button type="button" class="preset-btn" data-preset="500" onclick="selectContributionPreset(500, this)">+฿500</button>
+                <button type="button" class="preset-btn" data-preset="2000" onclick="selectContributionPreset(2000, this)">+฿2,000</button>
+                <button type="button" class="preset-btn" data-preset="custom" onclick="focusCustomContribution(this)">Custom</button>
+              </div>
             </div>
 
-            <button type="submit" class="btn btn-primary" id="contrib-submit-btn">Record Cash Contribution</button>
-            <p class="inline-feedback" id="contrib-feedback" aria-live="polite"></p>
+            <div class="form-row-2">
+              <div class="field-group">
+                <label class="field-label" for="member-amount">Amount (THB)</label>
+                <input id="member-amount" type="number" class="field-input" min="1" step="1" value="1000" oninput="onContributionAmountInput()" required>
+              </div>
+              <div class="field-group">
+                <label class="field-label" for="member-note">Note (Optional)</label>
+                <input id="member-note" type="text" class="field-input" maxlength="80" placeholder="Cash to FC / PromptPay">
+              </div>
+            </div>
+
+            <div id="member-feedback" class="callout hidden" role="status"></div>
+
+            <button type="submit" id="btn-submit-credit" class="btn btn-primary btn-block">
+              Record Contribution (+฿1,000)
+            </button>
           </form>
-        </article>
 
-        <!-- FC Expense Logging Form -->
-        <article class="card" id="expense-card">
-          <div class="section-head-row">
-            <div>
-              <p class="kicker">Cash Out · Coordinator Only</p>
-              <h2 class="section-heading">Log Group Expense</h2>
-            </div>
-            <span class="chip" id="fc-card-chip" data-status="neutral">FC Locked</span>
-          </div>
-
-          <div class="fc-locked-callout" id="fc-locked-panel" style="margin-top: var(--space-md);">
-            <p style="margin: 0;">Group expenses paid from the common kitty are restricted to the <strong>Fund Coordinator (FC)</strong> to prevent duplicate deductions.</p>
-            <div>
-              <button type="button" class="btn btn-primary" onclick="setRole('fc')">Switch to Fund Coordinator (FC)</button>
-            </div>
-          </div>
-
-          <form class="form-stack" id="expense-form" onsubmit="handleExpenseSubmit(event)" style="margin-top: var(--space-md);" hidden>
-            <div class="form-row-2">
-              <div class="field-group">
-                <label class="field-label" for="expense-desc">Expense Description</label>
-                <input class="field-control" type="text" id="expense-desc" maxlength="120" placeholder="e.g., Lunch at After the Rain" required>
-              </div>
-              <div class="field-group">
-                <label class="field-label" for="expense-amount">Amount (<span id="expense-currency-label">THB</span>)</label>
-                <input class="field-control tabular" type="number" id="expense-amount" min="0.01" step="0.01" placeholder="0.00" required>
-              </div>
-            </div>
-
-            <div class="field-group">
-              <span class="field-label">Quick Expense Presets</span>
-              <div class="quick-amounts" role="group" aria-label="Quick expense amounts">
-                <button type="button" class="quick-chip-btn" onclick="setQuickAmount('expense-amount', 200)">200</button>
-                <button type="button" class="quick-chip-btn" onclick="setQuickAmount('expense-amount', 500)">500</button>
-                <button type="button" class="quick-chip-btn" onclick="setQuickAmount('expense-amount', 1500)">1,500</button>
-                <button type="button" class="quick-chip-btn" onclick="setQuickAmount('expense-amount', 3000)">3,000</button>
-              </div>
+          <!-- Fund Coordinator (FC) Expense Form -->
+          <form id="fc-form" class="form-stack hidden" onsubmit="handleExpenseSubmit(event)">
+            <div class="callout" data-status="info">
+              <strong>Fund Coordinator Mode:</strong> Debits deduct immediately from the shared THB kitty balance.
             </div>
 
             <div class="form-row-2">
               <div class="field-group">
-                <label class="field-label" for="expense-category">Category</label>
-                <select class="field-control" id="expense-category">
-                  <option value="Meals & Coffee">Meals &amp; Coffee</option>
-                  <option value="Accommodation">Accommodation</option>
+                <label class="field-label" for="fc-coordinator">Acting Coordinator (FC)</label>
+                <select id="fc-coordinator" class="field-select">
+                  <!-- Populated alphabetically -->
+                </select>
+              </div>
+              <div class="field-group">
+                <label class="field-label" for="fc-category">Expense Category</label>
+                <select id="fc-category" class="field-select">
+                  <option value="Food & Café">Food &amp; Café</option>
                   <option value="Transport & Fuel">Transport &amp; Fuel</option>
-                  <option value="Activities & Boats">Activities &amp; Boats</option>
+                  <option value="Accommodation">Accommodation</option>
+                  <option value="Activities & Entry">Activities &amp; Entry</option>
                   <option value="Supplies & Misc">Supplies &amp; Misc</option>
                 </select>
               </div>
-              <div class="field-group">
-                <label class="field-label" for="expense-stop">Trip Stop</label>
-                <select class="field-control" id="expense-stop"></select>
+            </div>
+
+            <div class="field-group">
+              <label class="field-label" for="fc-description">Expense Description</label>
+              <input id="fc-description" type="text" class="field-input" maxlength="100" placeholder="e.g., After the Rain Café &amp; boat ride" required>
+            </div>
+
+            <div class="field-group">
+              <span class="field-label">Quick Category Presets</span>
+              <div class="preset-row">
+                <button type="button" class="preset-btn" onclick="applyExpenseTemplate('Group Meal / Café', 'Food & Café')">Group Meal</button>
+                <button type="button" class="preset-btn" onclick="applyExpenseTemplate('Van Fuel & Tolls', 'Transport & Fuel')">Van &amp; Fuel</button>
+                <button type="button" class="preset-btn" onclick="applyExpenseTemplate('Park / Attraction Tickets', 'Activities & Entry')">Tickets</button>
+                <button type="button" class="preset-btn" onclick="applyExpenseTemplate('Drinks & Ice / Supplies', 'Supplies & Misc')">Supplies</button>
               </div>
             </div>
 
             <div class="field-group">
-              <label class="field-label" for="expense-paid-by">Paid By (Coordinator)</label>
-              <select class="field-control" id="expense-paid-by"></select>
+              <label class="field-label" for="fc-amount">Expense Amount (THB)</label>
+              <input id="fc-amount" type="number" class="field-input" min="1" step="1" placeholder="0" oninput="updateExpenseButtonLabel()" required>
             </div>
 
-            <button type="submit" class="btn btn-primary" id="expense-submit-btn">Log Kitty Expense</button>
-            <p class="inline-feedback" id="expense-feedback" aria-live="polite"></p>
+            <div id="fc-feedback" class="callout hidden" role="status"></div>
+
+            <button type="submit" id="btn-submit-debit" class="btn btn-primary btn-block">
+              Record Expense (Debit THB)
+            </button>
           </form>
-        </article>
-      </section>
+        </div>
 
-      <!-- Telemetry Visualizations -->
-      <section class="telemetry-grid" aria-label="Kitty pool telemetry and category breakdown">
-        <article class="card">
-          <div class="section-head-row">
-            <div>
-              <p class="kicker">Pool Health</p>
-              <h2 class="section-heading">Kitty Utilization &amp; Reserve Band</h2>
+        <!-- Right Column: 10-Member Round Status + Spend by Category -->
+        <div class="form-stack">
+          <div class="panel-card">
+            <div class="round-header-row">
+              <h2 class="section-heading">Member Contributions (A–Z)</h2>
+              <span id="members-settled-badge" class="chip" data-status="neutral">0 / 10 paid Round 1</span>
             </div>
-            <span class="chip" id="utilization-chip" data-status="info">0% used</span>
+            <p class="metric-caption" style="margin-top: 0;">
+              Tap any member to select them for contribution. Green chips show members who have met the active round threshold.
+            </p>
+            <div id="member-matrix" class="member-grid">
+              <!-- Rendered dynamically -->
+            </div>
           </div>
-          <p class="lede" style="font-size: 0.92rem;">Compares total expenses against cash collected, with a shaded 20% healthy reserve target band.</p>
-          <div class="chart-wrap" id="pool-meter-wrap" style="min-height: 118px; margin-top: var(--space-md);">
-            <svg id="pool-meter-svg" viewBox="0 0 600 110" width="100%" height="110" role="img" aria-label="Kitty utilization bar with 20 percent reserve band"></svg>
-          </div>
-          <div class="chart-legend">
-            <span class="legend-item"><span class="legend-swatch" style="background: var(--data-1);"></span> Spent</span>
-            <span class="legend-item"><span class="legend-swatch" style="background: var(--data-2);"></span> Remaining Pool</span>
-            <span class="legend-item"><span class="legend-swatch" style="background: var(--positive-container); border: 1px solid var(--tertiary);"></span> 20%+ Healthy Reserve Zone</span>
-          </div>
-        </article>
 
-        <article class="card">
-          <div class="section-head-row">
-            <div>
-              <p class="kicker">Expense Mix</p>
+          <div class="panel-card">
+            <div class="round-header-row">
               <h2 class="section-heading">Spend by Category</h2>
+              <span id="category-total-badge" class="chip" data-status="neutral">฿0 total spent</span>
             </div>
-            <span class="chip" id="top-category-chip" data-status="neutral">No expenses yet</span>
+            <div id="category-breakdown" class="cat-list">
+              <!-- Rendered dynamically -->
+            </div>
           </div>
-          <div class="category-list" id="category-breakdown-list"></div>
-        </article>
-      </section>
-
-      <!-- 10-Member Alphabetical Breakdown -->
-      <section class="card" aria-label="10-member contribution and fair-share breakdown">
-        <div class="section-head-row">
-          <div>
-            <p class="kicker">10 Group Members (Alphabetical)</p>
-            <h2 class="section-heading">Member Contributions &amp; Kitty Equity</h2>
-          </div>
-          <span class="chip" id="members-settled-chip" data-status="info">Equal 1/10 split</span>
-        </div>
-        <div class="table-scroll">
-          <table class="member-table">
-            <thead>
-              <tr>
-                <th>Member</th>
-                <th class="num">Contributed</th>
-                <th class="num">Fair Share</th>
-                <th class="num">Net vs Share</th>
-                <th>Status</th>
-                <th class="num">Quick Action</th>
-              </tr>
-            </thead>
-            <tbody id="member-table-body"></tbody>
-          </table>
         </div>
       </section>
 
-      <!-- Live Ledger -->
-      <section class="card" aria-label="Live transaction ledger">
-        <div class="section-head-row">
+      <!-- Live Transaction Ledger -->
+      <section aria-label="Live transaction ledger" class="panel-card">
+        <div class="round-header-row">
           <div>
-            <p class="kicker">Audit Trail</p>
-            <h2 class="section-heading">Live Kitty Ledger</h2>
+            <h2 class="section-heading">Live Transaction Ledger</h2>
+            <p id="ledger-subtitle" class="metric-caption" style="margin-top: var(--space-xs);">
+              Chronological record of all cash credits and FC debits with timestamps
+            </p>
           </div>
           <div class="header-actions">
-            <button type="button" class="btn btn-secondary btn-sm" id="retry-pending-btn" onclick="retryPendingSync()" hidden>Retry Pending (<span id="pending-count-span">0</span>)</button>
+            <button type="button" id="btn-flush-queue" class="btn btn-secondary btn-sm hidden" onclick="flushPendingQueue()">
+              Retry Pending Sync
+            </button>
             <button type="button" class="btn btn-ghost btn-sm" onclick="exportLedgerCsv()">
-              <svg class="svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-              <span>Export CSV</span>
+              Export CSV
             </button>
           </div>
         </div>
 
         <div class="ledger-controls">
-          <div class="field-group">
-            <label class="field-label" for="ledger-search">Search Ledger</label>
-            <input class="field-control" type="search" id="ledger-search" placeholder="Search description, category, or stop" oninput="renderLedger()">
+          <div class="filter-pills" role="group" aria-label="Filter transactions by type">
+            <button type="button" class="filter-pill" data-filter="all" aria-pressed="true" onclick="setLedgerFilter('all')">All</button>
+            <button type="button" class="filter-pill" data-filter="credit" aria-pressed="false" onclick="setLedgerFilter('credit')">Contributions (+)</button>
+            <button type="button" class="filter-pill" data-filter="debit" aria-pressed="false" onclick="setLedgerFilter('debit')">Expenses (-)</button>
           </div>
-          <div class="field-group">
-            <label class="field-label" for="ledger-member-filter">Filter by Member</label>
-            <select class="field-control" id="ledger-member-filter" onchange="renderLedger()"></select>
-          </div>
-          <div class="field-group">
-            <label class="field-label" for="ledger-sort">Sort Order</label>
-            <select class="field-control" id="ledger-sort" onchange="renderLedger()">
-              <option value="newest">Newest first</option>
-              <option value="oldest">Oldest first</option>
-              <option value="highest">Highest amount</option>
-            </select>
+
+          <div class="field-group" style="min-width: min(240px, 100%);">
+            <label class="field-label" for="ledger-search">Search Member, Category, or Note</label>
+            <input id="ledger-search" type="search" class="field-input" placeholder="Filter ledger…" oninput="onLedgerSearch(this.value)">
           </div>
         </div>
 
-        <div class="filter-pills" role="group" aria-label="Filter transactions by type">
-          <button type="button" class="filter-pill" id="filter-all-btn" aria-pressed="true" onclick="setLedgerTypeFilter('all')">All Entries</button>
-          <button type="button" class="filter-pill" id="filter-contrib-btn" aria-pressed="false" onclick="setLedgerTypeFilter('contribution')">Contributions</button>
-          <button type="button" class="filter-pill" id="filter-expense-btn" aria-pressed="false" onclick="setLedgerTypeFilter('expense')">FC Expenses</button>
+        <div id="ledger-container">
+          <!-- Rendered dynamically -->
         </div>
-
-        <div class="ledger-list" id="ledger-list"></div>
       </section>
 
-      <footer style="padding-bottom: var(--space-lg); color: var(--on-surface-variant); font-size: 0.875rem;">
-        <p style="margin: 0;">Trip route stages follow the 9-night Thailand itinerary (Lopburi, Uthai Thani, Ban Rai, Si Sawat / Erawan, Sangkhla Buri, Sai Yok, Kanchanaburi, and Nakhon Pathom). Local entries persist automatically via the app state store and sync with the configured Google Apps Script endpoint.</p>
-      </footer>
     </main>
   </div>
 
   <!-- Settings Modal -->
-  <div class="modal-backdrop" id="settings-modal" role="dialog" aria-modal="true" aria-labelledby="settings-modal-title" hidden onclick="handleModalBackdropClick(event)">
+  <div id="settings-modal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="settings-title" data-open="false" onclick="onModalBackdropClick(event)">
     <div class="modal-dialog">
       <div class="modal-header">
         <div>
-          <p class="kicker">Backend &amp; Preferences</p>
-          <h2 class="section-heading" id="settings-modal-title">Kitty Pool Settings</h2>
+          <p class="kicker" style="margin-bottom: var(--space-xs);">Backend Sync &amp; Data</p>
+          <h2 id="settings-title" class="section-heading">Google Apps Script Settings</h2>
         </div>
-        <button type="button" class="btn btn-ghost btn-sm" onclick="closeSettingsModal()" aria-label="Close settings modal">Close</button>
+        <button type="button" class="btn btn-ghost btn-sm" onclick="closeSettingsModal()" aria-label="Close settings">Close</button>
       </div>
 
-      <form class="form-stack" id="settings-form" onsubmit="saveSettings(event)">
+      <div class="form-stack">
         <div class="field-group">
-          <label class="field-label" for="settings-gas-url">Google Apps Script Web App URL</label>
-          <input class="field-control" type="url" id="settings-gas-url" required value="https://script.google.com/macros/s/AKfycbxRXPlR8WONSIZL8fJ8Jw3kJClmmmvLayrwu2fGgNx2isjl6Sp_qhGMcZeQEvGqYx8Y/exec">
-          <div class="header-actions" style="margin-top: var(--space-xs);">
-            <button type="button" class="btn btn-ghost btn-sm" onclick="resetDefaultGasUrl()">Restore Pre-Configured URL</button>
-            <button type="button" class="btn btn-secondary btn-sm" onclick="testConnectionFromModal()">Test GET Sync</button>
-          </div>
+          <label class="field-label" for="settings-gas-url">Google Apps Script Web App API URL</label>
+          <input id="settings-gas-url" type="url" class="field-input" spellcheck="false">
         </div>
 
-        <div class="form-row-2">
-          <div class="field-group">
-            <label class="field-label" for="settings-currency">Currency Code</label>
-            <select class="field-control" id="settings-currency">
-              <option value="THB">THB (Thai Baht)</option>
-              <option value="SGD">SGD (Singapore Dollar)</option>
-              <option value="MYR">MYR (Malaysian Ringgit)</option>
-              <option value="USD">USD (US Dollar)</option>
-            </select>
-          </div>
-          <div class="field-group">
-            <label class="field-label" for="settings-low-threshold">Low-Balance Alert Threshold</label>
-            <input class="field-control tabular" type="number" id="settings-low-threshold" min="0" step="100" value="2000">
-          </div>
+        <div class="preset-row">
+          <button type="button" class="btn btn-primary" onclick="saveSettingsUrl()">Save &amp; Test Sync</button>
+          <button type="button" class="btn btn-secondary" onclick="resetDefaultGasUrl()">Reset Default URL</button>
+          <button type="button" class="btn btn-ghost" onclick="copyGasUrl(this)">Copy URL</button>
         </div>
 
-        <div class="field-group">
-          <label class="field-label" for="settings-trip-name">Trip Title</label>
-          <input class="field-control" type="text" id="settings-trip-name" maxlength="80" value="10-Member Trip Kitty Pool">
-        </div>
+        <div id="settings-feedback" class="callout hidden" role="status"></div>
+      </div>
 
-        <div class="diag-box" id="sync-diagnostics-box">
-          <strong>Last Sync Diagnostics (Root &amp; Nested Parser)</strong>
-          <div id="sync-diagnostics-text" style="margin-top: var(--space-xs);">No network sync executed yet in this session.</div>
+      <div class="modal-section">
+        <p class="metric-label">Resilient Sync &amp; JSON Diagnostics</p>
+        <div id="sync-diagnostics" class="diag-box">
+          No sync attempts yet. Local entries are automatically persisted via Notebook storage.
         </div>
+      </div>
 
-        <p class="inline-feedback" id="settings-feedback" aria-live="polite"></p>
-
-        <div class="section-head-row" style="padding-top: var(--space-sm); border-top: var(--card-border);">
-          <button type="button" class="btn btn-danger-outline btn-sm" id="clear-cache-btn" onclick="handleClearLocalCache(this)">Clear Local Cache</button>
-          <div class="header-actions">
-            <button type="button" class="btn btn-ghost" onclick="closeSettingsModal()">Cancel</button>
-            <button type="submit" class="btn btn-primary">Save Settings</button>
-          </div>
+      <div class="modal-section">
+        <p class="metric-label">Local Ledger Maintenance</p>
+        <div class="preset-row">
+          <button type="button" class="btn btn-ghost btn-sm" onclick="exportLedgerCsv()">Download CSV Backup</button>
+          <button type="button" id="btn-clear-cache" class="btn btn-danger-outline btn-sm" onclick="clearLocalCache(this)">Clear Local Ledger</button>
         </div>
-      </form>
+      </div>
     </div>
   </div>
 
   <api-shim></api-shim>
+
   <script>
     const DEFAULT_GAS_URL = `https://script.google.com/macros/s/AKfycbxRXPlR8WONSIZL8fJ8Jw3kJClmmmvLayrwu2fGgNx2isjl6Sp_qhGMcZeQEvGqYx8Y/exec`;
 
@@ -1166,47 +1168,55 @@
       `Weng Wah`
     ];
 
-    const CATEGORIES = [
-      `Meals & Coffee`,
-      `Accommodation`,
+    const ROUND_UNIT_THB = 1000;
+
+    const EXPENSE_CATEGORIES = [
+      `Food & Café`,
       `Transport & Fuel`,
-      `Activities & Boats`,
+      `Accommodation`,
+      `Activities & Entry`,
       `Supplies & Misc`
     ];
 
-    const TRIP_STOPS = [
-      `Pre-Trip Buy-in`,
-      `Day 1 · Lopburi (26 Nov)`,
-      `Day 2 · Uthai Thani (27 Nov)`,
-      `Day 3 · Ban Rai (28 Nov)`,
-      `Days 4–5 · Erawan & Si Sawat (29–30 Nov)`,
-      `Day 6 · Sangkhla Buri (01 Dec)`,
-      `Days 7–8 · Sai Yok (02–03 Dec)`,
-      `Day 9 · Kanchanaburi & Nakhon Pathom (04 Dec)`
-    ];
-
-    let appState = {
-      role: `member`,
-      activeMember: MEMBERS[0],
-      ledgerFilterType: `all`,
+    const appState = {
+      gasUrl: DEFAULT_GAS_URL,
+      activeRole: `member`,
+      selectedMember: `Andy`,
+      selectedCoordinator: `Andy`,
+      ledgerFilter: `all`,
+      searchQuery: ``,
       transactions: [],
-      serverTotals: null,
       lastSyncAt: null,
-      lastSyncStatus: `idle`,
-      lastDiagnostics: `Ready. Pre-configured Google Apps Script endpoint loaded.`,
-      settings: {
-        gasUrl: DEFAULT_GAS_URL,
-        currency: `THB`,
-        lowThreshold: 2000,
-        tripName: `10-Member Trip Kitty Pool`
-      }
+      lastSyncDiagnostic: `Ready. Tap "Sync Sheet" to pull shared records from Google Sheets.`,
+      isSyncing: false
     };
 
-    function formatMoney(amount) {
-      const num = Number(amount);
-      const safeNum = Number.isFinite(num) ? num : 0;
-      const currency = (appState.settings && appState.settings.currency) ? appState.settings.currency : `THB`;
-      return `${currency} ${safeNum.toLocaleString(`en-US`, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+    let memFallbackState = null;
+
+    function formatThb(amount) {
+      const n = Math.round(Number(amount) || 0);
+      const sign = n < 0 ? `-` : ``;
+      return `${sign}฿${Math.abs(n).toLocaleString(`en-US`)}`;
+    }
+
+    function formatTimestamp(isoString) {
+      if (!isoString) return `Unknown time`;
+      const d = new Date(isoString);
+      if (Number.isNaN(d.getTime())) return String(isoString);
+      return d.toLocaleString(`en-US`, {
+        month: `short`,
+        day: `numeric`,
+        hour: `2-digit`,
+        minute: `2-digit`,
+        hour12: false
+      });
+    }
+
+    function generateTxId() {
+      if (window.crypto && typeof window.crypto.randomUUID === `function`) {
+        return `tx_${window.crypto.randomUUID().slice(0, 12)}`;
+      }
+      return `tx_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
     }
 
     function escapeHtml(str) {
@@ -1218,1165 +1228,1104 @@
         .replace(/'/g, `&#39;`);
     }
 
-    function formatTimestamp(isoStr) {
-      if (!isoStr) return `Just now`;
-      const d = new Date(isoStr);
-      if (Number.isNaN(d.getTime())) return String(isoStr);
-      return d.toLocaleString(`en-US`, {
-        month: `short`,
-        day: `numeric`,
-        hour: `2-digit`,
-        minute: `2-digit`
-      });
+    function showCallout(elId, message, status) {
+      const el = document.getElementById(elId);
+      if (!el) return;
+      el.textContent = message;
+      el.setAttribute(`data-status`, status || `info`);
+      el.classList.remove(`hidden`);
     }
 
-    function toFiniteNumber(val) {
-      if (val === null || val === undefined || val === ``) return null;
-      if (typeof val === `number`) return Number.isFinite(val) ? val : null;
-      if (typeof val === `string`) {
-        const cleaned = val.replace(/[^0-9.-]/g, ``);
-        if (!cleaned) return null;
-        const parsed = Number(cleaned);
-        return Number.isFinite(parsed) ? parsed : null;
-      }
-      return null;
-    }
-
-    function collectCandidateObjects(root) {
-      const candidates = [];
-      if (!root || typeof root !== `object` || Array.isArray(root)) return candidates;
-      candidates.push({ scope: `root`, obj: root });
-      const nestedKeys = [`data`, `result`, `payload`, `summary`, `kitty`, `response`, `body`];
-      for (let i = 0; i < nestedKeys.length; i++) {
-        const k = nestedKeys[i];
-        const nested = root[k];
-        if (nested && typeof nested === `object` && !Array.isArray(nested)) {
-          candidates.push({ scope: `root.${k}`, obj: nested });
-          if (nested.summary && typeof nested.summary === `object` && !Array.isArray(nested.summary)) {
-            candidates.push({ scope: `root.${k}.summary`, obj: nested.summary });
-          }
-          if (nested.data && typeof nested.data === `object` && !Array.isArray(nested.data)) {
-            candidates.push({ scope: `root.${k}.data`, obj: nested.data });
-          }
-        }
-      }
-      return candidates;
-    }
-
-    function pickProperty(candidates, keys) {
-      for (let c = 0; c < candidates.length; c++) {
-        const candidate = candidates[c];
-        for (let k = 0; k < keys.length; k++) {
-          const key = keys[k];
-          if (Object.prototype.hasOwnProperty.call(candidate.obj, key)) {
-            const val = candidate.obj[key];
-            if (val !== undefined && val !== null) {
-              return { value: val, path: `${candidate.scope}.${key}` };
-            }
-          }
-        }
-      }
-      return { value: null, path: null };
-    }
-
-    function normalizeTransaction(rawRow, index) {
-      if (!rawRow || typeof rawRow !== `object`) return null;
-      const rawType = String(
-        rawRow.type || rawRow.kind || rawRow.tx_type || rawRow.entry_type || rawRow.transaction_type || ``
-      ).toLowerCase().trim();
-
-      const rawAmount = toFiniteNumber(
-        rawRow.amount !== undefined ? rawRow.amount :
-        rawRow.value !== undefined ? rawRow.value :
-        rawRow.total !== undefined ? rawRow.total :
-        rawRow.thb !== undefined ? rawRow.thb : 0
-      );
-
-      let type = `expense`;
-      if (
-        rawType === `contribution` ||
-        rawType === `deposit` ||
-        rawType === `credit` ||
-        rawType === `in` ||
-        rawType === `topup` ||
-        rawType === `cash_in` ||
-        rawType === `cash contribution`
-      ) {
-        type = `contribution`;
-      } else if (
-        rawType === `expense` ||
-        rawType === `spend` ||
-        rawType === `debit` ||
-        rawType === `out` ||
-        rawType === `payment`
-      ) {
-        type = `expense`;
-      } else if (rawAmount !== null && rawAmount > 0 && !rawRow.category) {
-        type = `contribution`;
-      }
-
-      const amount = Math.abs(rawAmount === null ? 0 : rawAmount);
-      const member = String(
-        rawRow.member || rawRow.member_name || rawRow.name || rawRow.payer || rawRow.paid_by || rawRow.contributor || ``
-      ).trim();
-      const recordedBy = String(
-        rawRow.recorded_by || rawRow.coordinator || rawRow.logged_by || rawRow.actor || member || `Coordinator`
-      ).trim();
-      const timestamp = String(
-        rawRow.timestamp || rawRow.created_at || rawRow.date || rawRow.time || new Date().toISOString()
-      );
-      const category = String(
-        rawRow.category || rawRow.tag || rawRow.method || (type === `contribution` ? `Cash Contribution` : `Supplies & Misc`)
-      ).trim();
-      const description = String(
-        rawRow.description || rawRow.note || rawRow.memo || rawRow.details || rawRow.item || rawRow.title || ``
-      ).trim();
-      const stop = String(rawRow.stop || rawRow.location || rawRow.trip_day || ``).trim();
-      const id = String(
-        rawRow.id || rawRow.txn_id || rawRow.transaction_id || rawRow.row_id || `srv_${index}_${timestamp}`
-      );
-
-      return {
-        id: id,
-        timestamp: timestamp,
-        type: type,
-        member: member,
-        amount: amount,
-        category: category,
-        description: description || (type === `contribution` ? `Cash contribution` : `Group expense`),
-        stop: stop,
-        recorded_by: recordedBy,
-        synced: true
-      };
-    }
-
-    function parseSyncPayload(rawInput) {
-      let data = rawInput;
-      if (typeof rawInput === `string`) {
-        data = JSON.parse(rawInput);
-      }
-
-      // Support top-level array fallback gracefully
-      if (Array.isArray(data)) {
-        const mapped = data.map(normalizeTransaction).filter(Boolean);
-        const collected = mapped.filter(t => t.type === `contribution`).reduce((s, t) => s + t.amount, 0);
-        const spent = mapped.filter(t => t.type === `expense`).reduce((s, t) => s + t.amount, 0);
-        return {
-          status: `ok`,
-          transactions: mapped,
-          total_collected: collected,
-          total_spent: spent,
-          remaining_balance: collected - spent,
-          detectedPaths: [`root(array)`]
-        };
-      }
-
-      const candidates = collectCandidateObjects(data);
-      const detectedPaths = [];
-
-      const statusPick = pickProperty(candidates, [`status`, `ok`, `success`, `state`]);
-      if (statusPick.path) detectedPaths.push(statusPick.path);
-
-      const txPick = pickProperty(candidates, [`transactions`, `txns`, `ledger`, `entries`, `records`, `items`, `rows`]);
-      let transactions = null;
-      if (Array.isArray(txPick.value)) {
-        transactions = txPick.value.map(normalizeTransaction).filter(Boolean);
-        detectedPaths.push(`${txPick.path}[${transactions.length}]`);
-      } else if (data && Array.isArray(data.data)) {
-        transactions = data.data.map(normalizeTransaction).filter(Boolean);
-        detectedPaths.push(`root.data[${transactions.length}]`);
-      }
-
-      const collectedPick = pickProperty(candidates, [`total_collected`, `totalCollected`, `collected`, `total_in`, `cash_in`]);
-      const spentPick = pickProperty(candidates, [`total_spent`, `totalSpent`, `spent`, `total_out`, `cash_out`, `expenses_total`]);
-      const balancePick = pickProperty(candidates, [`remaining_balance`, `remainingBalance`, `balance`, `kitty_balance`, `pool_balance`, `net_balance`]);
-
-      if (collectedPick.path) detectedPaths.push(collectedPick.path);
-      if (spentPick.path) detectedPaths.push(spentPick.path);
-      if (balancePick.path) detectedPaths.push(balancePick.path);
-
-      let totalCollected = toFiniteNumber(collectedPick.value);
-      let totalSpent = toFiniteNumber(spentPick.value);
-      let remainingBalance = toFiniteNumber(balancePick.value);
-
-      if (transactions) {
-        if (totalCollected === null) {
-          totalCollected = transactions.filter(t => t.type === `contribution`).reduce((s, t) => s + t.amount, 0);
-        }
-        if (totalSpent === null) {
-          totalSpent = transactions.filter(t => t.type === `expense`).reduce((s, t) => s + t.amount, 0);
-        }
-      }
-      if (remainingBalance === null && totalCollected !== null && totalSpent !== null) {
-        remainingBalance = totalCollected - totalSpent;
-      }
-
-      let normalizedStatus = `ok`;
-      if (statusPick.value === false || String(statusPick.value).toLowerCase() === `error`) {
-        normalizedStatus = `error`;
-      } else if (statusPick.value !== null) {
-        normalizedStatus = String(statusPick.value);
-      }
-
-      return {
-        status: normalizedStatus,
-        transactions: transactions,
-        total_collected: totalCollected,
-        total_spent: totalSpent,
-        remaining_balance: remainingBalance,
-        detectedPaths: detectedPaths,
-        errorMessage: (data && (data.error || data.message)) ? String(data.error || data.message) : ``
-      };
-    }
-
-    function computeTotals() {
-      const txns = Array.isArray(appState.transactions) ? appState.transactions : [];
-      const pendingTxns = txns.filter(t => !t.synced);
-      const localCollected = txns.filter(t => t.type === `contribution`).reduce((s, t) => s + (Number(t.amount) || 0), 0);
-      const localSpent = txns.filter(t => t.type === `expense`).reduce((s, t) => s + (Number(t.amount) || 0), 0);
-
-      let totalCollected = localCollected;
-      let totalSpent = localSpent;
-      let remainingBalance = localCollected - localSpent;
-
-      // If server returned explicit summary totals without a full transaction array, respect them plus unsynced pending deltas
-      if (appState.serverTotals && txns.filter(t => t.synced).length === 0) {
-        const pendingIn = pendingTxns.filter(t => t.type === `contribution`).reduce((s, t) => s + t.amount, 0);
-        const pendingOut = pendingTxns.filter(t => t.type === `expense`).reduce((s, t) => s + t.amount, 0);
-        if (appState.serverTotals.total_collected !== null) totalCollected = appState.serverTotals.total_collected + pendingIn;
-        if (appState.serverTotals.total_spent !== null) totalSpent = appState.serverTotals.total_spent + pendingOut;
-        if (appState.serverTotals.remaining_balance !== null) {
-          remainingBalance = appState.serverTotals.remaining_balance + pendingIn - pendingOut;
-        } else {
-          remainingBalance = totalCollected - totalSpent;
-        }
-      }
-
-      const contribCount = txns.filter(t => t.type === `contribution`).length;
-      const expenseCount = txns.filter(t => t.type === `expense`).length;
-      const perPersonShare = totalSpent / MEMBERS.length;
-
-      return {
-        totalCollected,
-        totalSpent,
-        remainingBalance,
-        contribCount,
-        expenseCount,
-        perPersonShare,
-        pendingCount: pendingTxns.length
-      };
+    function hideCallout(elId) {
+      const el = document.getElementById(elId);
+      if (!el) return;
+      el.classList.add(`hidden`);
     }
 
     async function persistState() {
-      try {
-        if (window.notebookAppApi && typeof window.notebookAppApi.setAppState === `function`) {
-          await window.notebookAppApi.setAppState(appState);
-        }
-      } catch (err) {
-        // Ignore storage errors outside host container
-      }
-    }
-
-    function populateSelectors() {
-      const memberOptions = MEMBERS.map(m => `<option value="${escapeHtml(m)}">${escapeHtml(m)}</option>`).join(``);
-      const activeSel = document.getElementById(`active-member-select`);
-      const contribSel = document.getElementById(`contrib-member`);
-      const paidBySel = document.getElementById(`expense-paid-by`);
-      const filterSel = document.getElementById(`ledger-member-filter`);
-
-      if (activeSel) {
-        activeSel.innerHTML = memberOptions;
-        activeSel.value = MEMBERS.includes(appState.activeMember) ? appState.activeMember : MEMBERS[0];
-      }
-      if (contribSel) {
-        contribSel.innerHTML = memberOptions;
-        contribSel.value = MEMBERS.includes(appState.activeMember) ? appState.activeMember : MEMBERS[0];
-      }
-      if (paidBySel) {
-        paidBySel.innerHTML = memberOptions;
-        paidBySel.value = MEMBERS.includes(appState.activeMember) ? appState.activeMember : MEMBERS[0];
-      }
-      if (filterSel) {
-        filterSel.innerHTML = `<option value="all">All 10 Members</option>` + memberOptions;
-      }
-
-      const stopOptions = TRIP_STOPS.map(s => `<option value="${escapeHtml(s)}">${escapeHtml(s)}</option>`).join(``);
-      const contribStop = document.getElementById(`contrib-stop`);
-      const expenseStop = document.getElementById(`expense-stop`);
-      if (contribStop) contribStop.innerHTML = stopOptions;
-      if (expenseStop) {
-        expenseStop.innerHTML = stopOptions;
-        expenseStop.selectedIndex = 1;
-      }
-    }
-
-    function setRole(role) {
-      appState.role = role === `fc` ? `fc` : `member`;
-      renderRoleUI();
-      persistState();
-    }
-
-    function setActiveMember(name) {
-      if (MEMBERS.includes(name)) {
-        appState.activeMember = name;
-        const contribMember = document.getElementById(`contrib-member`);
-        const expensePaidBy = document.getElementById(`expense-paid-by`);
-        if (contribMember) contribMember.value = name;
-        if (expensePaidBy) expensePaidBy.value = name;
-        renderRoleUI();
-        persistState();
-      }
-    }
-
-    function renderRoleUI() {
-      const isFc = appState.role === `fc`;
-      const memberBtn = document.getElementById(`role-member-btn`);
-      const fcBtn = document.getElementById(`role-fc-btn`);
-      const statusText = document.getElementById(`role-status-text`);
-      const badgeChip = document.getElementById(`role-badge-chip`);
-      const fcLockedPanel = document.getElementById(`fc-locked-panel`);
-      const expenseForm = document.getElementById(`expense-form`);
-      const fcCardChip = document.getElementById(`fc-card-chip`);
-
-      if (memberBtn) memberBtn.setAttribute(`aria-pressed`, String(!isFc));
-      if (fcBtn) fcBtn.setAttribute(`aria-pressed`, String(isFc));
-
-      if (isFc) {
-        if (statusText) statusText.textContent = `Fund Coordinator mode active for ${appState.activeMember}: group expense logging unlocked.`;
-        if (badgeChip) {
-          badgeChip.textContent = `FC Active`;
-          badgeChip.setAttribute(`data-status`, `ok`);
-        }
-        if (fcLockedPanel) fcLockedPanel.hidden = true;
-        if (expenseForm) expenseForm.hidden = false;
-        if (fcCardChip) {
-          fcCardChip.textContent = `FC Unlocked`;
-          fcCardChip.setAttribute(`data-status`, `ok`);
-        }
-      } else {
-        if (statusText) statusText.textContent = `Member mode for ${appState.activeMember}: record cash contributions and view live kitty telemetry.`;
-        if (badgeChip) {
-          badgeChip.textContent = `Member`;
-          badgeChip.setAttribute(`data-status`, `info`);
-        }
-        if (fcLockedPanel) fcLockedPanel.hidden = false;
-        if (expenseForm) expenseForm.hidden = true;
-        if (fcCardChip) {
-          fcCardChip.textContent = `FC Locked`;
-          fcCardChip.setAttribute(`data-status`, `neutral`);
-        }
-      }
-    }
-
-    function setQuickAmount(inputId, val) {
-      const input = document.getElementById(inputId);
-      if (input) {
-        input.value = String(val);
-        input.focus();
-      }
-    }
-
-    function jumpToMemberDeposit(memberName) {
-      const contribMember = document.getElementById(`contrib-member`);
-      const contribAmount = document.getElementById(`contrib-amount`);
-      if (contribMember) contribMember.value = memberName;
-      if (contribAmount) {
-        contribAmount.focus();
-        contribAmount.scrollIntoView({ behavior: `smooth`, block: `center` });
-      }
-    }
-
-    function setFeedback(elementId, message, tone) {
-      const el = document.getElementById(elementId);
-      if (!el) return;
-      el.textContent = message;
-      el.setAttribute(`data-tone`, tone || `info`);
-    }
-
-    async function handleContributionSubmit(event) {
-      event.preventDefault();
-      const memberEl = document.getElementById(`contrib-member`);
-      const amountEl = document.getElementById(`contrib-amount`);
-      const methodEl = document.getElementById(`contrib-method`);
-      const stopEl = document.getElementById(`contrib-stop`);
-      const noteEl = document.getElementById(`contrib-note`);
-      const submitBtn = document.getElementById(`contrib-submit-btn`);
-
-      const member = memberEl ? memberEl.value : MEMBERS[0];
-      const amount = amountEl ? Number(amountEl.value) : 0;
-      const method = methodEl ? methodEl.value : `Cash to FC`;
-      const stop = stopEl ? stopEl.value : TRIP_STOPS[0];
-      const note = noteEl ? noteEl.value.trim() : ``;
-
-      if (!Number.isFinite(amount) || amount <= 0) {
-        setFeedback(`contrib-feedback`, `Enter a contribution amount greater than zero.`, `error`);
-        return;
-      }
-
-      const entry = {
-        id: `txn_${Date.now()}_${Math.random().toString(36).slice(2, 7)}`,
-        timestamp: new Date().toISOString(),
-        type: `contribution`,
-        member: member,
-        amount: Math.round(amount * 100) / 100,
-        category: method,
-        description: note || `${method} from ${member}`,
-        stop: stop,
-        recorded_by: appState.activeMember,
-        synced: false
-      };
-
-      if (submitBtn) submitBtn.disabled = true;
-      appState.transactions.unshift(entry);
-      renderAll();
-      await persistState();
-
-      const syncOk = await postToServer(entry);
-      if (submitBtn) submitBtn.disabled = false;
-
-      if (amountEl) amountEl.value = ``;
-      if (noteEl) noteEl.value = ``;
-
-      if (syncOk) {
-        setFeedback(`contrib-feedback`, `Saved ${formatMoney(entry.amount)} from ${member} and synced to Google Sheets.`, `ok`);
-      } else {
-        setFeedback(`contrib-feedback`, `Recorded ${formatMoney(entry.amount)} locally (pending backend sync).`, `info`);
-      }
-      renderAll();
-      await persistState();
-    }
-
-    async function handleExpenseSubmit(event) {
-      event.preventDefault();
-      if (appState.role !== `fc`) {
-        setFeedback(`expense-feedback`, `Switch to Fund Coordinator (FC) role to log group expenses.`, `error`);
-        return;
-      }
-
-      const descEl = document.getElementById(`expense-desc`);
-      const amountEl = document.getElementById(`expense-amount`);
-      const catEl = document.getElementById(`expense-category`);
-      const stopEl = document.getElementById(`expense-stop`);
-      const paidByEl = document.getElementById(`expense-paid-by`);
-      const submitBtn = document.getElementById(`expense-submit-btn`);
-
-      const desc = descEl ? descEl.value.trim() : ``;
-      const amount = amountEl ? Number(amountEl.value) : 0;
-      const category = catEl ? catEl.value : CATEGORIES[0];
-      const stop = stopEl ? stopEl.value : TRIP_STOPS[1];
-      const paidBy = paidByEl ? paidByEl.value : appState.activeMember;
-
-      if (!desc) {
-        setFeedback(`expense-feedback`, `Add a short description of what was paid for.`, `error`);
-        return;
-      }
-      if (!Number.isFinite(amount) || amount <= 0) {
-        setFeedback(`expense-feedback`, `Enter an expense amount greater than zero.`, `error`);
-        return;
-      }
-
-      const entry = {
-        id: `txn_${Date.now()}_${Math.random().toString(36).slice(2, 7)}`,
-        timestamp: new Date().toISOString(),
-        type: `expense`,
-        member: paidBy,
-        amount: Math.round(amount * 100) / 100,
-        category: category,
-        description: desc,
-        stop: stop,
-        recorded_by: appState.activeMember,
-        synced: false
-      };
-
-      if (submitBtn) submitBtn.disabled = true;
-      appState.transactions.unshift(entry);
-      renderAll();
-      await persistState();
-
-      const syncOk = await postToServer(entry);
-      if (submitBtn) submitBtn.disabled = false;
-
-      if (descEl) descEl.value = ``;
-      if (amountEl) amountEl.value = ``;
-
-      if (syncOk) {
-        setFeedback(`expense-feedback`, `Logged ${formatMoney(entry.amount)} (${category}) and synced to Google Sheets.`, `ok`);
-      } else {
-        setFeedback(`expense-feedback`, `Logged ${formatMoney(entry.amount)} locally (pending backend sync).`, `info`);
-      }
-      renderAll();
-      await persistState();
-    }
-
-    function buildGetUrl(baseUrl) {
-      const trimmed = String(baseUrl || ``).trim();
-      if (!trimmed) return ``;
-      const sep = trimmed.indexOf(`?`) === -1 ? `?` : `&`;
-      return `${trimmed}${sep}action=get&_ts=${Date.now()}`;
-    }
-
-    async function syncFromServer(isManual) {
-      const baseUrl = appState.settings && appState.settings.gasUrl ? appState.settings.gasUrl.trim() : ``;
-      if (!baseUrl) {
-        appState.lastSyncStatus = `error`;
-        appState.lastDiagnostics = `No Google Apps Script URL configured in Settings.`;
-        renderSyncStatus();
-        return false;
-      }
-
-      const syncBtn = document.getElementById(`sync-now-btn`);
-      if (syncBtn) syncBtn.disabled = true;
-      appState.lastSyncStatus = `syncing`;
-      renderSyncStatus();
-
-      try {
-        const requestUrl = buildGetUrl(baseUrl);
-        const response = await fetch(requestUrl, {
-          method: `GET`,
-          mode: `cors`,
-          cache: `no-store`,
-          redirect: `follow`
-        });
-
-        const rawText = await response.text();
-        if (!response.ok) {
-          throw new Error(`HTTP ${response.status}`);
-        }
-
-        const parsed = parseSyncPayload(rawText);
-        if (parsed.status === `error`) {
-          throw new Error(parsed.errorMessage || `Backend returned error status`);
-        }
-
-        const pendingLocal = appState.transactions.filter(t => !t.synced);
-        if (Array.isArray(parsed.transactions)) {
-          const serverIds = new Set(parsed.transactions.map(t => t.id));
-          const remainingPending = pendingLocal.filter(t => !serverIds.has(t.id));
-          appState.transactions = remainingPending.concat(parsed.transactions);
-        }
-
-        appState.serverTotals = {
-          total_collected: parsed.total_collected,
-          total_spent: parsed.total_spent,
-          remaining_balance: parsed.remaining_balance
-        };
-        appState.lastSyncAt = new Date().toISOString();
-        appState.lastSyncStatus = `synced`;
-        appState.lastDiagnostics = `GET OK (${parsed.status}). Parsed paths: ${parsed.detectedPaths.join(`, `) || `none`}.`;
-
-        renderAll();
-        await persistState();
-        if (syncBtn) syncBtn.disabled = false;
-        return true;
-      } catch (err) {
-        appState.lastSyncStatus = `offline`;
-        appState.lastDiagnostics = `GET could not reach endpoint (${err && err.message ? err.message : `network/CSP blocked`}). Local cache active.`;
-        renderSyncStatus();
-        if (isManual) {
-          renderDiagnostics();
-        }
-        if (syncBtn) syncBtn.disabled = false;
-        return false;
-      }
-    }
-
-    async function postToServer(entry) {
-      const baseUrl = appState.settings && appState.settings.gasUrl ? appState.settings.gasUrl.trim() : ``;
-      if (!baseUrl) return false;
-
       const payload = {
-        action: entry.type === `contribution` ? `add_contribution` : `add_expense`,
-        type: entry.type,
-        id: entry.id,
-        timestamp: entry.timestamp,
-        member: entry.member,
-        amount: entry.amount,
-        category: entry.category,
-        description: entry.description,
-        stop: entry.stop,
-        recorded_by: entry.recorded_by,
-        currency: appState.settings.currency
+        gasUrl: appState.gasUrl,
+        activeRole: appState.activeRole,
+        selectedMember: appState.selectedMember,
+        selectedCoordinator: appState.selectedCoordinator,
+        transactions: appState.transactions,
+        lastSyncAt: appState.lastSyncAt,
+        lastSyncDiagnostic: appState.lastSyncDiagnostic
       };
-
-      try {
-        const response = await fetch(baseUrl, {
-          method: `POST`,
-          mode: `cors`,
-          headers: { 'Content-Type': `text/plain;charset=utf-8` },
-          body: JSON.stringify(payload),
-          redirect: `follow`
-        });
-
-        const rawText = await response.text();
-        if (!response.ok) {
-          throw new Error(`HTTP ${response.status}`);
-        }
-
-        entry.synced = true;
+      memFallbackState = payload;
+      if (window.notebookAppApi && typeof window.notebookAppApi.setAppState === `function`) {
         try {
-          const parsed = parseSyncPayload(rawText);
-          if (parsed.status === `error`) {
-            entry.synced = false;
-            throw new Error(parsed.errorMessage || `Backend rejected entry`);
-          }
-          if (Array.isArray(parsed.transactions) && parsed.transactions.length > 0) {
-            const pendingLocal = appState.transactions.filter(t => !t.synced && t.id !== entry.id);
-            const serverIds = new Set(parsed.transactions.map(t => t.id));
-            appState.transactions = pendingLocal.filter(t => !serverIds.has(t.id)).concat(parsed.transactions);
-          }
-          if (parsed.total_collected !== null || parsed.total_spent !== null || parsed.remaining_balance !== null) {
-            appState.serverTotals = {
-              total_collected: parsed.total_collected,
-              total_spent: parsed.total_spent,
-              remaining_balance: parsed.remaining_balance
-            };
-          }
-          appState.lastDiagnostics = `POST OK (${parsed.status}). Parsed paths: ${parsed.detectedPaths.join(`, `) || `status only`}.`;
-        } catch (parseErr) {
-          appState.lastDiagnostics = `POST delivered (HTTP ${response.status}). Non-JSON response acknowledged.`;
+          await window.notebookAppApi.setAppState(payload);
+        } catch (err) {
+          // Keep in-memory state if host storage rejects unexpectedly
         }
-
-        appState.lastSyncAt = new Date().toISOString();
-        appState.lastSyncStatus = `synced`;
-        return true;
-      } catch (err) {
-        entry.synced = false;
-        appState.lastSyncStatus = `offline`;
-        appState.lastDiagnostics = `POST queued locally (${err && err.message ? err.message : `network/CSP blocked`}).`;
-        return false;
       }
     }
 
-    async function retryPendingSync() {
-      const pending = appState.transactions.filter(t => !t.synced);
-      if (pending.length === 0) return;
-      for (let i = 0; i < pending.length; i++) {
-        await postToServer(pending[i]);
+    async function restorePersistedState() {
+      let saved = null;
+      if (window.notebookAppApi && typeof window.notebookAppApi.getAppState === `function`) {
+        try {
+          saved = await window.notebookAppApi.getAppState();
+        } catch (err) {
+          saved = null;
+        }
       }
-      renderAll();
-      await persistState();
+      if (!saved && memFallbackState) saved = memFallbackState;
+      if (saved && typeof saved === `object`) {
+        if (typeof saved.gasUrl === `string` && saved.gasUrl.trim()) {
+          appState.gasUrl = saved.gasUrl.trim();
+        }
+        if (saved.activeRole === `member` || saved.activeRole === `fc`) {
+          appState.activeRole = saved.activeRole;
+        }
+        if (MEMBERS.includes(saved.selectedMember)) {
+          appState.selectedMember = saved.selectedMember;
+        }
+        if (MEMBERS.includes(saved.selectedCoordinator)) {
+          appState.selectedCoordinator = saved.selectedCoordinator;
+        }
+        if (Array.isArray(saved.transactions)) {
+          appState.transactions = saved.transactions;
+        }
+        if (saved.lastSyncAt) {
+          appState.lastSyncAt = saved.lastSyncAt;
+        }
+        if (saved.lastSyncDiagnostic) {
+          appState.lastSyncDiagnostic = saved.lastSyncDiagnostic;
+        }
+      }
     }
 
-    function removePendingEntry(entryId, btn) {
-      if (btn.dataset.armed !== `true`) {
-        btn.dataset.armed = `true`;
-        btn.textContent = `Confirm delete`;
+    function populateMemberDropdowns() {
+      const memberSelect = document.getElementById(`member-select`);
+      const fcSelect = document.getElementById(`fc-coordinator`);
+      const optionsHtml = MEMBERS.map(name => `<option value="${escapeHtml(name)}">${escapeHtml(name)}</option>`).join(``);
+      if (memberSelect) {
+        memberSelect.innerHTML = optionsHtml;
+        memberSelect.value = appState.selectedMember;
+      }
+      if (fcSelect) {
+        fcSelect.innerHTML = optionsHtml;
+        fcSelect.value = appState.selectedCoordinator;
+      }
+    }
+
+    function computeTelemetry() {
+      let totalCollected = 0;
+      let creditCount = 0;
+      let totalSpent = 0;
+      let debitCount = 0;
+
+      const memberTotals = {};
+      MEMBERS.forEach(name => {
+        memberTotals[name] = 0;
+      });
+
+      const categoryTotals = {};
+      EXPENSE_CATEGORIES.forEach(cat => {
+        categoryTotals[cat] = 0;
+      });
+
+      appState.transactions.forEach(tx => {
+        const amt = Number(tx.amount) || 0;
+        if (tx.type === `credit`) {
+          totalCollected += amt;
+          creditCount += 1;
+          if (Object.prototype.hasOwnProperty.call(memberTotals, tx.member)) {
+            memberTotals[tx.member] += amt;
+          } else if (tx.member) {
+            memberTotals[tx.member] = (memberTotals[tx.member] || 0) + amt;
+          }
+        } else if (tx.type === `debit`) {
+          totalSpent += amt;
+          debitCount += 1;
+          const cat = EXPENSE_CATEGORIES.includes(tx.category) ? tx.category : `Supplies & Misc`;
+          categoryTotals[cat] = (categoryTotals[cat] || 0) + amt;
+        }
+      });
+
+      const remainingBalance = totalCollected - totalSpent;
+
+      // Active contribution round: advance once all 10 members reach Round N * 1,000 THB
+      let activeRound = 1;
+      while (activeRound < 20) {
+        const threshold = activeRound * ROUND_UNIT_THB;
+        const settledInRound = MEMBERS.filter(m => (memberTotals[m] || 0) >= threshold).length;
+        if (settledInRound < MEMBERS.length) break;
+        activeRound += 1;
+      }
+
+      const currentThreshold = activeRound * ROUND_UNIT_THB;
+      const prevThreshold = (activeRound - 1) * ROUND_UNIT_THB;
+      const settledCount = MEMBERS.filter(m => (memberTotals[m] || 0) >= currentThreshold).length;
+      const roundCollectedTowardCurrent = MEMBERS.reduce((acc, m) => {
+        const contribInRound = Math.max(0, Math.min(ROUND_UNIT_THB, (memberTotals[m] || 0) - prevThreshold));
+        return acc + contribInRound;
+      }, 0);
+      const roundTarget = MEMBERS.length * ROUND_UNIT_THB;
+      const roundPct = roundTarget > 0 ? Math.min(100, Math.round((roundCollectedTowardCurrent / roundTarget) * 100)) : 0;
+
+      const utilizationPct = totalCollected > 0 ? Math.round((totalSpent / totalCollected) * 100) : 0;
+      const pendingCount = appState.transactions.filter(tx => !tx.synced).length;
+
+      return {
+        totalCollected,
+        creditCount,
+        totalSpent,
+        debitCount,
+        remainingBalance,
+        memberTotals,
+        categoryTotals,
+        activeRound,
+        currentThreshold,
+        settledCount,
+        roundCollectedTowardCurrent,
+        roundTarget,
+        roundPct,
+        utilizationPct,
+        pendingCount
+      };
+    }
+
+    function renderAll() {
+      const t = computeTelemetry();
+
+      // Header sync chip
+      const syncChip = document.getElementById(`sync-status-chip`);
+      const flushBtn = document.getElementById(`btn-flush-queue`);
+      if (syncChip) {
+        if (appState.isSyncing) {
+          syncChip.textContent = `Syncing…`;
+          syncChip.setAttribute(`data-status`, `info`);
+        } else if (t.pendingCount > 0) {
+          syncChip.textContent = `${t.pendingCount} pending sync`;
+          syncChip.setAttribute(`data-status`, `warn`);
+        } else if (appState.lastSyncAt) {
+          syncChip.textContent = `Synced · ${formatTimestamp(appState.lastSyncAt)}`;
+          syncChip.setAttribute(`data-status`, `ok`);
+        } else {
+          syncChip.textContent = `Ready · Local`;
+          syncChip.setAttribute(`data-status`, `info`);
+        }
+      }
+      if (flushBtn) {
+        if (t.pendingCount > 0) {
+          flushBtn.classList.remove(`hidden`);
+          flushBtn.textContent = `Retry Pending (${t.pendingCount})`;
+        } else {
+          flushBtn.classList.add(`hidden`);
+        }
+      }
+
+      // Hero Balance
+      const balanceEl = document.getElementById(`metric-balance`);
+      const balanceCard = document.getElementById(`balance-card`);
+      const balanceCap = document.getElementById(`metric-balance-caption`);
+      if (balanceEl) balanceEl.textContent = formatThb(t.remainingBalance);
+      if (balanceCard && balanceCap) {
+        balanceCap.className = `metric-caption`;
+        if (t.remainingBalance > 0) {
+          balanceCard.setAttribute(`data-status`, `ok`);
+          balanceCap.textContent = `${Math.max(0, 100 - t.utilizationPct)}% of collected kitty remaining`;
+          balanceCap.classList.add(`is-ok`);
+        } else if (t.remainingBalance < 0) {
+          balanceCard.setAttribute(`data-status`, `alert`);
+          balanceCap.textContent = `Overdrawn by ${formatThb(Math.abs(t.remainingBalance))} — new contribution round needed`;
+          balanceCap.classList.add(`is-alert`);
+        } else {
+          balanceCard.setAttribute(`data-status`, `info`);
+          balanceCap.textContent = t.creditCount === 0
+            ? `No contributions or expenses recorded yet`
+            : `Kitty fully utilized (฿0 cash on hand)`;
+        }
+      }
+
+      // Collected & Spent
+      const colEl = document.getElementById(`metric-collected`);
+      const colCap = document.getElementById(`metric-collected-caption`);
+      if (colEl) colEl.textContent = formatThb(t.totalCollected);
+      if (colCap) colCap.textContent = `${t.creditCount} contribution${t.creditCount === 1 ? `` : `s`}`;
+
+      const spentEl = document.getElementById(`metric-spent`);
+      const spentCap = document.getElementById(`metric-spent-caption`);
+      if (spentEl) spentEl.textContent = formatThb(t.totalSpent);
+      if (spentCap) spentCap.textContent = `${t.debitCount} expense${t.debitCount === 1 ? `` : `s`} · ${t.utilizationPct}% utilized`;
+
+      // Active Round Banner
+      const roundChip = document.getElementById(`active-round-chip`);
+      const roundBar = document.getElementById(`round-progressbar`);
+      const roundFill = document.getElementById(`round-meter-fill`);
+      const roundCov = document.getElementById(`round-coverage-text`);
+      const roundTar = document.getElementById(`round-target-text`);
+
+      if (roundChip) roundChip.textContent = `Round ${t.activeRound} · ฿1,000 / member`;
+      if (roundBar) roundBar.setAttribute(`aria-valuenow`, String(t.roundPct));
+      if (roundFill) roundFill.style.width = `${t.roundPct}%`;
+      if (roundCov) roundCov.textContent = `${t.settledCount} / 10 members settled Round ${t.activeRound}`;
+      if (roundTar) roundTar.textContent = `${formatThb(t.roundCollectedTowardCurrent)} / ${formatThb(t.roundTarget)} target`;
+
+      // Utilization Bar
+      const utilChip = document.getElementById(`utilization-chip`);
+      const burnBar = document.getElementById(`burn-progressbar`);
+      const burnFill = document.getElementById(`burn-meter-fill`);
+      const burnLeft = document.getElementById(`burn-left-text`);
+      const burnAvg = document.getElementById(`burn-per-person-text`);
+
+      const clampedBurn = Math.min(100, Math.max(0, t.utilizationPct));
+      if (burnBar) burnBar.setAttribute(`aria-valuenow`, String(clampedBurn));
+      if (burnFill) {
+        burnFill.style.width = `${clampedBurn}%`;
+        burnFill.className = `meter-fill`;
+        if (t.utilizationPct >= 95) burnFill.classList.add(`is-alert`);
+        else if (t.utilizationPct >= 75) burnFill.classList.add(`is-warn`);
+      }
+      if (utilChip) {
+        utilChip.textContent = `${t.utilizationPct}% spent`;
+        utilChip.setAttribute(`data-status`, t.utilizationPct >= 95 ? `alert` : (t.utilizationPct >= 75 ? `warn` : `neutral`));
+      }
+      if (burnLeft) burnLeft.textContent = `${formatThb(t.remainingBalance)} remaining`;
+      if (burnAvg) burnAvg.textContent = `${formatThb(Math.round(t.remainingBalance / MEMBERS.length))} per person`;
+
+      // Sync active round dropdown default when untouched
+      const roundSelect = document.getElementById(`contribution-round`);
+      if (roundSelect && !roundSelect.dataset.userChanged) {
+        roundSelect.value = String(Math.min(6, t.activeRound));
+      }
+
+      // Render Member Matrix
+      renderMemberMatrix(t);
+
+      // Render Category Breakdown
+      renderCategoryBreakdown(t);
+
+      // Render Ledger
+      renderLedger();
+
+      // Update Diagnostics in modal
+      const diagEl = document.getElementById(`sync-diagnostics`);
+      if (diagEl) {
+        diagEl.textContent = appState.lastSyncDiagnostic;
+      }
+
+      updateContributionButtonLabel();
+    }
+
+    function renderMemberMatrix(t) {
+      const container = document.getElementById(`member-matrix`);
+      const badge = document.getElementById(`members-settled-badge`);
+      if (badge) {
+        badge.textContent = `${t.settledCount} / 10 paid Round ${t.activeRound}`;
+        badge.setAttribute(`data-status`, t.settledCount === 10 ? `ok` : `info`);
+      }
+      if (!container) return;
+
+      container.innerHTML = MEMBERS.map(name => {
+        const total = t.memberTotals[name] || 0;
+        const settled = total >= t.currentThreshold;
+        const selected = appState.selectedMember === name;
+        const chipStatus = settled ? `ok` : `neutral`;
+        const chipText = settled ? `R${t.activeRound} Paid` : `Due ${formatThb(Math.max(0, t.currentThreshold - total))}`;
+        return `
+          <button type="button" class="member-tile ${selected ? `is-selected` : ``}" onclick="quickSelectMember('${escapeHtml(name)}')">
+            <div>
+              <span class="member-name">${escapeHtml(name)}</span>
+              <span class="member-total">${formatThb(total)} total</span>
+            </div>
+            <span class="chip" data-status="${chipStatus}">${chipText}</span>
+          </button>
+        `;
+      }).join(``);
+    }
+
+    function renderCategoryBreakdown(t) {
+      const container = document.getElementById(`category-breakdown`);
+      const badge = document.getElementById(`category-total-badge`);
+      if (badge) badge.textContent = `${formatThb(t.totalSpent)} total spent`;
+      if (!container) return;
+
+      if (t.totalSpent <= 0) {
+        container.innerHTML = `<p class="metric-caption" style="margin: 0;">Expenses recorded by the Fund Coordinator will appear here grouped by category.</p>`;
         return;
       }
-      appState.transactions = appState.transactions.filter(t => t.id !== entryId);
-      renderAll();
-      persistState();
-    }
 
-    function renderSyncStatus() {
-      const chip = document.getElementById(`sync-status-chip`);
-      const retryBtn = document.getElementById(`retry-pending-btn`);
-      const pendingSpan = document.getElementById(`pending-count-span`);
-      const pendingCount = appState.transactions.filter(t => !t.synced).length;
-
-      if (pendingSpan) pendingSpan.textContent = String(pendingCount);
-      if (retryBtn) retryBtn.hidden = pendingCount === 0;
-
-      if (!chip) return;
-      if (appState.lastSyncStatus === `syncing`) {
-        chip.textContent = `Syncing…`;
-        chip.setAttribute(`data-status`, `info`);
-      } else if (pendingCount > 0) {
-        chip.textContent = `${pendingCount} Pending Sync`;
-        chip.setAttribute(`data-status`, `warning`);
-      } else if (appState.lastSyncStatus === `synced`) {
-        chip.textContent = `Synced`;
-        chip.setAttribute(`data-status`, `ok`);
-      } else if (appState.lastSyncStatus === `offline`) {
-        chip.textContent = `Local Cache`;
-        chip.setAttribute(`data-status`, `warning`);
-      } else if (appState.lastSyncStatus === `error`) {
-        chip.textContent = `Check URL`;
-        chip.setAttribute(`data-status`, `alert`);
-      } else {
-        chip.textContent = `Local Ready`;
-        chip.setAttribute(`data-status`, `info`);
-      }
-      renderDiagnostics();
-    }
-
-    function renderDiagnostics() {
-      const diagEl = document.getElementById(`sync-diagnostics-text`);
-      if (!diagEl) return;
-      const syncTime = appState.lastSyncAt ? formatTimestamp(appState.lastSyncAt) : `None`;
-      diagEl.innerHTML = `${escapeHtml(appState.lastDiagnostics)}<br><span>Last successful sync: <code>${escapeHtml(syncTime)}</code></span>`;
-    }
-
-    function renderKpis(totals) {
-      const balEl = document.getElementById(`kpi-remaining-balance`);
-      const colEl = document.getElementById(`kpi-total-collected`);
-      const spentEl = document.getElementById(`kpi-total-spent`);
-      const perPersonEl = document.getElementById(`kpi-per-person`);
-
-      const balCard = document.getElementById(`kpi-balance-card`);
-      const balCap = document.getElementById(`kpi-balance-caption`);
-      const colCap = document.getElementById(`kpi-collected-caption`);
-      const spentCap = document.getElementById(`kpi-spent-caption`);
-      const perPersonCap = document.getElementById(`kpi-per-person-caption`);
-
-      const lowThreshold = Number(appState.settings.lowThreshold) || 0;
-
-      if (balEl) balEl.textContent = formatMoney(totals.remainingBalance);
-      if (colEl) colEl.textContent = formatMoney(totals.totalCollected);
-      if (spentEl) spentEl.textContent = formatMoney(totals.totalSpent);
-      if (perPersonEl) perPersonEl.textContent = formatMoney(totals.perPersonShare);
-
-      if (colCap) colCap.textContent = `${totals.contribCount} ${totals.contribCount === 1 ? `deposit` : `deposits`} recorded`;
-      if (spentCap) spentCap.textContent = `${totals.expenseCount} ${totals.expenseCount === 1 ? `expense` : `expenses`} logged`;
-      if (perPersonCap) perPersonCap.textContent = `Equal split across ${MEMBERS.length} members`;
-
-      if (balCard && balCap) {
-        balCap.className = `kpi-caption`;
-        if (totals.totalCollected === 0 && totals.totalSpent === 0) {
-          balCard.setAttribute(`data-status`, `info`);
-          balCap.textContent = `Add cash deposits or sync with Google Sheets to begin`;
-        } else if (totals.remainingBalance < 0) {
-          balCard.setAttribute(`data-status`, `alert`);
-          balCap.classList.add(`is-alert`);
-          balCap.textContent = `Kitty deficit — top-up needed from members`;
-        } else if (totals.remainingBalance <= lowThreshold) {
-          balCard.setAttribute(`data-status`, `warning`);
-          balCap.classList.add(`is-warn`);
-          balCap.textContent = `Low reserve (at or below ${formatMoney(lowThreshold)} threshold)`;
-        } else {
-          balCard.setAttribute(`data-status`, `ok`);
-          balCap.classList.add(`is-ok`);
-          const pctLeft = totals.totalCollected > 0 ? Math.round((totals.remainingBalance / totals.totalCollected) * 100) : 100;
-          balCap.textContent = `${pctLeft}% of collected kitty still available`;
-        }
-      }
-    }
-
-    function renderPoolMeter(totals) {
-      const svg = document.getElementById(`pool-meter-svg`);
-      const utilChip = document.getElementById(`utilization-chip`);
-      if (!svg) return;
-
-      const base = Math.max(totals.totalCollected, totals.totalSpent, 1);
-      const spentRatio = Math.min(1, Math.max(0, totals.totalSpent / base));
-      const remRatio = Math.max(0, 1 - spentRatio);
-      const pctUsed = totals.totalCollected > 0 ? Math.round((totals.totalSpent / totals.totalCollected) * 100) : 0;
-
-      if (utilChip) {
-        utilChip.textContent = `${pctUsed}% spent`;
-        utilChip.setAttribute(`data-status`, pctUsed > 80 ? `warning` : `info`);
-      }
-
-      const barX = 16;
-      const barW = 568;
-      const barY = 34;
-      const barH = 28;
-      const spentW = Math.round(barW * spentRatio);
-      const remW = barW - spentW;
-      const reserveX = barX + Math.round(barW * 0.8);
-      const reserveW = barW - Math.round(barW * 0.8);
-
-      svg.innerHTML = `
-        <rect x="${reserveX}" y="${barY - 8}" width="${reserveW}" height="${barH + 16}" rx="4" class="range-band"></rect>
-        <rect x="${barX}" y="${barY}" width="${barW}" height="${barH}" rx="6" fill="var(--surface-container-low)" stroke="var(--outline-variant)" stroke-width="1"></rect>
-        ${spentW > 0 ? `<rect x="${barX}" y="${barY}" width="${spentW}" height="${barH}" rx="4" fill="var(--data-1)"></rect>` : ``}
-        ${remW > 0 && totals.totalCollected > 0 ? `<rect x="${barX + spentW}" y="${barY}" width="${remW}" height="${barH}" rx="4" fill="var(--data-2)" fill-opacity="0.85"></rect>` : ``}
-        <line x1="${reserveX}" y1="${barY - 12}" x2="${reserveX}" y2="${barY + barH + 12}" stroke="var(--outline)" stroke-width="1.5" stroke-dasharray="4 3"></line>
-        <text x="${barX}" y="18" font-family="Figtree, sans-serif" font-size="12" font-weight="600" fill="var(--on-surface-variant)">Spent: ${escapeHtml(formatMoney(totals.totalSpent))}</text>
-        <text x="${barX + barW}" y="18" text-anchor="end" font-family="Figtree, sans-serif" font-size="12" font-weight="600" fill="var(--secondary)">Remaining: ${escapeHtml(formatMoney(totals.remainingBalance))}</text>
-        <text x="${reserveX - 6}" y="${barY + barH + 28}" text-anchor="end" font-family="Figtree, sans-serif" font-size="11" font-weight="600" fill="var(--on-surface-variant)">80% spend mark (20% reserve target)</text>
-      `;
-    }
-
-    function renderCategoryBreakdown(totals) {
-      const listEl = document.getElementById(`category-breakdown-list`);
-      const topChip = document.getElementById(`top-category-chip`);
-      if (!listEl) return;
-
-      const expenses = appState.transactions.filter(t => t.type === `expense`);
-      const map = {};
-      for (let i = 0; i < CATEGORIES.length; i++) map[CATEGORIES[i]] = 0;
-
-      for (let i = 0; i < expenses.length; i++) {
-        const cat = expenses[i].category || `Supplies & Misc`;
-        if (!Object.prototype.hasOwnProperty.call(map, cat)) map[cat] = 0;
-        map[cat] += Number(expenses[i].amount) || 0;
-      }
-
-      const entries = Object.keys(map).map(k => ({ name: k, amount: map[k] }));
-      entries.sort((a, b) => b.amount - a.amount);
-
-      const maxVal = entries.length > 0 && entries[0].amount > 0 ? entries[0].amount : 1;
-      const colors = [`var(--data-1)`, `var(--data-2)`, `var(--data-3)`, `var(--data-4)`, `var(--primary)`];
-
-      if (topChip) {
-        if (expenses.length === 0) {
-          topChip.textContent = `No expenses yet`;
-          topChip.setAttribute(`data-status`, `neutral`);
-        } else {
-          topChip.textContent = `Top: ${entries[0].name}`;
-          topChip.setAttribute(`data-status`, `info`);
-        }
-      }
-
-      listEl.innerHTML = entries.map((item, idx) => {
-        const pct = totals.totalSpent > 0 ? Math.round((item.amount / totals.totalSpent) * 100) : 0;
-        const barPct = item.amount > 0 ? Math.max(4, Math.round((item.amount / maxVal) * 100)) : 0;
-        const color = colors[idx % colors.length];
+      container.innerHTML = EXPENSE_CATEGORIES.map((cat, idx) => {
+        const amt = t.categoryTotals[cat] || 0;
+        const pct = Math.round((amt / t.totalSpent) * 100);
+        const seriesIdx = (idx % 4) + 1;
         return `
-          <div class="category-row">
-            <div class="category-meta">
-              <span>${escapeHtml(item.name)}</span>
-              <span class="tabular"><strong>${escapeHtml(formatMoney(item.amount))}</strong> (${pct}%)</span>
+          <div class="cat-row">
+            <div class="cat-row-head">
+              <span class="cat-name">${escapeHtml(cat)}</span>
+              <span class="cat-amt">${formatThb(amt)} (${pct}%)</span>
             </div>
-            <div class="bar-track">
-              <div class="bar-fill" style="width: ${barPct}%; background: ${color};"></div>
+            <div class="cat-bar-track">
+              <div class="cat-bar-fill" data-series="${seriesIdx}" style="width: ${pct}%;"></div>
             </div>
           </div>
         `;
       }).join(``);
-    }
-
-    function renderMemberMatrix(totals) {
-      const tbody = document.getElementById(`member-table-body`);
-      const settledChip = document.getElementById(`members-settled-chip`);
-      if (!tbody) return;
-
-      const depositsByMember = {};
-      for (let i = 0; i < MEMBERS.length; i++) depositsByMember[MEMBERS[i]] = 0;
-
-      for (let i = 0; i < appState.transactions.length; i++) {
-        const txn = appState.transactions[i];
-        if (txn.type === `contribution` && Object.prototype.hasOwnProperty.call(depositsByMember, txn.member)) {
-          depositsByMember[txn.member] += Number(txn.amount) || 0;
-        }
-      }
-
-      let coveredCount = 0;
-      tbody.innerHTML = MEMBERS.map(member => {
-        const contributed = depositsByMember[member] || 0;
-        const fairShare = totals.perPersonShare;
-        const net = contributed - fairShare;
-        let statusLabel = `No Deposit`;
-        let statusAttr = `neutral`;
-
-        if (contributed === 0 && fairShare === 0) {
-          statusLabel = `Pending Buy-in`;
-          statusAttr = `neutral`;
-        } else if (net >= 0.01) {
-          statusLabel = `In Credit`;
-          statusAttr = `ok`;
-          coveredCount++;
-        } else if (Math.abs(net) < 0.01) {
-          statusLabel = `Settled`;
-          statusAttr = `ok`;
-          coveredCount++;
-        } else {
-          statusLabel = `Top-up Due`;
-          statusAttr = `warning`;
-        }
-
-        const netFormatted = (net > 0 ? `+` : ``) + formatMoney(net);
-        return `
-          <tr>
-            <td><strong>${escapeHtml(member)}</strong></td>
-            <td class="num">${escapeHtml(formatMoney(contributed))}</td>
-            <td class="num">${escapeHtml(formatMoney(fairShare))}</td>
-            <td class="num">${escapeHtml(netFormatted)}</td>
-            <td><span class="chip" data-status="${statusAttr}">${escapeHtml(statusLabel)}</span></td>
-            <td class="num">
-              <button type="button" class="btn btn-ghost btn-sm" onclick="jumpToMemberDeposit('${escapeHtml(member)}')">+ Deposit</button>
-            </td>
-          </tr>
-        `;
-      }).join(``);
-
-      if (settledChip) {
-        settledChip.textContent = `${coveredCount} of ${MEMBERS.length} covered`;
-        settledChip.setAttribute(`data-status`, coveredCount === MEMBERS.length ? `ok` : `info`);
-      }
-    }
-
-    function setLedgerTypeFilter(type) {
-      appState.ledgerFilterType = type;
-      const allBtn = document.getElementById(`filter-all-btn`);
-      const contribBtn = document.getElementById(`filter-contrib-btn`);
-      const expBtn = document.getElementById(`filter-expense-btn`);
-      if (allBtn) allBtn.setAttribute(`aria-pressed`, String(type === `all`));
-      if (contribBtn) contribBtn.setAttribute(`aria-pressed`, String(type === `contribution`));
-      if (expBtn) expBtn.setAttribute(`aria-pressed`, String(type === `expense`));
-      renderLedger();
     }
 
     function renderLedger() {
-      const listEl = document.getElementById(`ledger-list`);
-      if (!listEl) return;
+      const container = document.getElementById(`ledger-container`);
+      if (!container) return;
 
-      const searchEl = document.getElementById(`ledger-search`);
-      const memberEl = document.getElementById(`ledger-member-filter`);
-      const sortEl = document.getElementById(`ledger-sort`);
+      const query = appState.searchQuery.trim().toLowerCase();
+      const filtered = appState.transactions
+        .slice()
+        .sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime())
+        .filter(tx => {
+          if (appState.ledgerFilter !== `all` && tx.type !== appState.ledgerFilter) return false;
+          if (!query) return true;
+          const haystack = [
+            tx.member,
+            tx.description,
+            tx.category,
+            tx.coordinator,
+            tx.note,
+            tx.round ? `round ${tx.round}` : ``
+          ].join(` `).toLowerCase();
+          return haystack.includes(query);
+        });
 
-      const query = searchEl ? searchEl.value.trim().toLowerCase() : ``;
-      const memberFilter = memberEl ? memberEl.value : `all`;
-      const sortBy = sortEl ? sortEl.value : `newest`;
-      const typeFilter = appState.ledgerFilterType || `all`;
-
-      let rows = appState.transactions.filter(txn => {
-        if (typeFilter !== `all` && txn.type !== typeFilter) return false;
-        if (memberFilter !== `all` && txn.member !== memberFilter) return false;
-        if (query) {
-          const hay = `${txn.description} ${txn.category} ${txn.member} ${txn.stop} ${txn.recorded_by}`.toLowerCase();
-          if (hay.indexOf(query) === -1) return false;
-        }
-        return true;
-      });
-
-      rows = rows.slice().sort((a, b) => {
-        if (sortBy === `highest`) return (b.amount || 0) - (a.amount || 0);
-        const ta = new Date(a.timestamp).getTime() || 0;
-        const tb = new Date(b.timestamp).getTime() || 0;
-        return sortBy === `oldest` ? ta - tb : tb - ta;
-      });
-
-      if (rows.length === 0) {
-        const hasAny = appState.transactions.length > 0;
-        listEl.innerHTML = `
+      if (appState.transactions.length === 0) {
+        container.innerHTML = `
           <div class="empty-state">
-            <h3 class="subhead">${hasAny ? `No matching ledger entries` : `No kitty transactions recorded yet`}</h3>
-            <p>${hasAny
-              ? `Adjust your search text, member filter, or entry type pills above to see all recorded activity.`
-              : `Start by recording a member cash contribution above or clicking Sync to pull existing rows from your Google Sheets backend.`}</p>
-            ${hasAny ? `<button type="button" class="btn btn-secondary btn-sm" onclick="resetLedgerFilters()">Clear Filters</button>` : `<button type="button" class="btn btn-primary btn-sm" onclick="syncFromServer(true)">Sync from Google Sheets</button>`}
+            <h3>Ledger is empty</h3>
+            <p>
+              No cash contributions or trip expenses have been logged yet. Pull existing entries from your Google Sheet or record the first ฿1,000 contribution above.
+            </p>
+            <div class="preset-row">
+              <button type="button" class="btn btn-primary" onclick="syncFromSheet()">Pull from Google Sheet</button>
+              <button type="button" class="btn btn-secondary" onclick="focusFirstEntry()">Add First Contribution</button>
+            </div>
           </div>
         `;
         return;
       }
 
-      listEl.innerHTML = rows.map(txn => {
-        const isContrib = txn.type === `contribution`;
-        const sign = isContrib ? `+` : `-`;
-        const syncBadge = txn.synced
-          ? `<span class="chip" data-status="ok">Synced</span>`
-          : `<span class="chip" data-status="warning">Pending</span>`;
+      if (filtered.length === 0) {
+        container.innerHTML = `
+          <div class="empty-state">
+            <h3>No matching transactions</h3>
+            <p>Try clearing your search query or switching the filter back to All.</p>
+            <button type="button" class="btn btn-secondary" onclick="resetLedgerFilters()">Show All Transactions</button>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = `<div class="ledger-list">` + filtered.map(tx => {
+        const isCredit = tx.type === `credit`;
+        const typeChip = isCredit
+          ? `<span class="chip" data-status="ok">Credit</span>`
+          : `<span class="chip" data-status="warn">Debit</span>`;
+        const syncChip = tx.synced
+          ? `<span class="chip" data-status="info">Synced</span>`
+          : `<span class="chip" data-status="alert">Pending Sync</span>`;
+
+        const titleText = isCredit
+          ? `${escapeHtml(tx.member || `Member`)} contributed`
+          : escapeHtml(tx.description || `Trip Expense`);
+
+        const metaParts = [formatTimestamp(tx.timestamp)];
+        if (isCredit) {
+          metaParts.push(`Round ${tx.round || 1}`);
+          if (tx.note) metaParts.push(escapeHtml(tx.note));
+        } else {
+          metaParts.push(escapeHtml(tx.category || `Supplies & Misc`));
+          if (tx.coordinator) metaParts.push(`FC: ${escapeHtml(tx.coordinator)}`);
+        }
+
+        const retryBtn = !tx.synced
+          ? `<button type="button" class="btn btn-secondary btn-sm" onclick="retrySingleTx('${escapeHtml(tx.id)}')">Retry</button>`
+          : ``;
 
         return `
-          <article class="ledger-item" data-kind="${isContrib ? `contribution` : `expense`}">
-            <div class="ledger-main">
-              <div class="ledger-title">${escapeHtml(txn.description)}</div>
+          <article class="ledger-item">
+            <div>
+              <div class="ledger-title-row">
+                ${typeChip}
+                <span class="ledger-title">${titleText}</span>
+                ${syncChip}
+              </div>
               <div class="ledger-meta">
-                <span>${escapeHtml(formatTimestamp(txn.timestamp))}</span>
-                <span>· ${escapeHtml(txn.category)}</span>
-                ${txn.member ? `<span>· ${isContrib ? `From` : `Paid by`} <strong>${escapeHtml(txn.member)}</strong></span>` : ``}
-                ${txn.stop ? `<span>· ${escapeHtml(txn.stop)}</span>` : ``}
+                ${metaParts.map(p => `<span>${p}</span>`).join(`<span>·</span>`)}
               </div>
             </div>
             <div class="ledger-right">
-              <div class="ledger-amount ${isContrib ? `is-in` : `is-out`}">${sign}${escapeHtml(formatMoney(txn.amount))}</div>
-              <div class="header-actions">
-                ${syncBadge}
-                ${!txn.synced ? `<button type="button" class="btn btn-ghost btn-sm" onclick="removePendingEntry('${escapeHtml(txn.id)}', this)">Remove</button>` : ``}
+              <span class="ledger-amount ${isCredit ? `is-credit` : `is-debit`}">
+                ${isCredit ? `+` : `-`}${formatThb(tx.amount)}
+              </span>
+              <div class="ledger-actions">
+                ${retryBtn}
+                <button type="button" class="btn btn-ghost btn-sm" onclick="removeTransaction('${escapeHtml(tx.id)}', this)">Remove</button>
               </div>
             </div>
           </article>
         `;
-      }).join(``);
+      }).join(``) + `</div>`;
     }
 
-    function resetLedgerFilters() {
-      const searchEl = document.getElementById(`ledger-search`);
-      const memberEl = document.getElementById(`ledger-member-filter`);
-      if (searchEl) searchEl.value = ``;
-      if (memberEl) memberEl.value = `all`;
-      setLedgerTypeFilter(`all`);
+    // Role & Form Interaction Handlers
+    function setActiveRole(role) {
+      appState.activeRole = role === `fc` ? `fc` : `member`;
+      const tabMember = document.getElementById(`tab-member`);
+      const tabFc = document.getElementById(`tab-fc`);
+      const memberForm = document.getElementById(`member-form`);
+      const fcForm = document.getElementById(`fc-form`);
+
+      if (tabMember) tabMember.setAttribute(`aria-selected`, String(appState.activeRole === `member`));
+      if (tabFc) tabFc.setAttribute(`aria-selected`, String(appState.activeRole === `fc`));
+      if (memberForm) memberForm.classList.toggle(`hidden`, appState.activeRole !== `member`);
+      if (fcForm) fcForm.classList.toggle(`hidden`, appState.activeRole !== `fc`);
+      persistState();
     }
 
-    function renderSettingsValues() {
-      const urlEl = document.getElementById(`settings-gas-url`);
-      const curEl = document.getElementById(`settings-currency`);
-      const threshEl = document.getElementById(`settings-low-threshold`);
-      const nameEl = document.getElementById(`settings-trip-name`);
-
-      const titleDisplay = document.getElementById(`trip-title-display`);
-      const contribCur = document.getElementById(`contrib-currency-label`);
-      const expCur = document.getElementById(`expense-currency-label`);
-
-      if (urlEl) urlEl.value = appState.settings.gasUrl || DEFAULT_GAS_URL;
-      if (curEl) curEl.value = appState.settings.currency || `THB`;
-      if (threshEl) threshEl.value = String(appState.settings.lowThreshold != null ? appState.settings.lowThreshold : 2000);
-      if (nameEl) nameEl.value = appState.settings.tripName || `10-Member Trip Kitty Pool`;
-
-      if (titleDisplay) titleDisplay.textContent = appState.settings.tripName || `10-Member Trip Kitty Pool`;
-      if (contribCur) contribCur.textContent = appState.settings.currency || `THB`;
-      if (expCur) expCur.textContent = appState.settings.currency || `THB`;
+    function onMemberSelected(name) {
+      if (MEMBERS.includes(name)) {
+        appState.selectedMember = name;
+        renderAll();
+        persistState();
+      }
     }
 
-    function renderAll() {
-      renderSettingsValues();
-      renderRoleUI();
-      renderSyncStatus();
-      const totals = computeTotals();
-      renderKpis(totals);
-      renderPoolMeter(totals);
-      renderCategoryBreakdown(totals);
-      renderMemberMatrix(totals);
+    function quickSelectMember(name) {
+      appState.selectedMember = name;
+      const select = document.getElementById(`member-select`);
+      if (select) select.value = name;
+      setActiveRole(`member`);
+      renderAll();
+      const amountEl = document.getElementById(`member-amount`);
+      if (amountEl) amountEl.focus();
+    }
+
+    function selectContributionPreset(amount, btn) {
+      const amountInput = document.getElementById(`member-amount`);
+      if (amountInput) amountInput.value = String(amount);
+      document.querySelectorAll(`#member-form .preset-btn`).forEach(b => b.classList.remove(`is-active`));
+      if (btn) btn.classList.add(`is-active`);
+      updateContributionButtonLabel();
+    }
+
+    function focusCustomContribution(btn) {
+      document.querySelectorAll(`#member-form .preset-btn`).forEach(b => b.classList.remove(`is-active`));
+      if (btn) btn.classList.add(`is-active`);
+      const amountInput = document.getElementById(`member-amount`);
+      if (amountInput) {
+        amountInput.value = ``;
+        amountInput.focus();
+      }
+      updateContributionButtonLabel();
+    }
+
+    function onContributionAmountInput() {
+      const amountInput = document.getElementById(`member-amount`);
+      const val = Number(amountInput ? amountInput.value : 0);
+      document.querySelectorAll(`#member-form .preset-btn`).forEach(b => {
+        const presetVal = b.getAttribute(`data-preset`);
+        b.classList.toggle(`is-active`, presetVal === String(val) || (presetVal === `custom` && ![500, 1000, 2000].includes(val)));
+      });
+      updateContributionButtonLabel();
+    }
+
+    function updateContributionButtonLabel() {
+      const amountInput = document.getElementById(`member-amount`);
+      const btn = document.getElementById(`btn-submit-credit`);
+      if (!btn) return;
+      const val = Number(amountInput ? amountInput.value : 0);
+      btn.textContent = val > 0 ? `Record Contribution (+${formatThb(val)})` : `Record Contribution (Credit THB)`;
+    }
+
+    function applyExpenseTemplate(desc, category) {
+      const descEl = document.getElementById(`fc-description`);
+      const catEl = document.getElementById(`fc-category`);
+      const amtEl = document.getElementById(`fc-amount`);
+      if (descEl) descEl.value = desc;
+      if (catEl && EXPENSE_CATEGORIES.includes(category)) catEl.value = category;
+      if (amtEl) amtEl.focus();
+    }
+
+    function updateExpenseButtonLabel() {
+      const amtEl = document.getElementById(`fc-amount`);
+      const btn = document.getElementById(`btn-submit-debit`);
+      if (!btn) return;
+      const val = Number(amtEl ? amtEl.value : 0);
+      btn.textContent = val > 0 ? `Record Expense (-${formatThb(val)})` : `Record Expense (Debit THB)`;
+    }
+
+    async function handleMemberSubmit(event) {
+      event.preventDefault();
+      hideCallout(`member-feedback`);
+
+      const memberEl = document.getElementById(`member-select`);
+      const roundEl = document.getElementById(`contribution-round`);
+      const amountEl = document.getElementById(`member-amount`);
+      const noteEl = document.getElementById(`member-note`);
+
+      const member = memberEl ? memberEl.value : appState.selectedMember;
+      const round = roundEl ? Number(roundEl.value) || 1 : 1;
+      const amount = amountEl ? Number(amountEl.value) : 0;
+      const note = noteEl ? noteEl.value.trim() : ``;
+
+      if (!MEMBERS.includes(member)) {
+        showCallout(`member-feedback`, `Please select a valid member name from the list.`, `alert`);
+        return;
+      }
+      if (!Number.isFinite(amount) || amount <= 0) {
+        showCallout(`member-feedback`, `Enter a contribution amount greater than ฿0.`, `alert`);
+        return;
+      }
+
+      const tx = {
+        id: generateTxId(),
+        type: `credit`,
+        member,
+        round,
+        amount: Math.round(amount),
+        category: `Contribution`,
+        description: `Round ${round} Cash Contribution`,
+        note,
+        coordinator: ``,
+        timestamp: new Date().toISOString(),
+        synced: false
+      };
+
+      appState.selectedMember = member;
+      appState.transactions.unshift(tx);
+      if (noteEl) noteEl.value = ``;
+      renderAll();
+      await persistState();
+
+      const syncOk = await pushTransactionToSheet(tx);
+      renderAll();
+      await persistState();
+
+      if (syncOk) {
+        showCallout(`member-feedback`, `Recorded +${formatThb(tx.amount)} for ${member} (Round ${round}) and synced to Google Sheets.`, `ok`);
+      } else {
+        showCallout(`member-feedback`, `Saved +${formatThb(tx.amount)} for ${member} locally. Google Sheet sync queued for retry.`, `warn`);
+      }
+    }
+
+    async function handleExpenseSubmit(event) {
+      event.preventDefault();
+      hideCallout(`fc-feedback`);
+
+      const fcEl = document.getElementById(`fc-coordinator`);
+      const catEl = document.getElementById(`fc-category`);
+      const descEl = document.getElementById(`fc-description`);
+      const amtEl = document.getElementById(`fc-amount`);
+
+      const coordinator = fcEl ? fcEl.value : appState.selectedCoordinator;
+      const category = catEl ? catEl.value : `Supplies & Misc`;
+      const description = descEl ? descEl.value.trim() : ``;
+      const amount = amtEl ? Number(amtEl.value) : 0;
+
+      if (!description) {
+        showCallout(`fc-feedback`, `Please enter a short description of what was purchased.`, `alert`);
+        return;
+      }
+      if (!Number.isFinite(amount) || amount <= 0) {
+        showCallout(`fc-feedback`, `Enter an expense amount greater than ฿0.`, `alert`);
+        return;
+      }
+
+      const tx = {
+        id: generateTxId(),
+        type: `debit`,
+        member: ``,
+        round: null,
+        amount: Math.round(amount),
+        category,
+        description,
+        note: ``,
+        coordinator,
+        timestamp: new Date().toISOString(),
+        synced: false
+      };
+
+      appState.selectedCoordinator = coordinator;
+      appState.transactions.unshift(tx);
+      if (descEl) descEl.value = ``;
+      if (amtEl) amtEl.value = ``;
+      updateExpenseButtonLabel();
+      renderAll();
+      await persistState();
+
+      const syncOk = await pushTransactionToSheet(tx);
+      renderAll();
+      await persistState();
+
+      if (syncOk) {
+        showCallout(`fc-feedback`, `Logged -${formatThb(tx.amount)} (${category}) by FC ${coordinator} and synced to Google Sheets.`, `ok`);
+      } else {
+        showCallout(`fc-feedback`, `Saved -${formatThb(tx.amount)} (${category}) locally. Google Sheet sync queued for retry.`, `warn`);
+      }
+    }
+
+    function setLedgerFilter(filter) {
+      appState.ledgerFilter = filter;
+      document.querySelectorAll(`.filter-pill`).forEach(btn => {
+        btn.setAttribute(`aria-pressed`, String(btn.getAttribute(`data-filter`) === filter));
+      });
       renderLedger();
     }
 
+    function onLedgerSearch(val) {
+      appState.searchQuery = val || ``;
+      renderLedger();
+    }
+
+    function resetLedgerFilters() {
+      appState.ledgerFilter = `all`;
+      appState.searchQuery = ``;
+      const searchEl = document.getElementById(`ledger-search`);
+      if (searchEl) searchEl.value = ``;
+      setLedgerFilter(`all`);
+    }
+
+    function focusFirstEntry() {
+      setActiveRole(`member`);
+      const amountEl = document.getElementById(`member-amount`);
+      if (amountEl) amountEl.focus();
+    }
+
+    async function removeTransaction(txId, btn) {
+      if (btn && btn.dataset.armed !== `true`) {
+        btn.dataset.armed = `true`;
+        btn.textContent = `Confirm Remove`;
+        btn.classList.remove(`btn-ghost`);
+        btn.classList.add(`btn-danger-outline`);
+        setTimeout(() => {
+          if (btn && btn.dataset.armed === `true`) {
+            btn.dataset.armed = `false`;
+            btn.textContent = `Remove`;
+            btn.classList.remove(`btn-danger-outline`);
+            btn.classList.add(`btn-ghost`);
+          }
+        }, 3500);
+        return;
+      }
+      appState.transactions = appState.transactions.filter(tx => tx.id !== txId);
+      renderAll();
+      await persistState();
+    }
+
+    // Resilient JSON Parsing for Google Sheets Apps Script GET/POST
+    function extractJsonSubstring(text) {
+      const firstObj = text.indexOf(`{`);
+      const firstArr = text.indexOf(`[`);
+      let start = -1;
+      let openCh = ``;
+      let closeCh = ``;
+
+      if (firstObj !== -1 && (firstArr === -1 || firstObj < firstArr)) {
+        start = firstObj;
+        openCh = `{`;
+        closeCh = `}`;
+      } else if (firstArr !== -1) {
+        start = firstArr;
+        openCh = `[`;
+        closeCh = `]`;
+      }
+      if (start === -1) return null;
+
+      let depth = 0;
+      let inStr = false;
+      let escaped = false;
+      for (let i = start; i < text.length; i += 1) {
+        const ch = text[i];
+        if (escaped) {
+          escaped = false;
+          continue;
+        }
+        if (ch === `\\` && inStr) {
+          escaped = true;
+          continue;
+        }
+        if (ch === `"`) {
+          inStr = !inStr;
+          continue;
+        }
+        if (!inStr) {
+          if (ch === openCh) depth += 1;
+          else if (ch === closeCh) {
+            depth -= 1;
+            if (depth === 0) {
+              return text.slice(start, i + 1);
+            }
+          }
+        }
+      }
+      return null;
+    }
+
+    function parseResilientJson(rawText) {
+      if (rawText == null) return { ok: false, error: `Empty response body.` };
+      let cleaned = String(rawText)
+        .replace(/^\uFEFF/, ``)
+        .replace(/^\)\]\}'\s*,?\s*\n?/, ``)
+        .trim();
+
+      if (!cleaned) {
+        return { ok: true, data: [] };
+      }
+      if (cleaned.startsWith(`<`)) {
+        return {
+          ok: false,
+          error: `Received HTML instead of JSON. Ensure Apps Script Web App access is set to "Anyone".`
+        };
+      }
+
+      let parsed = null;
+      try {
+        parsed = JSON.parse(cleaned);
+      } catch (firstErr) {
+        const extracted = extractJsonSubstring(cleaned);
+        if (!extracted) {
+          return { ok: false, error: `Malformed JSON payload: ${firstErr.message}` };
+        }
+        try {
+          parsed = JSON.parse(extracted);
+        } catch (secondErr) {
+          return { ok: false, error: `Unable to parse extracted JSON: ${secondErr.message}` };
+        }
+      }
+
+      // Unwrap double-encoded JSON strings
+      if (typeof parsed === `string`) {
+        try {
+          parsed = JSON.parse(parsed);
+        } catch (err) {
+          return { ok: true, data: { message: parsed } };
+        }
+      }
+
+      return { ok: true, data: parsed };
+    }
+
+    function normalizeRemoteRows(payload) {
+      let rows = [];
+      if (Array.isArray(payload)) {
+        rows = payload;
+      } else if (payload && typeof payload === `object`) {
+        const candidates = [
+          payload.transactions,
+          payload.data,
+          payload.rows,
+          payload.records,
+          payload.ledger,
+          payload.items,
+          payload.result
+        ];
+        const found = candidates.find(c => Array.isArray(c));
+        if (found) rows = found;
+      }
+
+      return rows
+        .filter(r => r && typeof r === `object`)
+        .map((r, idx) => {
+          const rawType = String(r.type || r.txType || r.kind || r.action || ``).toLowerCase();
+          const rawAmount = Number(r.amount != null ? r.amount : (r.thb != null ? r.thb : r.value));
+          const isDebit = rawType.includes(`debit`) || rawType.includes(`expense`) || rawType.includes(`spend`) || rawAmount < 0;
+          const type = isDebit ? `debit` : `credit`;
+          const amount = Math.abs(Math.round(Number.isFinite(rawAmount) ? rawAmount : 0));
+          const timestamp = r.timestamp || r.createdAt || r.date || r.time || new Date().toISOString();
+          const member = String(r.member || r.name || r.payer || r.user || ``).trim();
+          const coordinator = String(r.coordinator || r.fc || r.recordedBy || ``).trim();
+          const category = String(r.category || r.cat || (type === `credit` ? `Contribution` : `Supplies & Misc`)).trim();
+          const description = String(r.description || r.desc || r.memo || (type === `credit` ? `Round ${r.round || 1} Cash Contribution` : `Trip Expense`)).trim();
+          const note = String(r.note || r.notes || ``).trim();
+          const round = Number(r.round || r.roundNumber || 1) || 1;
+          const fallbackId = `remote_${String(timestamp).slice(0, 19)}_${type}_${member || coordinator}_${amount}_${idx}`;
+          const id = String(r.id || r.txId || fallbackId);
+
+          return {
+            id,
+            type,
+            member,
+            round: type === `credit` ? round : null,
+            amount,
+            category,
+            description,
+            note,
+            coordinator,
+            timestamp,
+            synced: true
+          };
+        })
+        .filter(tx => tx.amount > 0);
+    }
+
+    async function syncFromSheet() {
+      const url = (appState.gasUrl || ``).trim();
+      if (!url) {
+        appState.lastSyncDiagnostic = `No Google Apps Script URL configured. Open Settings to add one.`;
+        renderAll();
+        return;
+      }
+
+      appState.isSyncing = true;
+      const syncIcon = document.getElementById(`sync-icon`);
+      if (syncIcon) syncIcon.classList.add(`spin`);
+      renderAll();
+
+      try {
+        const sep = url.includes(`?`) ? `&` : `?`;
+        const getUrl = `${url}${sep}action=list&t=${Date.now()}`;
+        const response = await fetch(getUrl, {
+          method: `GET`,
+          redirect: `follow`,
+          cache: `no-store`
+        });
+
+        const rawText = await response.text();
+        const parsed = parseResilientJson(rawText);
+
+        if (!parsed.ok) {
+          appState.lastSyncDiagnostic = `GET failed (${response.status}): ${parsed.error}`;
+          showCallout(`settings-feedback`, appState.lastSyncDiagnostic, `alert`);
+        } else {
+          const remoteTxs = normalizeRemoteRows(parsed.data);
+          const pendingLocal = appState.transactions.filter(tx => !tx.synced);
+          const mergedMap = new Map();
+
+          remoteTxs.forEach(tx => mergedMap.set(tx.id, tx));
+          pendingLocal.forEach(tx => {
+            if (!mergedMap.has(tx.id)) mergedMap.set(tx.id, tx);
+          });
+
+          appState.transactions = Array.from(mergedMap.values());
+          appState.lastSyncAt = new Date().toISOString();
+          appState.lastSyncDiagnostic = `GET OK (${response.status}): Parsed ${remoteTxs.length} remote row(s); kept ${pendingLocal.length} pending local item(s).`;
+          showCallout(`settings-feedback`, appState.lastSyncDiagnostic, `ok`);
+        }
+      } catch (err) {
+        appState.lastSyncDiagnostic = `GET network error (offline or iframe CSP restricted): ${err.message}. Entries remain saved locally.`;
+        showCallout(`settings-feedback`, appState.lastSyncDiagnostic, `warn`);
+      } finally {
+        appState.isSyncing = false;
+        if (syncIcon) syncIcon.classList.remove(`spin`);
+        renderAll();
+        await persistState();
+      }
+    }
+
+    async function pushTransactionToSheet(tx) {
+      const url = (appState.gasUrl || ``).trim();
+      if (!url) {
+        appState.lastSyncDiagnostic = `POST skipped: No Google Apps Script URL set.`;
+        return false;
+      }
+
+      try {
+        const response = await fetch(url, {
+          method: `POST`,
+          redirect: `follow`,
+          headers: {
+            'Content-Type': `text/plain;charset=utf-8`
+          },
+          body: JSON.stringify({
+            action: `append`,
+            transaction: tx,
+            id: tx.id,
+            type: tx.type,
+            member: tx.member,
+            round: tx.round,
+            amount: tx.amount,
+            category: tx.category,
+            description: tx.description,
+            note: tx.note,
+            coordinator: tx.coordinator,
+            timestamp: tx.timestamp
+          })
+        });
+
+        const rawText = await response.text();
+        const parsed = parseResilientJson(rawText);
+
+        if (!response.ok || !parsed.ok) {
+          appState.lastSyncDiagnostic = `POST error (${response.status}): ${parsed.error || `HTTP failure`}`;
+          return false;
+        }
+
+        const payload = parsed.data;
+        if (payload && typeof payload === `object` && (payload.ok === false || payload.status === `error`)) {
+          appState.lastSyncDiagnostic = `POST rejected by script: ${payload.error || payload.message || `Unknown error`}`;
+          return false;
+        }
+
+        tx.synced = true;
+        appState.lastSyncAt = new Date().toISOString();
+        appState.lastSyncDiagnostic = `POST OK (${response.status}): Synced ${tx.id} (${formatThb(tx.amount)}) to Google Sheets.`;
+        return true;
+      } catch (err) {
+        appState.lastSyncDiagnostic = `POST queued locally (${err.message}). Use "Retry Pending" when online.`;
+        return false;
+      }
+    }
+
+    async function retrySingleTx(txId) {
+      const tx = appState.transactions.find(item => item.id === txId);
+      if (!tx) return;
+      await pushTransactionToSheet(tx);
+      renderAll();
+      await persistState();
+    }
+
+    async function flushPendingQueue() {
+      const pending = appState.transactions.filter(tx => !tx.synced);
+      for (const tx of pending) {
+        await pushTransactionToSheet(tx);
+      }
+      renderAll();
+      await persistState();
+    }
+
+    // Settings Modal
     function openSettingsModal() {
-      renderSettingsValues();
-      renderDiagnostics();
-      setFeedback(`settings-feedback`, ``, `info`);
       const modal = document.getElementById(`settings-modal`);
-      if (modal) modal.hidden = false;
       const urlInput = document.getElementById(`settings-gas-url`);
-      if (urlInput) urlInput.focus();
+      if (urlInput) urlInput.value = appState.gasUrl || DEFAULT_GAS_URL;
+      hideCallout(`settings-feedback`);
+      const diagEl = document.getElementById(`sync-diagnostics`);
+      if (diagEl) diagEl.textContent = appState.lastSyncDiagnostic;
+      if (modal) modal.setAttribute(`data-open`, `true`);
     }
 
     function closeSettingsModal() {
       const modal = document.getElementById(`settings-modal`);
-      if (modal) modal.hidden = true;
-      const clearBtn = document.getElementById(`clear-cache-btn`);
-      if (clearBtn) {
-        clearBtn.dataset.armed = `false`;
-        clearBtn.textContent = `Clear Local Cache`;
-      }
+      if (modal) modal.setAttribute(`data-open`, `false`);
     }
 
-    function handleModalBackdropClick(event) {
+    function onModalBackdropClick(event) {
       if (event.target && event.target.id === `settings-modal`) {
         closeSettingsModal();
       }
     }
 
-    function resetDefaultGasUrl() {
-      const urlEl = document.getElementById(`settings-gas-url`);
-      if (urlEl) urlEl.value = DEFAULT_GAS_URL;
-      setFeedback(`settings-feedback`, `Pre-configured Google Apps Script URL restored. Click Save Settings to apply.`, `info`);
-    }
-
-    async function testConnectionFromModal() {
-      const urlEl = document.getElementById(`settings-gas-url`);
-      if (!urlEl || !urlEl.value.trim()) {
-        setFeedback(`settings-feedback`, `Enter a valid Google Apps Script URL first.`, `error`);
+    async function saveSettingsUrl() {
+      const urlInput = document.getElementById(`settings-gas-url`);
+      const nextUrl = urlInput ? urlInput.value.trim() : ``;
+      if (!nextUrl || !nextUrl.startsWith(`https://`)) {
+        showCallout(`settings-feedback`, `Enter a valid HTTPS Google Apps Script Web App URL.`, `alert`);
         return;
       }
-      appState.settings.gasUrl = urlEl.value.trim();
-      setFeedback(`settings-feedback`, `Testing GET sync…`, `info`);
-      const ok = await syncFromServer(true);
-      if (ok) {
-        setFeedback(`settings-feedback`, `GET sync succeeded and parsed backend payload.`, `ok`);
-      } else {
-        setFeedback(`settings-feedback`, `Could not reach endpoint from this browser context. Check diagnostics below.`, `error`);
-      }
-    }
-
-    async function saveSettings(event) {
-      event.preventDefault();
-      const urlEl = document.getElementById(`settings-gas-url`);
-      const curEl = document.getElementById(`settings-currency`);
-      const threshEl = document.getElementById(`settings-low-threshold`);
-      const nameEl = document.getElementById(`settings-trip-name`);
-
-      const newUrl = urlEl ? urlEl.value.trim() : DEFAULT_GAS_URL;
-      if (!newUrl) {
-        setFeedback(`settings-feedback`, `Google Apps Script URL cannot be empty.`, `error`);
-        return;
-      }
-
-      appState.settings.gasUrl = newUrl;
-      appState.settings.currency = curEl ? curEl.value : `THB`;
-      appState.settings.lowThreshold = threshEl ? Math.max(0, Number(threshEl.value) || 0) : 2000;
-      appState.settings.tripName = nameEl && nameEl.value.trim() ? nameEl.value.trim() : `10-Member Trip Kitty Pool`;
-
-      renderAll();
+      appState.gasUrl = nextUrl;
       await persistState();
-      setFeedback(`settings-feedback`, `Settings saved.`, `ok`);
+      await syncFromSheet();
     }
 
-    async function handleClearLocalCache(btn) {
-      if (btn.dataset.armed !== `true`) {
+    async function resetDefaultGasUrl() {
+      appState.gasUrl = DEFAULT_GAS_URL;
+      const urlInput = document.getElementById(`settings-gas-url`);
+      if (urlInput) urlInput.value = DEFAULT_GAS_URL;
+      await persistState();
+      showCallout(`settings-feedback`, `Restored the pre-configured Google Apps Script URL.`, `info`);
+    }
+
+    async function copyGasUrl(btn) {
+      const urlInput = document.getElementById(`settings-gas-url`);
+      const val = urlInput ? urlInput.value : appState.gasUrl;
+      if (navigator.clipboard && typeof navigator.clipboard.writeText === `function`) {
+        try {
+          await navigator.clipboard.writeText(val);
+          if (btn) {
+            const orig = btn.textContent;
+            btn.textContent = `Copied`;
+            setTimeout(() => { btn.textContent = orig; }, 1600);
+          }
+          return;
+        } catch (err) {
+          // Fallback below
+        }
+      }
+      if (urlInput) {
+        urlInput.select();
+        showCallout(`settings-feedback`, `URL selected — press Ctrl+C or Cmd+C to copy.`, `info`);
+      }
+    }
+
+    async function clearLocalCache(btn) {
+      if (btn && btn.dataset.armed !== `true`) {
         btn.dataset.armed = `true`;
-        btn.textContent = `Click again to confirm clear`;
+        btn.textContent = `Click again to clear all`;
+        setTimeout(() => {
+          if (btn && btn.dataset.armed === `true`) {
+            btn.dataset.armed = `false`;
+            btn.textContent = `Clear Local Ledger`;
+          }
+        }, 3500);
         return;
       }
-      btn.dataset.armed = `false`;
-      btn.textContent = `Clear Local Cache`;
+      if (btn) {
+        btn.dataset.armed = `false`;
+        btn.textContent = `Clear Local Ledger`;
+      }
       appState.transactions = [];
-      appState.serverTotals = null;
       appState.lastSyncAt = null;
-      appState.lastSyncStatus = `idle`;
-      appState.lastDiagnostics = `Local cache cleared.`;
+      appState.lastSyncDiagnostic = `Local ledger cleared.`;
       renderAll();
       await persistState();
-      setFeedback(`settings-feedback`, `Local cached transactions cleared.`, `ok`);
+      showCallout(`settings-feedback`, `Local ledger cleared. Tap "Sync Sheet" to reload from Google Sheets if needed.`, `info`);
     }
 
     function exportLedgerCsv() {
-      const headers = [`ID`, `Timestamp`, `Type`, `Member`, `Amount`, `Currency`, `Category`, `Description`, `Trip Stop`, `Recorded By`, `Synced`];
-      const rows = appState.transactions.map(t => [
-        t.id,
-        t.timestamp,
-        t.type,
-        t.member,
-        t.amount,
-        appState.settings.currency,
-        t.category,
-        t.description,
-        t.stop,
-        t.recorded_by,
-        t.synced ? `Yes` : `Pending`
-      ]);
+      const headers = [`ID`, `Timestamp`, `Type`, `Member`, `Round`, `Category`, `Description`, `Coordinator`, `Note`, `Amount_THB`, `Synced`];
+      const rows = appState.transactions.map(tx => [
+        tx.id,
+        tx.timestamp,
+        tx.type,
+        tx.member || ``,
+        tx.round || ``,
+        tx.category || ``,
+        tx.description || ``,
+        tx.coordinator || ``,
+        tx.note || ``,
+        tx.type === `debit` ? -Math.abs(tx.amount) : Math.abs(tx.amount),
+        tx.synced ? `Yes` : `No`
+      ].map(cell => `"${String(cell).replace(/"/g, `""`)}"`).join(`,`));
 
-      const csvLines = [headers].concat(rows).map(cols =>
-        cols.map(c => `"${String(c == null ? `` : c).replace(/"/g, `""`)}"`).join(`,`)
-      );
-      const csvString = csvLines.join(`\n`);
-
+      const csvContent = [headers.join(`,`), ...rows].join(`\n`);
       if (window.notebookAppApi && typeof window.notebookAppApi.triggerFileDownload === `function`) {
         window.notebookAppApi.triggerFileDownload({
-          content: csvString,
+          content: csvContent,
           contentType: `text/csv`,
           encoding: `UTF-8`,
           filename: `trip-kitty-ledger.csv`
         });
+      } else {
+        const blob = new Blob([csvContent], { type: `text/csv;charset=utf-8;` });
+        const blobUrl = URL.createObjectURL(blob);
+        const link = document.createElement(`a`);
+        link.href = blobUrl;
+        link.download = `trip-kitty-ledger.csv`;
+        link.click();
+        URL.revokeObjectURL(blobUrl);
       }
     }
 
-    document.addEventListener(`keydown`, function(e) {
-      if (e.key === `Escape`) {
-        const modal = document.getElementById(`settings-modal`);
-        if (modal && !modal.hidden) {
-          closeSettingsModal();
-        }
-      }
-    });
+    // Track manual round selection
+    const roundDropdown = document.getElementById(`contribution-round`);
+    if (roundDropdown) {
+      roundDropdown.addEventListener(`change`, function() {
+        roundDropdown.dataset.userChanged = `true`;
+      });
+    }
 
+    // Initialize on load
     async function initApp() {
-      populateSelectors();
-
-      try {
-        const saved = window.notebookAppApi && typeof window.notebookAppApi.getAppState === `function` ? await window.notebookAppApi.getAppState() : null;
-        if (saved && typeof saved === `object`) {
-          appState = Object.assign({}, appState, saved, {
-            settings: Object.assign({}, appState.settings, saved.settings || {})
-          });
-          if (!appState.settings.gasUrl) {
-            appState.settings.gasUrl = DEFAULT_GAS_URL;
-          }
-        }
-      } catch (err) {
-        // Proceed with defaults
-      }
-
-      populateSelectors();
+      await restorePersistedState();
+      populateMemberDropdowns();
+      setActiveRole(appState.activeRole);
+      const settingsInput = document.getElementById(`settings-gas-url`);
+      if (settingsInput) settingsInput.value = appState.gasUrl;
       renderAll();
-
       if (window.notebookAppApi && typeof window.notebookAppApi.notifyAppReady === `function`) {
         window.notebookAppApi.notifyAppReady();
       }
-
-      // Attempt non-blocking initial GET sync in background
-      syncFromServer(false);
     }
 
     initApp();
