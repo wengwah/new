@@ -5,77 +5,78 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="artifact-type" content="tool">
   <meta name="design-style" content="vitals">
-  <title>Group Trip Kitty — Common Fund Tracker (THB)</title>
+  <title>Thailand Group Trip Common Fund (Kitty Pool)</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400;1,700&family=Figtree:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400;1,700&family=Figtree:wght@300..900&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@1.43.0/dist/umd/lucide.min.js"></script>
   <style>
     :root {
       color-scheme: light;
 
-      /* 1. Vitals Style Tokens */
+      /* Page and surfaces (Vitals) */
       --background: #ffffff;
       --surface-container-low: #f1f7f8;
       --surface-container: #e3f1f3;
       --surface-container-high: #d5e9ec;
 
+      /* Text */
       --on-surface: #1b2b33;
       --on-surface-variant: #46585f;
 
+      /* Rules */
       --outline: #7b9198;
       --outline-variant: #d5e3e5;
 
+      /* Accents */
       --primary: #0f7c8a;
-      --primary-hover: #0b636f;
+      --primary-hover: #0b6570;
       --on-primary: #ffffff;
       --primary-container: #e3f1f3;
       --on-primary-container: #0a5560;
       --secondary: #1d5e3a;
       --tertiary: #2e7d4f;
       --error: #b3261e;
-      --error-hover: #8f1d17;
       --on-error: #ffffff;
 
+      /* Data series */
       --data-1: #0f7c8a;
       --data-2: #2e7d4f;
       --data-3: #b86e00;
       --data-4: #5c5fb0;
+      --data-5: #8a4b76;
+      --data-6: #46585f;
       --data-context: #b8c7ca;
 
+      /* Semantic */
+      --positive: #2e7d4f;
+      --positive-bg: color-mix(in srgb, #2e7d4f 12%, #ffffff);
+      --warning: #b86e00;
+      --warning-bg: color-mix(in srgb, #b86e00 12%, #ffffff);
+      --error-bg: color-mix(in srgb, #b3261e 10%, #ffffff);
+      --info-bg: var(--primary-container);
+
+      /* Focus ring */
+      --focus: #0f7c8a;
+
+      /* Fonts */
       --font-headline: 'Figtree', sans-serif;
       --font-body: 'Atkinson Hyperlegible', sans-serif;
       --font-label: 'Figtree', sans-serif;
-      --font-mono: 'JetBrains Mono', monospace;
 
+      /* Type scale (Focused Tool) */
+      --display-size: clamp(1.75rem, 1.4rem + 1.2vw, 2.25rem);
+      --headline-size: clamp(1.25rem, 1.1rem + 0.5vw, 1.5rem);
+      --subhead-size: clamp(1.0625rem, 1rem + 0.25vw, 1.1875rem);
+      --body-size: clamp(0.9375rem, 0.9rem + 0.15vw, 1rem);
+      --label-size: 0.75rem;
+
+      /* Shape */
       --rounded: 0.625rem;
       --rounded-lg: 0.875rem;
-      --rounded-sm: 0.25rem;
       --rounded-full: 9999px;
 
-      --top-bar: 6px solid var(--primary);
-      --status-bar-width: 4px;
-      --card-border: 1px solid var(--outline-variant);
-      --card-lift: 0 1px 2px rgb(27 43 51 / 0.05), 0 6px 16px rgb(27 43 51 / 0.05);
-
-      /* 2. Shared Tokens */
-      --positive: #2e7d4f;
-      --positive-container: #e6f3ec;
-      --warning: #b86e00;
-      --warning-container: #fdf3e2;
-      --warning-text: #7a4800;
-      --error-container: #fceceb;
-      --focus: #0f7c8a;
-      --backdrop: rgb(27 43 51 / 0.48);
-
-      /* Type scale — Focused Tool */
-      --display-size: clamp(1.65rem, 1.3rem + 1.4vw, 2.25rem);
-      --headline-size: clamp(1.1875rem, 1.05rem + 0.45vw, 1.4375rem);
-      --subhead-size: clamp(1.03125rem, 0.98rem + 0.2vw, 1.125rem);
-      --body-size: clamp(0.9375rem, 0.91rem + 0.12vw, 1rem);
-      --label-size: 0.75rem;
-      --metric-size: clamp(1.5rem, 1.25rem + 1vw, 2rem);
-
-      /* Spacing scale */
+      /* Spacing scale (4pt base) */
       --space-2xs: 0.125rem;
       --space-xs: 0.25rem;
       --space-sm: 0.5rem;
@@ -83,6 +84,14 @@
       --space-lg: 1.5rem;
       --space-xl: 2.5rem;
       --space-2xl: 4rem;
+
+      /* Effects */
+      --top-bar: 6px solid var(--primary);
+      --status-bar-width: 4px;
+      --card-border: 1px solid var(--outline-variant);
+      --card-lift: 0 1px 2px rgb(27 43 51 / 0.05), 0 6px 16px rgb(27 43 51 / 0.05);
+      --modal-backdrop: rgb(27 43 51 / 0.45);
+      --modal-shadow: 0 16px 40px rgb(27 43 51 / 0.18);
 
       /* Motion */
       --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
@@ -102,58 +111,34 @@
       color: var(--on-surface);
       font-family: var(--font-body);
       font-size: var(--body-size);
-      line-height: 1.55;
+      line-height: 1.6;
       -webkit-font-smoothing: antialiased;
     }
     header { position: static !important; }
     button, input, select, textarea { font-family: inherit; }
 
-    .app-shell {
+    .page-shell {
       border-top: var(--top-bar);
       min-height: 100vh;
     }
 
     .page-grid {
       display: grid;
-      grid-template-columns: minmax(0, 1fr);
       gap: var(--space-lg);
-      padding: var(--space-md);
-      max-width: 1120px;
+      padding: var(--space-lg) var(--space-md) var(--space-2xl);
+      max-width: 1200px;
       margin: 0 auto;
       overflow: hidden;
     }
     .page-grid * { min-width: 0; }
 
-    @media (min-width: 641px) {
-      .page-grid {
-        padding: var(--space-lg);
-      }
+    /* Focus rings */
+    :focus-visible {
+      outline: 3px solid var(--focus);
+      outline-offset: 2px;
     }
 
-    /* Header / Top Utility */
-    .app-header {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: flex-start;
-      justify-content: space-between;
-      gap: var(--space-md);
-      padding-bottom: var(--space-sm);
-    }
-
-    .title-block {
-      flex: 1 1 280px;
-    }
-
-    .kicker {
-      font-family: var(--font-label);
-      font-size: var(--label-size);
-      font-weight: 600;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      color: var(--on-primary-container);
-      margin: 0 0 var(--space-xs) 0;
-    }
-
+    /* Typography */
     .title {
       font-family: var(--font-headline);
       font-weight: 800;
@@ -163,15 +148,57 @@
       color: var(--on-surface);
       margin: 0;
     }
-
+    .section-heading {
+      font-family: var(--font-headline);
+      font-weight: 800;
+      font-size: var(--headline-size);
+      letter-spacing: -0.015em;
+      line-height: 1.15;
+      color: var(--on-surface);
+      margin: 0;
+    }
+    .subhead {
+      font-family: var(--font-headline);
+      font-weight: 700;
+      font-size: var(--subhead-size);
+      line-height: 1.25;
+      color: var(--on-surface);
+      margin: 0;
+    }
     .lede {
-      font-size: var(--body-size);
+      font-size: 1.05em;
       line-height: 1.55;
       color: var(--on-surface-variant);
-      max-width: 62ch;
-      margin: var(--space-xs) 0 0 0;
+      max-width: 65ch;
+      margin: var(--space-xs) 0 0;
+    }
+    .label-kicker {
+      font-family: var(--font-label);
+      font-weight: 600;
+      font-size: var(--label-size);
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      color: var(--on-surface-variant);
+    }
+    .tabular {
+      font-variant-numeric: tabular-nums;
     }
 
+    /* Header & Role Bar */
+    .app-header {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-md);
+      padding-bottom: var(--space-md);
+      border-bottom: 1px solid var(--outline-variant);
+    }
+    .header-top-row {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: var(--space-md);
+    }
     .header-actions {
       display: flex;
       flex-wrap: wrap;
@@ -179,7 +206,65 @@
       gap: var(--space-sm);
     }
 
-    /* Reassurance & Status Chips */
+    /* Control Strip (Role selector + Sync status) */
+    .role-bar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-md);
+      background: var(--background);
+      border: var(--card-border);
+      border-radius: var(--rounded-lg);
+      padding: var(--space-sm) var(--space-md);
+    }
+    .role-control-group {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: var(--space-sm);
+    }
+    .segmented-role {
+      display: inline-flex;
+      background: var(--surface-container-low);
+      border: 1px solid var(--outline-variant);
+      border-radius: var(--rounded);
+      padding: var(--space-xs);
+      gap: var(--space-xs);
+    }
+    .role-btn {
+      min-height: 44px;
+      padding: var(--space-xs) var(--space-md);
+      border: none;
+      border-radius: calc(var(--rounded) - 2px);
+      background: transparent;
+      color: var(--on-surface-variant);
+      font-family: var(--font-label);
+      font-weight: 600;
+      font-size: var(--body-size);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-sm);
+      transition: background-color var(--dur-micro) var(--ease-in-out), color var(--dur-micro) var(--ease-in-out);
+    }
+    .role-btn:hover {
+      background: var(--surface-container);
+      color: var(--on-surface);
+    }
+    .role-btn[aria-pressed="true"] {
+      background: var(--primary);
+      color: var(--on-primary);
+    }
+
+    .sync-cluster {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: var(--space-sm);
+    }
+
+    /* Chips */
     .chip {
       display: inline-flex;
       align-items: center;
@@ -189,9 +274,8 @@
       font-size: var(--label-size);
       padding: var(--space-xs) var(--space-md);
       border-radius: var(--rounded-full);
-      background: var(--positive-container);
+      background: var(--positive-bg);
       color: var(--secondary);
-      border: 1px solid transparent;
       white-space: nowrap;
     }
     .chip[data-status="info"] {
@@ -199,366 +283,263 @@
       color: var(--on-primary-container);
     }
     .chip[data-status="warn"] {
-      background: var(--warning-container);
-      color: var(--warning-text);
+      background: var(--warning-bg);
+      color: var(--on-surface);
     }
     .chip[data-status="alert"] {
-      background: var(--error-container);
+      background: var(--error-bg);
       color: var(--error);
     }
-    .chip-btn {
-      cursor: pointer;
-      min-height: 44px;
+    .chip[data-status="neutral"] {
+      background: var(--surface-container-low);
+      color: var(--on-surface-variant);
       border: 1px solid var(--outline-variant);
-      transition: background-color var(--dur-micro) var(--ease-out), border-color var(--dur-micro) var(--ease-out);
-    }
-    .chip-btn:hover {
-      background: var(--surface-container-high);
     }
 
     /* Buttons */
     .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: var(--space-sm);
       min-height: 44px;
       padding: var(--space-sm) var(--space-md);
       border-radius: var(--rounded);
       font-family: var(--font-label);
       font-weight: 600;
       font-size: var(--body-size);
+      line-height: 1.2;
       cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-sm);
       border: 1px solid transparent;
-      transition: background-color var(--dur-micro) var(--ease-out),
-                  color var(--dur-micro) var(--ease-out),
-                  box-shadow var(--dur-micro) var(--ease-out),
-                  transform var(--dur-micro) var(--ease-out);
+      transition: background-color var(--dur-micro) var(--ease-out), color var(--dur-micro) var(--ease-out), box-shadow var(--dur-micro) var(--ease-out);
     }
-    .btn:active:not(:disabled) { transform: translateY(1px); }
-    .btn:disabled { opacity: 0.55; cursor: not-allowed; }
-
+    .btn:disabled {
+      opacity: 0.55;
+      cursor: not-allowed;
+    }
     .btn-primary {
       background: var(--primary);
       color: var(--on-primary);
     }
-    .btn-primary:hover:not(:disabled) { background: var(--primary-hover); }
-
-    .btn-danger {
-      background: var(--error);
-      color: var(--on-error);
+    .btn-primary:hover:not(:disabled) {
+      background: var(--primary-hover);
     }
-    .btn-danger:hover:not(:disabled) { background: var(--error-hover); }
-
     .btn-secondary {
       background: var(--background);
-      color: var(--primary);
+      color: var(--on-primary-container);
       border-color: var(--primary);
     }
-    .btn-secondary:hover:not(:disabled) { background: var(--surface-container-low); }
-
+    .btn-secondary:hover:not(:disabled) {
+      background: var(--surface-container-low);
+    }
     .btn-ghost {
       background: var(--background);
       color: var(--on-surface);
       border-color: var(--outline-variant);
     }
-    .btn-ghost:hover:not(:disabled) { background: var(--surface-container-low); }
-
-    .btn-sm {
+    .btn-ghost:hover:not(:disabled) {
+      background: var(--surface-container-low);
+    }
+    .btn-danger-outline {
+      background: var(--background);
+      color: var(--error);
+      border-color: var(--outline-variant);
       min-height: 44px;
       padding: var(--space-xs) var(--space-sm);
-      font-size: 0.875rem;
+      font-size: var(--label-size);
+    }
+    .btn-danger-outline:hover:not(:disabled) {
+      background: var(--error-bg);
+      border-color: var(--error);
+    }
+    .btn-danger-armed {
+      background: var(--error);
+      color: var(--on-error);
+      border-color: var(--error);
     }
 
-    /* Focus rings */
-    :focus-visible {
-      outline: 3px solid var(--focus);
-      outline-offset: 2px;
-    }
-
-    /* Vitals Status Cards (Telemetry Strip) */
+    /* Status Cards & Telemetry Grid */
     .telemetry-grid {
       display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-template-columns: repeat(4, minmax(0, 1fr));
       gap: var(--space-md);
     }
-    @media (min-width: 820px) {
-      .telemetry-grid {
-        grid-template-columns: repeat(4, minmax(0, 1fr));
-      }
-    }
-    @media (max-width: 440px) {
-      .telemetry-grid {
-        grid-template-columns: minmax(0, 1fr);
-      }
-    }
-
     .status-card {
       background: var(--background);
       border: var(--card-border);
       border-left: var(--status-bar-width) solid var(--primary);
       border-radius: var(--rounded-lg);
-      padding: var(--space-md);
-      box-shadow: var(--card-lift);
+      padding: var(--space-md) var(--space-lg);
       display: flex;
       flex-direction: column;
+      justify-content: space-between;
       gap: var(--space-xs);
+      box-shadow: var(--card-lift);
+      animation: cardEnter var(--dur-short) var(--ease-out) both;
     }
     .status-card[data-status="ok"] { border-left-color: var(--tertiary); }
     .status-card[data-status="warn"] { border-left-color: var(--warning); }
     .status-card[data-status="alert"] { border-left-color: var(--error); }
 
-    .metric-label {
-      font-family: var(--font-label);
-      font-size: var(--label-size);
-      font-weight: 600;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      color: var(--on-surface-variant);
-    }
-    .metric-value {
+    .kpi-value {
       font-family: var(--font-headline);
       font-weight: 800;
-      font-size: var(--metric-size);
+      font-size: clamp(1.5rem, 1.2rem + 1vw, 2rem);
       line-height: 1.1;
-      font-variant-numeric: tabular-nums;
-      color: var(--on-surface);
       letter-spacing: -0.02em;
+      color: var(--on-surface);
+      font-variant-numeric: tabular-nums;
+      margin: var(--space-xs) 0 0;
     }
-    .metric-caption {
-      font-size: 0.875rem;
+    .kpi-caption {
+      font-size: var(--label-size);
+      font-weight: 700;
       color: var(--on-surface-variant);
-      margin-top: auto;
+      margin: 0;
     }
-    .metric-caption[data-tone="ok"] { color: var(--secondary); font-weight: 700; }
-    .metric-caption[data-tone="warn"] { color: var(--warning-text); font-weight: 700; }
-    .metric-caption[data-tone="alert"] { color: var(--error); font-weight: 700; }
+    .kpi-caption[data-tone="ok"] { color: var(--secondary); }
+    .kpi-caption[data-tone="alert"] { color: var(--error); }
 
-    /* Telemetry Bar Card (Collected vs Spent + Round Progress) */
+    /* Telemetry Bar Panel (Collected vs Spent + Category Breakdown) */
     .panel {
       background: var(--background);
       border: var(--card-border);
       border-radius: var(--rounded-lg);
-      padding: var(--space-md);
+      padding: var(--space-lg);
       box-shadow: var(--card-lift);
     }
-    @media (min-width: 641px) {
-      .panel { padding: var(--space-lg); }
-    }
-
-    .panel-header {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: space-between;
-      gap: var(--space-sm);
-      margin-bottom: var(--space-md);
-    }
-
-    .panel-title {
-      font-family: var(--font-headline);
-      font-weight: 700;
-      font-size: var(--headline-size);
-      letter-spacing: -0.015em;
-      line-height: 1.2;
-      color: var(--on-surface);
-      margin: 0;
-    }
-
-    .meter-group {
+    .telemetry-split {
       display: grid;
-      grid-template-columns: minmax(0, 1fr);
-      gap: var(--space-md);
-    }
-    @media (min-width: 720px) {
-      .meter-group {
-        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-        gap: var(--space-lg);
-      }
-    }
-
-    .meter-block {
-      display: flex;
-      flex-direction: column;
-      gap: var(--space-xs);
-    }
-    .meter-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-      gap: var(--space-sm);
-      font-size: 0.875rem;
-    }
-    .meter-track {
-      position: relative;
-      height: 12px;
-      border-radius: var(--rounded-full);
-      background: var(--surface-container);
-      overflow: hidden;
-    }
-    .meter-fill {
-      height: 100%;
-      border-radius: var(--rounded-full);
-      background: var(--primary);
-      transition: width var(--dur-short) var(--ease-out);
-    }
-    .meter-fill.is-ok { background: var(--tertiary); }
-    .meter-fill.is-warn { background: var(--warning); }
-    .meter-fill.is-alert { background: var(--error); }
-
-    /* Main Interactive Workspace: 2-col desktop, 1-col mobile */
-    .workspace-grid {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr);
+      grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
       gap: var(--space-lg);
       align-items: start;
     }
-    @media (min-width: 900px) {
-      .workspace-grid {
-        grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
-      }
-    }
-
-    /* Segmented Role Tabs */
-    .role-tabs {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: var(--space-sm);
+    .meter-track {
+      position: relative;
+      height: 16px;
+      border-radius: var(--rounded-full);
       background: var(--surface-container-low);
-      padding: var(--space-xs);
-      border-radius: var(--rounded);
-      border: var(--card-border);
-      margin-bottom: var(--space-md);
+      border: 1px solid var(--outline-variant);
+      overflow: hidden;
+      margin: var(--space-sm) 0;
     }
-
-    .role-tab {
-      min-height: 44px;
-      border: none;
-      border-radius: calc(var(--rounded) - 2px);
-      background: transparent;
+    .meter-fill-spent {
+      height: 100%;
+      background: var(--primary);
+      border-radius: var(--rounded-full);
+      transition: width var(--dur-short) var(--ease-out);
+    }
+    .meter-fill-spent[data-over="true"] {
+      background: var(--error);
+    }
+    .meter-legend {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: var(--space-sm);
+      font-size: var(--label-size);
       color: var(--on-surface-variant);
-      font-family: var(--font-label);
-      font-weight: 600;
-      font-size: 0.9375rem;
-      cursor: pointer;
-      padding: var(--space-sm);
-      display: flex;
+    }
+    .category-bars {
+      display: grid;
+      gap: var(--space-sm);
+      margin-top: var(--space-sm);
+    }
+    .cat-row {
+      display: grid;
+      grid-template-columns: minmax(110px, 1fr) minmax(80px, 2fr) auto;
       align-items: center;
-      justify-content: center;
-      gap: var(--space-xs);
-      transition: background-color var(--dur-micro) var(--ease-out), color var(--dur-micro) var(--ease-out);
+      gap: var(--space-sm);
+      font-size: var(--label-size);
     }
-    .role-tab[aria-selected="true"] {
-      background: var(--background);
-      color: var(--primary);
-      box-shadow: var(--card-lift);
+    .cat-bar-bg {
+      height: 10px;
+      background: var(--surface-container-low);
+      border-radius: var(--rounded-full);
+      overflow: hidden;
     }
-    .role-tab[aria-selected="true"][data-role="fc"] {
-      color: var(--error);
+    .cat-bar-fill {
+      height: 100%;
+      border-radius: var(--rounded-full);
+      transition: width var(--dur-short) var(--ease-out);
     }
 
-    /* Form Controls */
-    .form-stack {
-      display: flex;
-      flex-direction: column;
+    /* Main Workspace Grid: Forms (Left) + Member Roster & Ledger (Right) */
+    .workspace-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 420px) minmax(0, 1fr);
+      gap: var(--space-lg);
+      align-items: start;
+    }
+    .stack-col {
+      display: grid;
+      gap: var(--space-lg);
+    }
+
+    /* Forms */
+    .form-panel {
+      background: var(--background);
+      border: var(--card-border);
+      border-radius: var(--rounded-lg);
+      padding: var(--space-lg);
+      box-shadow: var(--card-lift);
+      display: grid;
       gap: var(--space-md);
     }
-    .field {
+    .form-panel-header {
       display: flex;
-      flex-direction: column;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: var(--space-sm);
+      padding-bottom: var(--space-sm);
+      border-bottom: 1px solid var(--outline-variant);
+    }
+    .field-group {
+      display: grid;
       gap: var(--space-xs);
     }
     .field-label {
       font-family: var(--font-label);
       font-weight: 600;
-      font-size: 0.875rem;
+      font-size: var(--label-size);
       color: var(--on-surface);
       display: flex;
       justify-content: space-between;
       align-items: center;
-      gap: var(--space-sm);
+      gap: var(--space-xs);
     }
     .field-hint {
-      font-size: 0.8125rem;
-      color: var(--on-surface-variant);
       font-weight: 400;
+      color: var(--on-surface-variant);
     }
-
-    .input, .select {
+    .input-control, .select-control {
       width: 100%;
-      min-height: 46px;
+      min-height: 44px;
       padding: var(--space-sm) var(--space-md);
-      background: var(--background);
-      color: var(--on-surface);
       border: 1px solid var(--outline);
       border-radius: var(--rounded);
-      font-size: 1rem;
+      background: var(--background);
+      color: var(--on-surface);
+      font-size: var(--body-size);
+      line-height: 1.4;
       transition: border-color var(--dur-micro) var(--ease-out), box-shadow var(--dur-micro) var(--ease-out);
     }
-    .select {
+    .select-control {
       padding-right: var(--space-xl);
     }
-    .input:focus, .select:focus {
-      outline: none;
+    .input-control:focus, .select-control:focus {
       border-color: var(--primary);
-      box-shadow: 0 0 0 3px var(--primary-container);
+      outline: 3px solid color-mix(in srgb, var(--primary) 20%, transparent);
+      outline-offset: 0;
     }
-
-    /* Member Picker Grid (Mobile-first 1-tap selection) */
-    .member-picker-grid {
+    .input-row-2 {
       display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
       gap: var(--space-sm);
-    }
-    @media (min-width: 480px) {
-      .member-picker-grid {
-        grid-template-columns: repeat(5, minmax(0, 1fr));
-      }
+      align-items: end;
     }
 
-    .member-pick-btn {
-      min-height: 48px;
-      padding: var(--space-xs) var(--space-sm);
-      border-radius: var(--rounded);
-      border: 1px solid var(--outline-variant);
-      background: var(--surface-container-low);
-      color: var(--on-surface);
-      cursor: pointer;
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      justify-content: center;
-      gap: var(--space-2xs);
-      text-align: left;
-      transition: background-color var(--dur-micro) var(--ease-out),
-                  border-color var(--dur-micro) var(--ease-out);
-    }
-    .member-pick-btn:hover {
-      background: var(--surface-container);
-    }
-    .member-pick-btn[aria-pressed="true"] {
-      background: var(--primary);
-      border-color: var(--primary);
-      color: var(--on-primary);
-    }
-    .member-pick-name {
-      font-family: var(--font-label);
-      font-weight: 700;
-      font-size: 0.875rem;
-      line-height: 1.2;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      max-width: 100%;
-    }
-    .member-pick-meta {
-      font-family: var(--font-label);
-      font-size: 0.75rem;
-      font-variant-numeric: tabular-nums;
-      opacity: 0.88;
-    }
-
-    /* Quick Amount Preset Pills */
+    /* Quick Preset Pills */
     .preset-row {
       display: flex;
       flex-wrap: wrap;
@@ -567,327 +548,316 @@
     .preset-btn {
       min-height: 44px;
       padding: var(--space-xs) var(--space-md);
-      border-radius: var(--rounded);
       border: 1px solid var(--outline);
-      background: var(--background);
+      border-radius: var(--rounded);
+      background: var(--surface-container-low);
       color: var(--on-surface);
       font-family: var(--font-label);
       font-weight: 600;
-      font-size: 0.875rem;
+      font-size: var(--label-size);
       cursor: pointer;
-      transition: background-color var(--dur-micro) var(--ease-out), border-color var(--dur-micro) var(--ease-out);
+      transition: background-color var(--dur-micro) var(--ease-out), color var(--dur-micro) var(--ease-out), border-color var(--dur-micro) var(--ease-out);
     }
     .preset-btn:hover {
-      background: var(--surface-container-low);
-    }
-    .preset-btn.is-active {
-      background: var(--primary-container);
-      border-color: var(--primary);
-      color: var(--on-primary-container);
-    }
-
-    /* Form Row alignment */
-    .form-row-2 {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr);
-      gap: var(--space-md);
-      align-items: end;
-    }
-    @media (min-width: 520px) {
-      .form-row-2 {
-        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-      }
-    }
-
-    /* Inline Feedback Banner */
-    .feedback-box {
-      padding: var(--space-sm) var(--space-md);
-      border-radius: var(--rounded);
-      border-left: var(--status-bar-width) solid var(--primary);
-      background: var(--primary-container);
-      color: var(--on-primary-container);
-      font-size: 0.9375rem;
-      display: none;
-      align-items: center;
-      justify-content: space-between;
-      gap: var(--space-sm);
-    }
-    .feedback-box.is-visible { display: flex; }
-    .feedback-box[data-tone="ok"] {
-      background: var(--positive-container);
-      border-left-color: var(--tertiary);
-      color: var(--secondary);
-    }
-    .feedback-box[data-tone="warn"] {
-      background: var(--warning-container);
-      border-left-color: var(--warning);
-      color: var(--warning-text);
-    }
-    .feedback-box[data-tone="alert"] {
-      background: var(--error-container);
-      border-left-color: var(--error);
-      color: var(--error);
-    }
-
-    /* Member Roster Summary Table / Cards */
-    .roster-list {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr);
-      gap: var(--space-sm);
-    }
-    @media (min-width: 520px) {
-      .roster-list {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-      }
-    }
-    .roster-item {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: var(--space-sm);
-      padding: var(--space-sm) var(--space-md);
-      border: var(--card-border);
-      border-radius: var(--rounded);
-      background: var(--surface-container-low);
-      cursor: pointer;
-      min-height: 52px;
-      text-align: left;
-      width: 100%;
-      transition: background-color var(--dur-micro) var(--ease-out);
-    }
-    .roster-item:hover {
       background: var(--surface-container);
     }
-    .roster-name {
+    .preset-btn[aria-pressed="true"] {
+      background: var(--primary);
+      color: var(--on-primary);
+      border-color: var(--primary);
+    }
+
+    /* Inline Form Messages & Callouts */
+    .inline-message {
+      padding: var(--space-sm) var(--space-md);
+      border-radius: var(--rounded);
+      font-size: var(--label-size);
+      font-weight: 700;
+      display: none;
+    }
+    .inline-message.is-visible {
+      display: block;
+    }
+    .inline-message[data-tone="ok"] {
+      background: var(--positive-bg);
+      color: var(--secondary);
+      border-left: var(--status-bar-width) solid var(--tertiary);
+    }
+    .inline-message[data-tone="error"] {
+      background: var(--error-bg);
+      color: var(--error);
+      border-left: var(--status-bar-width) solid var(--error);
+    }
+    .inline-message[data-tone="warn"] {
+      background: var(--warning-bg);
+      color: var(--on-surface);
+      border-left: var(--status-bar-width) solid var(--warning);
+    }
+    .callout-info {
+      background: var(--primary-container);
+      color: var(--on-primary-container);
+      border-left: var(--status-bar-width) solid var(--primary);
+      border-radius: var(--rounded);
+      padding: var(--space-md);
+      display: grid;
+      gap: var(--space-sm);
+    }
+
+    /* Member Contribution Matrix */
+    .member-grid-wrapper {
+      container-type: inline-size;
+    }
+    .member-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: var(--space-sm);
+      margin-top: var(--space-md);
+    }
+    @container (min-width: 560px) {
+      .member-grid {
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+      }
+    }
+    .member-tile {
+      text-align: left;
+      min-height: 44px;
+      padding: var(--space-sm) var(--space-md);
+      border: 1px solid var(--outline-variant);
+      border-left: var(--status-bar-width) solid var(--data-context);
+      border-radius: var(--rounded);
+      background: var(--background);
+      cursor: pointer;
+      display: grid;
+      gap: var(--space-xs);
+      transition: background-color var(--dur-micro) var(--ease-out), box-shadow var(--dur-micro) var(--ease-out);
+    }
+    .member-tile:hover {
+      background: var(--surface-container-low);
+    }
+    .member-tile[data-round-met="true"] {
+      border-left-color: var(--tertiary);
+    }
+    .member-tile[data-round-met="partial"] {
+      border-left-color: var(--warning);
+    }
+    .member-name {
       font-family: var(--font-headline);
       font-weight: 700;
-      font-size: 0.9375rem;
+      font-size: var(--body-size);
       color: var(--on-surface);
     }
-    .roster-sub {
-      font-size: 0.8125rem;
+    .member-total {
+      font-family: var(--font-label);
+      font-weight: 800;
+      font-size: var(--body-size);
+      color: var(--on-surface);
+      font-variant-numeric: tabular-nums;
+    }
+    .member-round-tag {
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      font-weight: 600;
       color: var(--on-surface-variant);
     }
-    .roster-right {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-end;
-      gap: var(--space-2xs);
-      flex-shrink: 0;
-    }
-    .roster-amount {
-      font-family: var(--font-headline);
-      font-weight: 700;
-      font-variant-numeric: tabular-nums;
-      color: var(--on-surface);
+    .member-tile[data-round-met="true"] .member-round-tag {
+      color: var(--secondary);
     }
 
-    /* Category Breakdown Bars */
-    .cat-list {
-      display: flex;
-      flex-direction: column;
-      gap: var(--space-sm);
-    }
-    .cat-row {
-      display: flex;
-      flex-direction: column;
-      gap: var(--space-2xs);
-    }
-    .cat-row-top {
-      display: flex;
-      justify-content: space-between;
-      font-size: 0.875rem;
-      gap: var(--space-sm);
-    }
-    .cat-track {
-      height: 8px;
-      border-radius: var(--rounded-full);
-      background: var(--surface-container-low);
-      overflow: hidden;
-    }
-    .cat-fill {
-      height: 100%;
-      border-radius: var(--rounded-full);
-      background: var(--data-1);
-    }
-
-    /* Ledger Controls & Transaction Feed */
-    .ledger-controls {
+    /* Live Transaction Ledger */
+    .ledger-toolbar {
       display: flex;
       flex-wrap: wrap;
-      align-items: center;
       justify-content: space-between;
+      align-items: center;
       gap: var(--space-sm);
       margin-bottom: var(--space-md);
     }
-    .filter-pills {
+    .filter-tabs {
       display: flex;
       flex-wrap: wrap;
-      gap: var(--space-xs);
+      gap: var(--space-sm);
     }
-    .filter-pill {
+    .tab-btn {
       min-height: 44px;
       padding: var(--space-xs) var(--space-md);
-      border-radius: var(--rounded-full);
       border: 1px solid var(--outline-variant);
+      border-bottom: 3px solid transparent;
+      border-radius: var(--rounded);
       background: var(--background);
       color: var(--on-surface-variant);
       font-family: var(--font-label);
       font-weight: 600;
-      font-size: 0.875rem;
+      font-size: var(--label-size);
       cursor: pointer;
+      transition: background-color var(--dur-micro) var(--ease-out), color var(--dur-micro) var(--ease-out);
     }
-    .filter-pill[aria-pressed="true"] {
-      background: var(--primary);
-      border-color: var(--primary);
-      color: var(--on-primary);
+    .tab-btn:hover {
+      background: var(--surface-container-low);
+      color: var(--on-surface);
+    }
+    .tab-btn[aria-selected="true"] {
+      background: var(--surface-container-low);
+      color: var(--on-primary-container);
+      border-bottom-color: var(--primary);
     }
 
     .ledger-list {
-      display: flex;
-      flex-direction: column;
+      display: grid;
+      gap: 0;
+      border-top: 1px solid var(--outline-variant);
     }
-    .tx-row {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: space-between;
-      gap: var(--space-sm);
-      padding: var(--space-md) var(--space-xs);
+    .ledger-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: var(--space-sm) var(--space-md);
+      padding: var(--space-md) 0;
       border-bottom: 1px solid var(--outline-variant);
-    }
-    .tx-row:last-child { border-bottom: none; }
-
-    .tx-main {
-      display: flex;
-      flex-direction: column;
-      gap: var(--space-2xs);
-      flex: 1 1 220px;
-    }
-    .tx-title-row {
-      display: flex;
-      flex-wrap: wrap;
       align-items: center;
+    }
+    .ledger-main {
+      display: grid;
       gap: var(--space-xs);
     }
-    .tx-desc {
+    .ledger-top-line {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: var(--space-sm);
+    }
+    .ledger-title {
       font-weight: 700;
       color: var(--on-surface);
     }
-    .tx-meta {
-      font-size: 0.8125rem;
+    .ledger-meta {
+      font-size: var(--label-size);
       color: var(--on-surface-variant);
       display: flex;
       flex-wrap: wrap;
       gap: var(--space-sm);
-    }
-    .tx-right {
-      display: flex;
       align-items: center;
-      gap: var(--space-sm);
-      margin-left: auto;
     }
-    .tx-amount-col {
-      text-align: right;
+    .ledger-right {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: var(--space-xs);
     }
-    .tx-amount {
+    .ledger-amount {
       font-family: var(--font-headline);
       font-weight: 800;
-      font-size: 1.0625rem;
+      font-size: var(--subhead-size);
       font-variant-numeric: tabular-nums;
+      white-space: nowrap;
     }
-    .tx-amount.is-credit { color: var(--secondary); }
-    .tx-amount.is-debit { color: var(--error); }
-    .tx-running {
-      font-size: 0.75rem;
-      color: var(--on-surface-variant);
-      font-variant-numeric: tabular-nums;
-    }
+    .ledger-amount[data-type="credit"] { color: var(--secondary); }
+    .ledger-amount[data-type="debit"] { color: var(--error); }
 
     .empty-state {
-      text-align: center;
       padding: var(--space-xl) var(--space-md);
+      text-align: left;
       background: var(--surface-container-low);
       border: 1px dashed var(--outline);
-      border-radius: var(--rounded-lg);
-      color: var(--on-surface-variant);
-    }
-    .empty-state p {
-      margin: var(--space-xs) auto var(--space-md);
-      max-width: 46ch;
+      border-radius: var(--rounded);
+      display: grid;
+      gap: var(--space-sm);
     }
 
     /* Settings Modal */
-    .modal-backdrop {
+    .modal-overlay {
       position: fixed;
       inset: 0;
-      background: var(--backdrop);
+      background: var(--modal-backdrop);
       display: none;
-      align-items: flex-end;
+      align-items: center;
       justify-content: center;
-      padding: var(--space-sm);
+      padding: var(--space-md);
       z-index: 50;
     }
-    @media (min-width: 641px) {
-      .modal-backdrop {
-        align-items: center;
-        padding: var(--space-lg);
-      }
+    .modal-overlay.is-open {
+      display: flex;
     }
-    .modal-backdrop.is-open { display: flex; }
-
-    .modal-card {
+    .modal-dialog {
       width: 100%;
-      max-width: 600px;
-      max-height: 92vh;
+      max-width: 560px;
+      max-height: 90vh;
       overflow-y: auto;
       background: var(--background);
-      border-radius: var(--rounded-lg);
       border: var(--card-border);
       border-top: var(--top-bar);
+      border-radius: var(--rounded-lg);
+      box-shadow: var(--modal-shadow);
       padding: var(--space-lg);
-      box-shadow: var(--card-lift);
-      display: flex;
-      flex-direction: column;
+      display: grid;
       gap: var(--space-md);
     }
-
     .modal-header {
       display: flex;
+      justify-content: space-between;
       align-items: center;
+      gap: var(--space-md);
+      padding-bottom: var(--space-sm);
+      border-bottom: 1px solid var(--outline-variant);
+    }
+    .modal-footer {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      gap: var(--space-sm);
+      padding-top: var(--space-sm);
+      border-top: 1px solid var(--outline-variant);
+    }
+
+    .icon-sm {
+      width: 18px;
+      height: 18px;
+      flex-shrink: 0;
+    }
+
+    .trip-footer {
+      font-size: var(--label-size);
+      color: var(--on-surface-variant);
+      border-top: 1px solid var(--outline-variant);
+      padding-top: var(--space-md);
+      display: flex;
+      flex-wrap: wrap;
       justify-content: space-between;
       gap: var(--space-sm);
     }
 
-    .mono-code {
-      font-family: var(--font-mono);
-      font-size: 0.8125rem;
-      background: var(--surface-container-low);
-      padding: var(--space-sm) var(--space-md);
-      border-radius: var(--rounded);
-      border: var(--card-border);
-      overflow-x: auto;
-      color: var(--on-surface);
-      white-space: pre;
+    @keyframes cardEnter {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
-    .sr-only {
-      position: absolute;
-      width: 1px;
-      height: 1px;
-      padding: 0;
-      margin: -1px;
-      overflow: hidden;
-      clip: rect(0, 0, 0, 0);
-      white-space: nowrap;
-      border: 0;
+    @media (max-width: 960px) {
+      .telemetry-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+      .telemetry-split {
+        grid-template-columns: 1fr;
+      }
+      .workspace-grid {
+        grid-template-columns: 1fr;
+      }
     }
 
     @media (max-width: 640px) {
       .page-grid {
-        grid-template-columns: minmax(0, 1fr);
-        padding: var(--space-sm);
+        grid-template-columns: 1fr;
+        padding: var(--space-md) var(--space-sm) var(--space-xl);
         gap: var(--space-md);
+      }
+      .telemetry-grid {
+        grid-template-columns: 1fr;
+      }
+      .input-row-2 {
+        grid-template-columns: 1fr;
+      }
+      .panel, .form-panel {
+        padding: var(--space-md);
+      }
+      .role-bar {
+        padding: var(--space-sm);
       }
     }
 
@@ -901,381 +871,392 @@
   </style>
 </head>
 <body>
-  <div class="app-shell">
+  <div class="page-shell">
     <main class="page-grid">
+
       <!-- Header -->
       <header class="app-header">
-        <div class="title-block">
-          <p class="kicker">10-Member Common Fund · Thailand Trip Kitty</p>
-          <h1 class="title">Group Trip Kitty Ledger</h1>
-          <p class="lede">
-            Track shared THB cash contributions in 1,000 THB rounds and log Fund Coordinator (FC) trip expenses with GitHub <span style="font-family: var(--font-mono);">data.json</span> sync.
-          </p>
+        <div class="header-top-row">
+          <div>
+            <span class="label-kicker">10-Member Trip Kitty · Nov 26 – Dec 5, 2026 · THB</span>
+            <h1 class="title">Thailand Group Trip Common Fund</h1>
+            <p class="lede">
+              Shared cash pool tracker for Lopburi, Uthai Thani, Erawan, Sangkhla Buri, Sai Yok, Kanchanaburi, and Nakhon Pathom.
+            </p>
+          </div>
+          <div class="header-actions">
+            <button type="button" class="btn btn-secondary" id="btn-sync-now" onclick="syncWithBackend()">
+              <i data-lucide="refresh-cw" class="icon-sm" aria-hidden="true"></i>
+              <span>Sync Sheet</span>
+            </button>
+            <button type="button" class="btn btn-ghost" id="btn-open-settings" onclick="openSettingsModal()">
+              <i data-lucide="settings" class="icon-sm" aria-hidden="true"></i>
+              <span>Settings</span>
+            </button>
+          </div>
         </div>
-        <div class="header-actions">
-          <button type="button" id="sync-status-btn" class="chip chip-btn" data-status="info" onclick="openSettingsModal()">
-            <span id="sync-status-label">Local Mode · Configure GitHub</span>
-          </button>
-          <button type="button" id="sync-pull-btn" class="btn btn-ghost btn-sm" onclick="pullFromGitHub()" title="Fetch latest data.json from GitHub">
-            Pull GET
-          </button>
-          <button type="button" id="open-settings-btn" class="btn btn-secondary btn-sm" onclick="openSettingsModal()">
-            Settings
-          </button>
+
+        <!-- Role Selector & Backend Sync Status -->
+        <div class="role-bar" role="region" aria-label="Role and sync controls">
+          <div class="role-control-group">
+            <span class="label-kicker" id="role-group-label">Active Role</span>
+            <div class="segmented-role" role="group" aria-labelledby="role-group-label">
+              <button type="button" class="role-btn" id="role-btn-member" aria-pressed="true" onclick="setRole('member')">
+                <i data-lucide="users" class="icon-sm" aria-hidden="true"></i>
+                <span>Member</span>
+              </button>
+              <button type="button" class="role-btn" id="role-btn-fc" aria-pressed="false" onclick="setRole('fc')">
+                <i data-lucide="shield-check" class="icon-sm" aria-hidden="true"></i>
+                <span>Fund Coordinator (FC)</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="sync-cluster">
+            <span class="chip" id="sync-status-chip" data-status="info">Ready · Local &amp; Sheet Sync</span>
+            <span class="chip" id="pending-queue-chip" data-status="neutral" style="display:none;">0 unsynced</span>
+          </div>
         </div>
       </header>
 
-      <!-- Global Inline Feedback Banner -->
-      <div id="global-feedback" class="feedback-box" role="status" aria-live="polite">
-        <span id="global-feedback-text"></span>
-        <button type="button" class="btn btn-ghost btn-sm" onclick="dismissFeedback()">Dismiss</button>
-      </div>
-
-      <!-- Key Telemetry Strip (Current State Up Front) -->
-      <section aria-label="Fund balance summary" class="telemetry-grid">
-        <article id="card-balance" class="status-card" data-status="info">
-          <span class="metric-label">Remaining Cash Balance</span>
-          <span id="val-balance" class="metric-value">฿0</span>
-          <span id="cap-balance" class="metric-caption">Ready for Round 1 contributions</span>
+      <!-- Real-Time Telemetry Cards -->
+      <section class="telemetry-grid" aria-label="Common fund telemetry">
+        <article class="status-card" id="card-balance" data-status="ok">
+          <span class="label-kicker">Remaining Cash Balance</span>
+          <p class="kpi-value" id="kpi-balance">฿0</p>
+          <p class="kpi-caption" id="kpi-balance-sub">฿0 per member share (10 pax)</p>
         </article>
 
         <article class="status-card" data-status="ok">
-          <span class="metric-label">Total Collected</span>
-          <span id="val-collected" class="metric-value">฿0</span>
-          <span id="cap-collected" class="metric-caption">0 contribution entries</span>
+          <span class="label-kicker">Total Collected (Credits)</span>
+          <p class="kpi-value" id="kpi-collected">฿0</p>
+          <p class="kpi-caption" id="kpi-collected-sub" data-tone="ok">0 contributions logged</p>
         </article>
 
-        <article class="status-card" data-status="alert">
-          <span class="metric-label">Total Spent</span>
-          <span id="val-spent" class="metric-value">฿0</span>
-          <span id="cap-spent" class="metric-caption">0 expense entries</span>
+        <article class="status-card" id="card-spent" data-status="info">
+          <span class="label-kicker">Total Spent (Debits)</span>
+          <p class="kpi-value" id="kpi-spent">฿0</p>
+          <p class="kpi-caption" id="kpi-spent-sub">0% of pool utilized</p>
         </article>
 
-        <article id="card-round" class="status-card" data-status="info">
-          <span class="metric-label">Active Contribution Round</span>
-          <span id="val-round" class="metric-value">Round 1</span>
-          <span id="cap-round" class="metric-caption">0 / 10 members paid (฿1,000 target)</span>
+        <article class="status-card" id="card-round" data-status="info">
+          <span class="label-kicker">Active Contribution Round</span>
+          <p class="kpi-value" id="kpi-round">Round 1</p>
+          <p class="kpi-caption" id="kpi-round-sub">0 / 10 members paid ฿1,000</p>
         </article>
       </section>
 
-      <!-- Telemetry Bars: Collected vs Spent & Active Round Progress -->
-      <section class="panel" aria-label="Fund utilization and round progress">
-        <div class="meter-group">
-          <div class="meter-block">
-            <div class="meter-row">
-              <strong>Cash Utilization (Spent vs Collected)</strong>
-              <span id="util-ratio-label" style="font-variant-numeric: tabular-nums;">0% spent</span>
+      <!-- Collected vs Spent Telemetry & Category Breakdown -->
+      <section class="panel" aria-label="Collected versus spent breakdown">
+        <div class="telemetry-split">
+          <div>
+            <div style="display:flex; justify-content:space-between; align-items:baseline; gap:var(--space-sm); flex-wrap:wrap;">
+              <h2 class="subhead">Pool Utilization (Collected vs. Spent)</h2>
+              <span class="label-kicker tabular" id="utilization-ratio-label">฿0 spent / ฿0 collected</span>
             </div>
-            <div class="meter-track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="util-bar-track">
-              <div id="util-bar-fill" class="meter-fill" style="width: 0%;"></div>
+            <div class="meter-track" role="progressbar" id="utilization-progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-label="Percentage of collected funds spent">
+              <div class="meter-fill-spent" id="meter-fill-spent" style="width: 0%;"></div>
             </div>
-            <span id="util-caption" class="field-hint">Remaining cash reserve: ฿0 of ฿0 collected</span>
+            <div class="meter-legend">
+              <span id="meter-spent-legend">Spent: ฿0</span>
+              <span id="meter-remaining-legend">Remaining buffer: ฿0</span>
+            </div>
           </div>
 
-          <div class="meter-block">
-            <div class="meter-row">
-              <strong id="round-meter-title">Round 1 Completion (10 × ฿1,000)</strong>
-              <span id="round-ratio-label" style="font-variant-numeric: tabular-nums;">0 / ฿10,000</span>
+          <div>
+            <div style="display:flex; justify-content:space-between; align-items:baseline; gap:var(--space-sm);">
+              <h2 class="subhead">Spending by Category</h2>
+              <span class="label-kicker">Debits</span>
             </div>
-            <div class="meter-track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="round-bar-track">
-              <div id="round-bar-fill" class="meter-fill is-ok" style="width: 0%;"></div>
+            <div class="category-bars" id="category-bars">
+              <p style="margin:0; font-size:var(--label-size); color:var(--on-surface-variant);">
+                No expenses recorded yet. Category shares appear here once the FC logs debits.
+              </p>
             </div>
-            <span id="round-caption" class="field-hint">10 members pending for Round 1</span>
           </div>
         </div>
       </section>
 
-      <!-- Main Interactive Workspace -->
-      <section class="workspace-grid">
-        <!-- Left: Entry Console (Member Contribution OR FC Expense) -->
-        <div class="panel">
-          <div class="panel-header">
-            <h2 class="panel-title">Record Transaction</h2>
-            <span id="active-role-chip" class="chip" data-status="ok">Member Credit (+)</span>
-          </div>
+      <!-- Main Workspace: Input Forms & Roster/Ledger -->
+      <section class="workspace-grid" aria-label="Fund entry forms and live ledger">
 
-          <div class="role-tabs" role="tablist" aria-label="Transaction mode">
-            <button
-              type="button"
-              id="tab-member"
-              class="role-tab"
-              role="tab"
-              aria-selected="true"
-              data-role="member"
-              onclick="switchMode('member')"
-            >
-              + Member Cash-In
-            </button>
-            <button
-              type="button"
-              id="tab-fc"
-              class="role-tab"
-              role="tab"
-              aria-selected="false"
-              data-role="fc"
-              onclick="switchMode('fc')"
-            >
-              − FC Expense
-            </button>
-          </div>
+        <!-- Left Column: Contribution Form + FC Expense Form -->
+        <div class="stack-col">
 
-          <!-- Member Contribution Form -->
-          <form id="form-contribution" class="form-stack" onsubmit="submitContribution(event)">
-            <div class="field">
-              <label class="field-label" for="contrib-member-select">
-                <span>1. Select Your Name (Alphabetical)</span>
-                <span class="field-hint">Tap a name below</span>
+          <!-- Member Cash Contribution Form -->
+          <form class="form-panel" id="contribution-form" onsubmit="handleContributionSubmit(event)" novalidate>
+            <div class="form-panel-header">
+              <div>
+                <h2 class="subhead">Record Member Contribution</h2>
+                <span class="label-kicker">Credit · 1,000 THB Rounds or Custom</span>
+              </div>
+              <span class="chip" data-status="ok">+ Credit</span>
+            </div>
+
+            <div class="field-group">
+              <label class="field-label" for="contrib-member">
+                <span>Member Name</span>
+                <span class="field-hint">Tap a member tile to select</span>
               </label>
-              <div id="member-picker-grid" class="member-picker-grid" role="group" aria-label="Select member"></div>
-              <select id="contrib-member-select" class="select sr-only" onchange="selectMemberFromDropdown(this.value)">
-                <option value="">Choose member…</option>
+              <select class="select-control" id="contrib-member" onchange="updateContribRoundHint()">
+                <option value="Andy">Andy</option>
+                <option value="Cheryl">Cheryl</option>
+                <option value="Cindy">Cindy</option>
+                <option value="Edmund">Edmund</option>
+                <option value="Kim Sai">Kim Sai</option>
+                <option value="Patricia">Patricia</option>
+                <option value="Priscilla">Priscilla</option>
+                <option value="Rina">Rina</option>
+                <option value="Shirlyn">Shirlyn</option>
+                <option value="Weng Wah">Weng Wah</option>
               </select>
             </div>
 
-            <div class="field">
-              <span class="field-label">2. Quick Round or Custom Amount (THB)</span>
-              <div class="preset-row">
-                <button type="button" id="preset-1000" class="preset-btn is-active" onclick="setContributionPreset(1000, this)">
-                  +฿1,000 (1 Round)
-                </button>
-                <button type="button" id="preset-2000" class="preset-btn" onclick="setContributionPreset(2000, this)">
-                  +฿2,000 (2 Rounds)
-                </button>
-                <button type="button" id="preset-500" class="preset-btn" onclick="setContributionPreset(500, this)">
-                  +฿500
-                </button>
+            <div class="field-group">
+              <span class="field-label">
+                <span>Quick Round Presets (THB)</span>
+                <span class="field-hint" id="contrib-member-status-hint">Paid ฿0 so far</span>
+              </span>
+              <div class="preset-row" role="group" aria-label="Contribution amount presets">
+                <button type="button" class="preset-btn" id="preset-1000" aria-pressed="true" onclick="selectContribPreset(1000)">+฿1,000 (1 Round)</button>
+                <button type="button" class="preset-btn" id="preset-2000" aria-pressed="false" onclick="selectContribPreset(2000)">+฿2,000 (2 Rounds)</button>
+                <button type="button" class="preset-btn" id="preset-3000" aria-pressed="false" onclick="selectContribPreset(3000)">+฿3,000</button>
+                <button type="button" class="preset-btn" id="preset-custom" aria-pressed="false" onclick="focusCustomContrib()">Custom</button>
               </div>
             </div>
 
-            <div class="form-row-2">
-              <div class="field">
+            <div class="input-row-2">
+              <div class="field-group">
                 <label class="field-label" for="contrib-amount">Amount (THB)</label>
-                <input
-                  id="contrib-amount"
-                  class="input"
-                  type="number"
-                  min="1"
-                  step="1"
-                  value="1000"
-                  required
-                  oninput="clearPresetHighlight()"
-                >
+                <input type="number" class="input-control tabular" id="contrib-amount" min="1" step="1" value="1000" oninput="onContribAmountInput()" required>
               </div>
-              <div class="field">
-                <label class="field-label" for="contrib-note">Note (Optional)</label>
-                <input
-                  id="contrib-note"
-                  class="input"
-                  type="text"
-                  maxlength="80"
-                  placeholder="e.g. Round 1 cash to FC"
-                >
-              </div>
-            </div>
-
-            <div id="contrib-error" class="feedback-box" data-tone="alert" role="alert">
-              <span id="contrib-error-text"></span>
-            </div>
-
-            <button type="submit" id="contrib-submit-btn" class="btn btn-primary">
-              Record Cash Contribution (+THB)
-            </button>
-          </form>
-
-          <!-- Fund Coordinator (FC) Expense Form -->
-          <form id="form-expense" class="form-stack" style="display: none;" onsubmit="submitExpense(event)">
-            <div class="field">
-              <label class="field-label" for="fc-role-select">
-                <span>Fund Coordinator (FC) Role</span>
-                <span class="field-hint">Who is paying from kitty?</span>
-              </label>
-              <select id="fc-role-select" class="select" onchange="updateSelectedFc(this.value)">
-              </select>
-            </div>
-
-            <div class="field">
-              <label class="field-label" for="expense-desc">Expense Description</label>
-              <input
-                id="expense-desc"
-                class="input"
-                type="text"
-                maxlength="120"
-                placeholder="Day 1 - Lunch at Curvy Dining"
-                required
-              >
-            </div>
-
-            <div class="form-row-2">
-              <div class="field">
-                <label class="field-label" for="expense-category">Meal / Trip Category</label>
-                <select id="expense-category" class="select">
-                  <option value="Meals — Lunch">Meals — Lunch</option>
-                  <option value="Meals — Dinner">Meals — Dinner</option>
-                  <option value="Meals — Breakfast">Meals — Breakfast</option>
-                  <option value="Café & Drinks">Café &amp; Drinks</option>
-                  <option value="Transport & Boats">Transport &amp; Boats</option>
-                  <option value="Lodging & Resorts">Lodging &amp; Resorts</option>
-                  <option value="Parks & Activities">Parks &amp; Activities</option>
-                  <option value="Group Supplies">Group Supplies</option>
+              <div class="field-group">
+                <label class="field-label" for="contrib-round">Round Tag</label>
+                <select class="select-control" id="contrib-round">
+                  <option value="Round 1">Round 1</option>
+                  <option value="Round 2">Round 2</option>
+                  <option value="Round 3">Round 3</option>
+                  <option value="Round 4">Round 4</option>
+                  <option value="Round 5">Round 5</option>
+                  <option value="Custom">Custom / Top-up</option>
                 </select>
               </div>
+            </div>
 
-              <div class="field">
-                <label class="field-label" for="expense-amount">Amount Spent (THB)</label>
-                <input
-                  id="expense-amount"
-                  class="input"
-                  type="number"
-                  min="1"
-                  step="1"
-                  placeholder="e.g. 1450"
-                  required
-                >
+            <div class="field-group">
+              <label class="field-label" for="contrib-note">
+                <span>Note</span>
+                <span class="field-hint">Optional</span>
+              </label>
+              <input type="text" class="input-control" id="contrib-note" maxlength="120" placeholder="e.g., Cash handed at Bangkok">
+            </div>
+
+            <div class="inline-message" id="contrib-msg" role="status" aria-live="polite"></div>
+
+            <button type="submit" class="btn btn-primary" id="btn-submit-contrib">
+              <i data-lucide="plus-circle" class="icon-sm" aria-hidden="true"></i>
+              <span>Add Cash Contribution</span>
+            </button>
+          </form>
+
+          <!-- FC Expense Form -->
+          <section class="form-panel" aria-label="Fund Coordinator expense form">
+            <div class="form-panel-header">
+              <div>
+                <h2 class="subhead">Record Group Expense</h2>
+                <span class="label-kicker">Debit · Fund Coordinator (FC) Only</span>
+              </div>
+              <span class="chip" id="fc-badge-chip" data-status="warn">FC Locked</span>
+            </div>
+
+            <div class="callout-info" id="fc-locked-callout">
+              <div>
+                <strong>Member view is active.</strong> Only the Fund Coordinator (FC) can debit the common fund for group meals, park tickets, transfers, or supplies.
+              </div>
+              <div>
+                <button type="button" class="btn btn-secondary" onclick="setRole('fc')">
+                  <i data-lucide="shield-check" class="icon-sm" aria-hidden="true"></i>
+                  <span>Switch to Fund Coordinator (FC)</span>
+                </button>
               </div>
             </div>
 
-            <div id="expense-error" class="feedback-box" data-tone="alert" role="alert">
-              <span id="expense-error-text"></span>
-            </div>
+            <form id="expense-form" onsubmit="handleExpenseSubmit(event)" style="display:none; gap:var(--space-md);" novalidate>
+              <div class="field-group">
+                <label class="field-label" for="expense-desc">Expense Description</label>
+                <input type="text" class="input-control" id="expense-desc" maxlength="160" placeholder="e.g., After the Rain Coffee &amp; boat ride" required>
+              </div>
 
-            <button type="submit" id="expense-submit-btn" class="btn btn-danger">
-              Record Trip Expense (−THB)
-            </button>
-          </form>
+              <div class="input-row-2">
+                <div class="field-group">
+                  <label class="field-label" for="expense-category">Category</label>
+                  <select class="select-control" id="expense-category">
+                    <option value="Meals & Cafes">Meals &amp; Cafes</option>
+                    <option value="Transport & Fuel">Transport &amp; Fuel</option>
+                    <option value="Activities & Entry">Activities &amp; Entry</option>
+                    <option value="Lodging & Tips">Lodging &amp; Tips</option>
+                    <option value="Supplies & Pharmacy">Supplies &amp; Pharmacy</option>
+                    <option value="Other">Other</option>
+                  </select>
+                </div>
+
+                <div class="field-group">
+                  <label class="field-label" for="expense-amount">Amount (THB)</label>
+                  <input type="number" class="input-control tabular" id="expense-amount" min="1" step="1" placeholder="e.g., 1450" required>
+                </div>
+              </div>
+
+              <div class="field-group">
+                <label class="field-label" for="expense-location">
+                  <span>Trip Stop / Paid By Note</span>
+                  <span class="field-hint">Optional</span>
+                </label>
+                <input type="text" class="input-control" id="expense-location" maxlength="100" placeholder="e.g., Erawan Waterfall · FC cash">
+              </div>
+
+              <div class="inline-message" id="expense-msg" role="status" aria-live="polite"></div>
+
+              <div style="display:flex; flex-wrap:wrap; gap:var(--space-sm);">
+                <button type="submit" class="btn btn-primary" id="btn-submit-expense" style="flex:1;">
+                  <i data-lucide="receipt" class="icon-sm" aria-hidden="true"></i>
+                  <span>Deduct Expense from Pool</span>
+                </button>
+                <button type="button" class="btn btn-danger-outline" id="btn-confirm-overdraft" style="display:none;" onclick="confirmOverdraftExpense()">
+                  Confirm Overdraft
+                </button>
+              </div>
+            </form>
+          </section>
+
         </div>
 
-        <!-- Right: 10-Member Contribution Roster & Category Spend -->
-        <div class="form-stack">
-          <section class="panel" aria-label="Member contribution standing">
-            <div class="panel-header">
-              <h2 class="panel-title">Member Kitty Standing</h2>
-              <span class="chip" data-status="info" id="roster-paid-chip">0 / 10 Paid</span>
+        <!-- Right Column: 10-Member Contribution Roster + Live Transaction Ledger -->
+        <div class="stack-col">
+
+          <!-- 10-Member Contribution Status -->
+          <section class="panel member-grid-wrapper" aria-label="10-member contribution tracker">
+            <div style="display:flex; flex-wrap:wrap; justify-content:space-between; align-items:baseline; gap:var(--space-sm);">
+              <div>
+                <h2 class="subhead">10-Member Contribution Roster</h2>
+                <span class="label-kicker" id="roster-round-target">Active Round 1 Target: ฿1,000 / member</span>
+              </div>
+              <span class="chip" id="roster-summary-chip" data-status="info">0 / 10 complete</span>
             </div>
-            <div id="roster-list" class="roster-list"></div>
+
+            <div class="member-grid" id="member-grid">
+              <!-- Populated dynamically for all 10 alphabetical members -->
+            </div>
           </section>
 
-          <section class="panel" aria-label="Spending by category">
-            <div class="panel-header">
-              <h2 class="panel-title">Spend by Category</h2>
-              <span id="cat-total-label" class="field-hint">฿0 total</span>
+          <!-- Live Transaction Ledger -->
+          <section class="panel" aria-label="Live transaction ledger">
+            <div class="ledger-toolbar">
+              <div>
+                <h2 class="subhead">Live Transaction Ledger</h2>
+                <span class="label-kicker" id="ledger-count-label">0 entries recorded</span>
+              </div>
+
+              <div style="display:flex; flex-wrap:wrap; gap:var(--space-sm); align-items:center;">
+                <button type="button" class="btn btn-ghost" onclick="exportLedgerCsv()">
+                  <i data-lucide="download" class="icon-sm" aria-hidden="true"></i>
+                  <span>Export CSV</span>
+                </button>
+              </div>
             </div>
-            <div id="category-breakdown" class="cat-list"></div>
+
+            <div class="ledger-toolbar" style="margin-bottom:var(--space-sm);">
+              <div class="filter-tabs" role="tablist" aria-label="Filter transactions by type">
+                <button type="button" class="tab-btn" role="tab" id="tab-all" aria-selected="true" onclick="setLedgerFilter('all')">All</button>
+                <button type="button" class="tab-btn" role="tab" id="tab-credit" aria-selected="false" onclick="setLedgerFilter('credit')">Contributions (+)</button>
+                <button type="button" class="tab-btn" role="tab" id="tab-debit" aria-selected="false" onclick="setLedgerFilter('debit')">Expenses (−)</button>
+              </div>
+
+              <div style="min-width:190px; flex:1; max-width:280px;">
+                <label class="field-label" for="ledger-search" style="margin-bottom:var(--space-2xs);">Search Member or Description</label>
+                <input type="search" class="input-control" id="ledger-search" placeholder="Filter ledger…" oninput="setLedgerSearch(this.value)">
+              </div>
+            </div>
+
+            <div class="ledger-list" id="ledger-list">
+              <!-- Populated dynamically -->
+            </div>
           </section>
+
         </div>
       </section>
 
-      <!-- Live Transaction Ledger -->
-      <section class="panel" aria-label="Live transaction ledger">
-        <div class="panel-header">
-          <div>
-            <h2 class="panel-title">Live Transaction Ledger</h2>
-            <p class="field-hint" style="margin: var(--space-2xs) 0 0 0;">Chronological feed with timestamps and running kitty balance</p>
-          </div>
-          <div style="display: flex; flex-wrap: wrap; gap: var(--space-sm);">
-            <button type="button" class="btn btn-ghost btn-sm" onclick="exportJsonFile()">Export data.json</button>
-            <button type="button" class="btn btn-ghost btn-sm" onclick="exportCsvFile()">Export CSV</button>
-          </div>
-        </div>
-
-        <div class="ledger-controls">
-          <div class="filter-pills" role="group" aria-label="Filter transactions">
-            <button type="button" id="filter-all" class="filter-pill" aria-pressed="true" onclick="setLedgerFilter('all')">All (0)</button>
-            <button type="button" id="filter-credit" class="filter-pill" aria-pressed="false" onclick="setLedgerFilter('credit')">Credits + (0)</button>
-            <button type="button" id="filter-debit" class="filter-pill" aria-pressed="false" onclick="setLedgerFilter('debit')">Debits − (0)</button>
-          </div>
-          <div class="field" style="min-width: 220px; flex: 0 1 280px;">
-            <label class="field-label sr-only" for="ledger-search">Search ledger</label>
-            <input id="ledger-search" class="input" type="search" placeholder="Filter by member, note, category…" oninput="renderLedger()">
-          </div>
-        </div>
-
-        <div id="ledger-container" class="ledger-list"></div>
-      </section>
+      <footer class="trip-footer">
+        <span>Route stops: Lopburi · Uthai Thani · Ban Rai · Si Sawat (Erawan) · Sangkhla Buri · Sai Yok · Kanchanaburi · Nakhon Pathom</span>
+        <span>Backend: Google Sheets Apps Script Web App + Local Session Persistence</span>
+      </footer>
     </main>
   </div>
 
-  <!-- GitHub & Kitty Settings Modal -->
-  <div id="settings-modal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="settings-modal-title" onclick="if (event.target === this) closeSettingsModal()">
-    <div class="modal-card">
+  <!-- Settings Modal -->
+  <div class="modal-overlay" id="settings-modal" role="dialog" aria-modal="true" aria-labelledby="settings-modal-title">
+    <div class="modal-dialog">
       <div class="modal-header">
         <div>
-          <p class="kicker" style="margin-bottom: var(--space-2xs);">Backend Configuration</p>
-          <h2 id="settings-modal-title" class="panel-title">GitHub REST API &amp; Kitty Settings</h2>
+          <h2 class="section-heading" id="settings-modal-title">Common Fund Settings</h2>
+          <span class="label-kicker">Google Apps Script Backend &amp; Round Rules</span>
         </div>
-        <button type="button" class="btn btn-ghost btn-sm" onclick="closeSettingsModal()">Close</button>
+        <button type="button" class="btn btn-ghost" onclick="closeSettingsModal()" aria-label="Close settings">
+          <i data-lucide="x" class="icon-sm" aria-hidden="true"></i>
+        </button>
       </div>
 
-      <p class="field-hint" style="margin: 0;">
-        Connect a GitHub repository to read and write your flat <span style="font-family: var(--font-mono);">data.json</span> file via GitHub REST API (<span style="font-family: var(--font-mono);">GET</span> &amp; <span style="font-family: var(--font-mono);">PUT</span>). Your Personal Access Token requires <span style="font-family: var(--font-mono);">contents:write</span> scope.
-      </p>
-
-      <form id="settings-form" class="form-stack" onsubmit="saveSettings(event)">
-        <div class="field">
-          <label class="field-label" for="cfg-repo">GitHub Repository (owner/repo)</label>
-          <input id="cfg-repo" class="input" type="text" placeholder="e.g. andy-travel/thailand-2026-kitty" style="font-family: var(--font-mono);">
+      <form id="settings-form" onsubmit="handleSettingsSave(event)" style="display:grid; gap:var(--space-md);" novalidate>
+        <div class="field-group">
+          <label class="field-label" for="setting-gas-url">Google Apps Script Web App URL</label>
+          <input type="url" class="input-control" id="setting-gas-url" required>
+          <span class="field-hint" style="font-size:var(--label-size);">
+            Pre-configured endpoint for reading and appending common-fund credits and debits to Google Sheets.
+          </span>
         </div>
 
-        <div class="form-row-2">
-          <div class="field">
-            <label class="field-label" for="cfg-branch">Branch</label>
-            <input id="cfg-branch" class="input" type="text" value="main" style="font-family: var(--font-mono);">
+        <div class="input-row-2">
+          <div class="field-group">
+            <label class="field-label" for="setting-round-size">Contribution Round Size (THB)</label>
+            <input type="number" class="input-control tabular" id="setting-round-size" min="100" step="100" required>
           </div>
-          <div class="field">
-            <label class="field-label" for="cfg-path">JSON File Path</label>
-            <input id="cfg-path" class="input" type="text" value="data.json" style="font-family: var(--font-mono);">
-          </div>
-        </div>
-
-        <div class="field">
-          <label class="field-label" for="cfg-pat">
-            <span>Personal Access Token (PAT)</span>
-            <button type="button" class="btn btn-ghost btn-sm" onclick="togglePatVisibility()" id="toggle-pat-btn" style="min-height: 36px;">Show</button>
-          </label>
-          <input id="cfg-pat" class="input" type="password" autocomplete="off" placeholder="github_pat_… or ghp_…" style="font-family: var(--font-mono);">
-          <span class="field-hint">Stored in your app state so you stay synced across sessions. Leave blank for read-only public repo GET or Local Mode.</span>
-        </div>
-
-        <div class="form-row-2">
-          <div class="field">
-            <label class="field-label" for="cfg-round-amount">Round Target per Member (THB)</label>
-            <input id="cfg-round-amount" class="input" type="number" min="100" step="100" value="1000">
-          </div>
-          <div class="field">
-            <label class="field-label" for="cfg-autosync">Auto-Push on New Entry</label>
-            <select id="cfg-autosync" class="select">
-              <option value="true">Enabled (Recommended)</option>
-              <option value="false">Manual Push Only</option>
+          <div class="field-group">
+            <label class="field-label" for="setting-auto-sync">Sync Behavior</label>
+            <select class="select-control" id="setting-auto-sync">
+              <option value="auto">Auto-sync on change &amp; load</option>
+              <option value="manual">Manual sync only (offline mode)</option>
             </select>
           </div>
         </div>
 
-        <div id="settings-feedback" class="feedback-box" role="status">
-          <span id="settings-feedback-text"></span>
+        <div class="inline-message" id="settings-msg" role="status" aria-live="polite"></div>
+
+        <div style="display:flex; flex-wrap:wrap; gap:var(--space-sm); justify-content:space-between; align-items:center;">
+          <button type="button" class="btn btn-ghost" onclick="restoreDefaultGasUrl()">Restore Default URL</button>
+          <button type="button" class="btn btn-secondary" onclick="testAndPullBackend()">
+            <i data-lucide="cloud-download" class="icon-sm" aria-hidden="true"></i>
+            <span>Pull &amp; Test Sheet API</span>
+          </button>
         </div>
 
-        <div style="display: flex; flex-wrap: wrap; gap: var(--space-sm);">
+        <div style="border-top:1px solid var(--outline-variant); padding-top:var(--space-md); display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:var(--space-sm);">
+          <span class="label-kicker">Local Cache Controls</span>
+          <button type="button" class="btn btn-danger-outline" id="btn-reset-local" onclick="handleResetLocal(this)">
+            Clear Local Cache
+          </button>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-ghost" onclick="closeSettingsModal()">Cancel</button>
           <button type="submit" class="btn btn-primary">Save Settings</button>
-          <button type="button" class="btn btn-secondary" onclick="pullFromGitHub(true)">Test &amp; Pull (GET)</button>
-          <button type="button" class="btn btn-ghost" onclick="pushToGitHub('Manual sync from Group Trip Kitty', true)">Push Now (PUT)</button>
         </div>
       </form>
-
-      <div style="border-top: 1px solid var(--outline-variant); padding-top: var(--space-md); display: flex; flex-direction: column; gap: var(--space-sm);">
-        <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: var(--space-sm);">
-          <strong>Remote SHA &amp; Payload Preview</strong>
-          <div style="display: flex; gap: var(--space-sm);">
-            <button type="button" class="btn btn-ghost btn-sm" onclick="copyJsonPayload()">Copy JSON</button>
-            <button type="button" id="reset-data-btn" class="btn btn-ghost btn-sm" onclick="resetLedgerData(this)">Reset Ledger</button>
-          </div>
-        </div>
-        <span id="cfg-sha-display" class="field-hint" style="font-family: var(--font-mono);">Remote SHA: not synced yet</span>
-        <pre id="json-preview" class="mono-code" aria-label="data.json preview"></pre>
-      </div>
     </div>
   </div>
 
   <api-shim></api-shim>
   <script>
+    const DEFAULT_GAS_URL = `https://script.google.com/macros/s/AKfycbygwwut-7AVLgEL-iAgiqHJaBak67eNxBGR056CBaREEzk0bDGDvv8ijrBV7_koSq0U/exec`;
+
     const MEMBERS = [
       `Andy`,
       `Cheryl`,
@@ -1290,76 +1271,60 @@
     ];
 
     const CATEGORY_COLORS = {
-      "Meals — Lunch": `var(--data-1)`,
-      "Meals — Dinner": `var(--data-2)`,
-      "Meals — Breakfast": `var(--data-3)`,
-      "Café & Drinks": `var(--data-4)`,
-      "Transport & Boats": `var(--primary)`,
-      "Lodging & Resorts": `var(--secondary)`,
-      "Parks & Activities": `var(--tertiary)`,
-      "Group Supplies": `var(--data-context)`
+      'Meals & Cafes': 'var(--data-1)',
+      'Transport & Fuel': 'var(--data-2)',
+      'Activities & Entry': 'var(--data-3)',
+      'Lodging & Tips': 'var(--data-4)',
+      'Supplies & Pharmacy': 'var(--data-5)',
+      'Other': 'var(--data-6)'
     };
 
-    const appState = {
-      mode: `member`,
-      selectedMember: `Andy`,
-      selectedFc: `Andy`,
-      ledgerFilter: `all`,
-      roundAmount: 1000,
+    let appState = {
+      role: 'member',
+      settings: {
+        gasUrl: DEFAULT_GAS_URL,
+        roundAmount: 1000,
+        syncMode: 'auto'
+      },
       transactions: [],
-      github: {
-        repo: ``,
-        branch: `main`,
-        path: `data.json`,
-        pat: ``,
-        autoSync: true,
-        remoteSha: ``,
-        lastSyncAt: ``,
-        syncStatus: `local`,
-        syncDetail: `Local Mode · Configure GitHub`
-      }
+      pendingSyncIds: [],
+      lastSyncAt: null,
+      syncStatus: 'idle',
+      syncDetail: 'Local session ready'
     };
 
-    /* ---------- UTF-8 Base64 Helpers ---------- */
-    function encodeBase64Utf8(str) {
-      const bytes = new TextEncoder().encode(str);
-      let binary = ``;
-      for (let i = 0; i < bytes.length; i += 1) {
-        binary += String.fromCharCode(bytes[i]);
+    let activeFilter = 'all';
+    let searchQuery = '';
+    let pendingOverdraftPayload = null;
+
+    function formatThb(value) {
+      const num = Number(value) || 0;
+      const absStr = Math.abs(Math.round(num)).toLocaleString('en-US');
+      return num < 0 ? `-฿${absStr}` : `฿${absStr}`;
+    }
+
+    function formatTimestamp(iso) {
+      try {
+        const d = new Date(iso);
+        if (Number.isNaN(d.getTime())) return String(iso || ``);
+        return d.toLocaleString('en-GB', {
+          day: '2-digit',
+          month: 'short',
+          hour: '2-digit',
+          minute: '2-digit',
+          hour12: false
+        });
+      } catch (_err) {
+        return String(iso || ``);
       }
-      return btoa(binary);
     }
 
-    function decodeBase64Utf8(b64) {
-      const cleaned = b64.replace(/\s+/g, ``);
-      const binary = atob(cleaned);
-      const bytes = new Uint8Array(binary.length);
-      for (let i = 0; i < binary.length; i += 1) {
-        bytes[i] = binary.charCodeAt(i);
-      }
-      return new TextDecoder().decode(bytes);
-    }
-
-    function formatThb(amount) {
-      const abs = Math.abs(Math.round(amount));
-      const formatted = abs.toLocaleString(`en-US`);
-      return amount < 0 ? `-฿${formatted}` : `฿${formatted}`;
-    }
-
-    function formatTimestamp(isoStr) {
-      const d = new Date(isoStr);
-      if (Number.isNaN(d.getTime())) return isoStr;
-      return d.toLocaleString(`en-GB`, {
-        day: `2-digit`,
-        month: `short`,
-        year: `numeric`,
-        hour: `2-digit`,
-        minute: `2-digit`
-      });
+    function generateId() {
+      return `tx_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
     }
 
     function escapeHtml(str) {
-      return String(str)
+      return String(str ?? ``)
         .replace(/&/g, `&amp;`)
         .replace(/</g, `&lt;`)
         .replace(/>/g, `&gt;`)
@@ -1367,68 +1332,31 @@
         .replace(/'/g, `&#39;`);
     }
 
-    function buildDataJsonPayload() {
-      return {
-        schemaVersion: 1,
-        tripName: `Thailand Group Trip 2026`,
-        currency: `THB`,
-        roundAmount: appState.roundAmount,
-        members: MEMBERS.slice(),
-        transactions: appState.transactions.slice(),
-        updatedAt: new Date().toISOString()
-      };
+    function showInlineMessage(elementId, message, tone) {
+      const el = document.getElementById(elementId);
+      if (!el) return;
+      if (!message) {
+        el.className = `inline-message`;
+        el.textContent = ``;
+        return;
+      }
+      el.className = `inline-message is-visible`;
+      el.setAttribute(`data-tone`, tone || `ok`);
+      el.textContent = message;
     }
 
-    /* ---------- Persistence via notebookAppApi ---------- */
     async function persistState() {
-      const preview = document.getElementById(`json-preview`);
-      if (preview) {
-        preview.textContent = JSON.stringify(buildDataJsonPayload(), null, 2);
-      }
       if (window.notebookAppApi && typeof window.notebookAppApi.setAppState === `function`) {
         try {
-          await window.notebookAppApi.setAppState({
-            selectedMember: appState.selectedMember,
-            selectedFc: appState.selectedFc,
-            roundAmount: appState.roundAmount,
-            transactions: appState.transactions,
-            github: appState.github
-          });
-        } catch (err) {
-          console.warn(`Unable to persist app state:`, err);
+          await window.notebookAppApi.setAppState(appState);
+        } catch (_err) {
+          // Graceful fallback if host API is temporarily unavailable
         }
       }
     }
 
-    async function loadInitialState() {
-      if (window.notebookAppApi && typeof window.notebookAppApi.getAppState === `function`) {
-        try {
-          const saved = await window.notebookAppApi.getAppState();
-          if (saved && typeof saved === `object`) {
-            if (saved.selectedMember && MEMBERS.includes(saved.selectedMember)) {
-              appState.selectedMember = saved.selectedMember;
-            }
-            if (saved.selectedFc && MEMBERS.includes(saved.selectedFc)) {
-              appState.selectedFc = saved.selectedFc;
-            }
-            if (typeof saved.roundAmount === `number` && saved.roundAmount >= 100) {
-              appState.roundAmount = saved.roundAmount;
-            }
-            if (Array.isArray(saved.transactions)) {
-              appState.transactions = saved.transactions;
-            }
-            if (saved.github && typeof saved.github === `object`) {
-              appState.github = Object.assign({}, appState.github, saved.github);
-            }
-          }
-        } catch (err) {
-          console.warn(`Unable to load saved state:`, err);
-        }
-      }
-    }
-
-    /* ---------- Derived Telemetry ---------- */
     function computeTelemetry() {
+      const roundSize = Math.max(100, Number(appState.settings.roundAmount) || 1000);
       const memberTotals = {};
       MEMBERS.forEach(function (name) {
         memberTotals[name] = 0;
@@ -1440,1050 +1368,881 @@
       let debitCount = 0;
       const categoryTotals = {};
 
-      const chronological = appState.transactions
-        .slice()
-        .sort(function (a, b) {
-          return new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime();
-        });
-
-      let running = 0;
-      const runningById = {};
-
-      chronological.forEach(function (tx) {
+      appState.transactions.forEach(function (tx) {
         const amt = Number(tx.amount) || 0;
         if (tx.type === `credit`) {
           totalCollected += amt;
           creditCount += 1;
-          running += amt;
-          if (Object.prototype.hasOwnProperty.call(memberTotals, tx.member)) {
+          if (tx.member && Object.prototype.hasOwnProperty.call(memberTotals, tx.member)) {
             memberTotals[tx.member] += amt;
           }
-        } else {
+        } else if (tx.type === `debit`) {
           totalSpent += amt;
           debitCount += 1;
-          running -= amt;
-          const cat = tx.category || `Group Supplies`;
+          const cat = tx.category || `Other`;
           categoryTotals[cat] = (categoryTotals[cat] || 0) + amt;
         }
-        runningById[tx.id] = running;
       });
 
       const balance = totalCollected - totalSpent;
-      const roundAmt = appState.roundAmount || 1000;
-      const memberRounds = MEMBERS.map(function (name) {
-        return Math.floor((memberTotals[name] || 0) / roundAmt);
-      });
-      const minCompletedRounds = Math.min.apply(null, memberRounds);
-      const activeRound = minCompletedRounds + 1;
-      const activeRoundPaidCount = MEMBERS.filter(function (name) {
-        return (memberTotals[name] || 0) >= activeRound * roundAmt;
+      const perMemberShare = balance / MEMBERS.length;
+
+      // Determine active contribution round: lowest round R >= 1 where not all 10 members have reached R * roundSize
+      let activeRound = 1;
+      while (activeRound < 50) {
+        const targetForRound = activeRound * roundSize;
+        const allPaid = MEMBERS.every(function (m) {
+          return memberTotals[m] >= targetForRound;
+        });
+        if (!allPaid) break;
+        activeRound += 1;
+      }
+
+      const activeRoundTarget = activeRound * roundSize;
+      const paidThisRoundCount = MEMBERS.filter(function (m) {
+        return memberTotals[m] >= activeRoundTarget;
       }).length;
 
-      const prevRoundsTotal = (activeRound - 1) * MEMBERS.length * roundAmt;
-      let activeRoundCollected = 0;
-      MEMBERS.forEach(function (name) {
-        const intoActive = Math.max(0, (memberTotals[name] || 0) - (activeRound - 1) * roundAmt);
-        activeRoundCollected += Math.min(roundAmt, intoActive);
-      });
-      const activeRoundTarget = MEMBERS.length * roundAmt;
-
       return {
-        memberTotals: memberTotals,
-        totalCollected: totalCollected,
-        totalSpent: totalSpent,
-        balance: balance,
-        creditCount: creditCount,
-        debitCount: debitCount,
-        categoryTotals: categoryTotals,
-        runningById: runningById,
-        activeRound: activeRound,
-        activeRoundPaidCount: activeRoundPaidCount,
-        activeRoundCollected: activeRoundCollected,
-        activeRoundTarget: activeRoundTarget,
-        prevRoundsTotal: prevRoundsTotal
+        roundSize,
+        memberTotals,
+        totalCollected,
+        totalSpent,
+        creditCount,
+        debitCount,
+        categoryTotals,
+        balance,
+        perMemberShare,
+        activeRound,
+        activeRoundTarget,
+        paidThisRoundCount
       };
     }
 
-    /* ---------- Render Functions ---------- */
-    function renderAll() {
-      const stats = computeTelemetry();
-      renderTelemetry(stats);
-      renderMemberPicker(stats);
-      renderFcSelect();
-      renderRoster(stats);
-      renderCategoryBreakdown(stats);
-      renderLedger(stats);
-      renderSyncBadge();
-      const preview = document.getElementById(`json-preview`);
-      if (preview) {
-        preview.textContent = JSON.stringify(buildDataJsonPayload(), null, 2);
+    function renderRoleUi() {
+      const isFc = appState.role === `fc`;
+      const btnMember = document.getElementById(`role-btn-member`);
+      const btnFc = document.getElementById(`role-btn-fc`);
+      const fcLockedCallout = document.getElementById(`fc-locked-callout`);
+      const expenseForm = document.getElementById(`expense-form`);
+      const fcBadge = document.getElementById(`fc-badge-chip`);
+
+      if (btnMember) btnMember.setAttribute(`aria-pressed`, isFc ? `false` : `true`);
+      if (btnFc) btnFc.setAttribute(`aria-pressed`, isFc ? `true` : `false`);
+      if (fcLockedCallout) fcLockedCallout.style.display = isFc ? `none` : `grid`;
+      if (expenseForm) expenseForm.style.display = isFc ? `grid` : `none`;
+      if (fcBadge) {
+        fcBadge.setAttribute(`data-status`, isFc ? `ok` : `warn`);
+        fcBadge.textContent = isFc ? `FC Active` : `FC Locked`;
       }
     }
 
-    function renderTelemetry(stats) {
-      const valBal = document.getElementById(`val-balance`);
-      const capBal = document.getElementById(`cap-balance`);
-      const cardBal = document.getElementById(`card-balance`);
-      if (valBal && capBal && cardBal) {
-        valBal.textContent = formatThb(stats.balance);
-        if (stats.balance < 0) {
-          cardBal.setAttribute(`data-status`, `alert`);
-          capBal.setAttribute(`data-tone`, `alert`);
-          capBal.textContent = `Kitty overdrawn — top-up round needed`;
-        } else if (stats.balance === 0 && stats.totalCollected === 0) {
-          cardBal.setAttribute(`data-status`, `info`);
-          capBal.setAttribute(`data-tone`, ``);
-          capBal.textContent = `Ready for Round 1 contributions`;
-        } else if (stats.balance < 2000) {
-          cardBal.setAttribute(`data-status`, `warn`);
-          capBal.setAttribute(`data-tone`, `warn`);
-          capBal.textContent = `Low reserve — consider opening next round`;
+    function renderSyncChips() {
+      const syncChip = document.getElementById(`sync-status-chip`);
+      const queueChip = document.getElementById(`pending-queue-chip`);
+
+      if (syncChip) {
+        let tone = `info`;
+        if (appState.syncStatus === `synced`) tone = `ok`;
+        else if (appState.syncStatus === `error` || appState.syncStatus === `offline`) tone = `warn`;
+        syncChip.setAttribute(`data-status`, tone);
+        syncChip.textContent = appState.syncDetail || `Local session ready`;
+      }
+
+      if (queueChip) {
+        const count = Array.isArray(appState.pendingSyncIds) ? appState.pendingSyncIds.length : 0;
+        if (count > 0) {
+          queueChip.style.display = `inline-flex`;
+          queueChip.textContent = `${count} pending sync`;
         } else {
-          cardBal.setAttribute(`data-status`, `ok`);
-          capBal.setAttribute(`data-tone`, `ok`);
-          capBal.textContent = `Healthy cash on hand`;
+          queueChip.style.display = `none`;
+        }
+      }
+    }
+
+    function renderTelemetryAndRoster() {
+      const t = computeTelemetry();
+
+      const balCard = document.getElementById(`card-balance`);
+      const kpiBal = document.getElementById(`kpi-balance`);
+      const kpiBalSub = document.getElementById(`kpi-balance-sub`);
+      if (kpiBal) kpiBal.textContent = formatThb(t.balance);
+      if (kpiBalSub) {
+        kpiBalSub.textContent = `${formatThb(t.perMemberShare)} per member share (10 pax)`;
+        kpiBalSub.setAttribute(`data-tone`, t.balance < 0 ? `alert` : `ok`);
+      }
+      if (balCard) {
+        if (t.balance < 0) balCard.setAttribute(`data-status`, `alert`);
+        else if (t.totalCollected > 0 && t.balance < t.roundSize * 2) balCard.setAttribute(`data-status`, `warn`);
+        else balCard.setAttribute(`data-status`, `ok`);
+      }
+
+      const kpiCol = document.getElementById(`kpi-collected`);
+      const kpiColSub = document.getElementById(`kpi-collected-sub`);
+      if (kpiCol) kpiCol.textContent = formatThb(t.totalCollected);
+      if (kpiColSub) {
+        kpiColSub.textContent = `${t.creditCount} ${t.creditCount === 1 ? `contribution` : `contributions`} logged`;
+      }
+
+      const kpiSpent = document.getElementById(`kpi-spent`);
+      const kpiSpentSub = document.getElementById(`kpi-spent-sub`);
+      const cardSpent = document.getElementById(`card-spent`);
+      const pctSpent = t.totalCollected > 0 ? Math.round((t.totalSpent / t.totalCollected) * 100) : 0;
+      if (kpiSpent) kpiSpent.textContent = formatThb(t.totalSpent);
+      if (kpiSpentSub) kpiSpentSub.textContent = `${pctSpent}% of collected pool utilized (${t.debitCount} ${t.debitCount === 1 ? `debit` : `debits`})`;
+      if (cardSpent) cardSpent.setAttribute(`data-status`, pctSpent > 100 ? `alert` : `info`);
+
+      const kpiRound = document.getElementById(`kpi-round`);
+      const kpiRoundSub = document.getElementById(`kpi-round-sub`);
+      if (kpiRound) kpiRound.textContent = `Round ${t.activeRound}`;
+      if (kpiRoundSub) {
+        kpiRoundSub.textContent = `${t.paidThisRoundCount} / ${MEMBERS.length} members reached ${formatThb(t.activeRoundTarget)}`;
+      }
+
+      // Utilization Bar
+      const ratioLabel = document.getElementById(`utilization-ratio-label`);
+      const bar = document.getElementById(`utilization-progressbar`);
+      const fill = document.getElementById(`meter-fill-spent`);
+      const spentLegend = document.getElementById(`meter-spent-legend`);
+      const remLegend = document.getElementById(`meter-remaining-legend`);
+      const clampedPct = Math.min(100, Math.max(0, pctSpent));
+
+      if (ratioLabel) ratioLabel.textContent = `${formatThb(t.totalSpent)} spent / ${formatThb(t.totalCollected)} collected`;
+      if (bar) bar.setAttribute(`aria-valuenow`, String(clampedPct));
+      if (fill) {
+        fill.style.width = `${clampedPct}%`;
+        fill.setAttribute(`data-over`, t.totalSpent > t.totalCollected ? `true` : `false`);
+      }
+      if (spentLegend) spentLegend.textContent = `Spent: ${formatThb(t.totalSpent)} (${pctSpent}%)`;
+      if (remLegend) remLegend.textContent = `Remaining buffer: ${formatThb(t.balance)}`;
+
+      // Category Breakdown
+      const catContainer = document.getElementById(`category-bars`);
+      if (catContainer) {
+        const entries = Object.entries(t.categoryTotals).sort(function (a, b) {
+          return b[1] - a[1];
+        });
+        if (entries.length === 0) {
+          catContainer.innerHTML = `<p style="margin:0; font-size:var(--label-size); color:var(--on-surface-variant);">No expenses recorded yet. Category shares appear here once the FC logs debits.</p>`;
+        } else {
+          const maxVal = entries[0][1] || 1;
+          catContainer.innerHTML = entries.map(function (entry) {
+            const cat = entry[0];
+            const val = entry[1];
+            const widthPct = Math.round((val / maxVal) * 100);
+            const color = CATEGORY_COLORS[cat] || `var(--data-1)`;
+            return `<div class="cat-row">
+              <span>${escapeHtml(cat)}</span>
+              <div class="cat-bar-bg"><div class="cat-bar-fill" style="width:${widthPct}%; background:${color};"></div></div>
+              <strong class="tabular">${formatThb(val)}</strong>
+            </div>`;
+          }).join(``);
         }
       }
 
-      const valCol = document.getElementById(`val-collected`);
-      const capCol = document.getElementById(`cap-collected`);
-      if (valCol && capCol) {
-        valCol.textContent = formatThb(stats.totalCollected);
-        capCol.textContent = `${stats.creditCount} contribution ${stats.creditCount === 1 ? `entry` : `entries`}`;
+      // Roster
+      const rosterTarget = document.getElementById(`roster-round-target`);
+      const rosterChip = document.getElementById(`roster-summary-chip`);
+      const memberGrid = document.getElementById(`member-grid`);
+      if (rosterTarget) rosterTarget.textContent = `Active Round ${t.activeRound} Target: ${formatThb(t.activeRoundTarget)} cumulative / member`;
+      if (rosterChip) {
+        rosterChip.textContent = `${t.paidThisRoundCount} / ${MEMBERS.length} complete`;
+        rosterChip.setAttribute(`data-status`, t.paidThisRoundCount === MEMBERS.length ? `ok` : `info`);
       }
 
-      const valSp = document.getElementById(`val-spent`);
-      const capSp = document.getElementById(`cap-spent`);
-      if (valSp && capSp) {
-        valSp.textContent = formatThb(stats.totalSpent);
-        capSp.textContent = `${stats.debitCount} expense ${stats.debitCount === 1 ? `entry` : `entries`}`;
+      if (memberGrid) {
+        memberGrid.innerHTML = MEMBERS.map(function (name) {
+          const paid = t.memberTotals[name] || 0;
+          const roundsDone = Math.floor(paid / t.roundSize);
+          let metState = `none`;
+          if (paid >= t.activeRoundTarget) metState = `true`;
+          else if (paid > (t.activeRound - 1) * t.roundSize) metState = `partial`;
+
+          const roundText = paid >= t.activeRoundTarget
+            ? `R${roundsDone} paid`
+            : `Needs ${formatThb(t.activeRoundTarget - paid)}`;
+
+          return `<button type="button" class="member-tile" data-round-met="${metState}" onclick="selectMemberForContribution('${escapeHtml(name)}')" title="Select ${escapeHtml(name)} in contribution form">
+            <span class="member-name">${escapeHtml(name)}</span>
+            <span class="member-total">${formatThb(paid)}</span>
+            <span class="member-round-tag">${escapeHtml(roundText)}</span>
+          </button>`;
+        }).join(``);
       }
 
-      const valRd = document.getElementById(`val-round`);
-      const capRd = document.getElementById(`cap-round`);
-      const cardRd = document.getElementById(`card-round`);
-      if (valRd && capRd && cardRd) {
-        valRd.textContent = `Round ${stats.activeRound}`;
-        capRd.textContent = `${stats.activeRoundPaidCount} / ${MEMBERS.length} members paid (${formatThb(appState.roundAmount)}/rd)`;
-        cardRd.setAttribute(`data-status`, stats.activeRoundPaidCount >= 8 ? `ok` : `info`);
-      }
-
-      // Utilization Meter
-      const utilPct = stats.totalCollected > 0
-        ? Math.min(100, Math.round((stats.totalSpent / stats.totalCollected) * 100))
-        : 0;
-      const utilLabel = document.getElementById(`util-ratio-label`);
-      const utilFill = document.getElementById(`util-bar-fill`);
-      const utilTrack = document.getElementById(`util-bar-track`);
-      const utilCaption = document.getElementById(`util-caption`);
-      if (utilLabel && utilFill && utilTrack && utilCaption) {
-        utilLabel.textContent = stats.totalCollected > 0
-          ? `${utilPct}% spent`
-          : `0% spent`;
-        utilFill.style.width = `${utilPct}%`;
-        utilFill.className = `meter-fill ${utilPct >= 90 ? `is-alert` : utilPct >= 70 ? `is-warn` : ``}`;
-        utilTrack.setAttribute(`aria-valuenow`, String(utilPct));
-        utilCaption.textContent = `Remaining cash reserve: ${formatThb(stats.balance)} of ${formatThb(stats.totalCollected)} collected`;
-      }
-
-      // Active Round Progress Meter
-      const rdPct = Math.min(100, Math.round((stats.activeRoundCollected / stats.activeRoundTarget) * 100));
-      const rdTitle = document.getElementById(`round-meter-title`);
-      const rdLabel = document.getElementById(`round-ratio-label`);
-      const rdFill = document.getElementById(`round-bar-fill`);
-      const rdTrack = document.getElementById(`round-bar-track`);
-      const rdCaption = document.getElementById(`round-caption`);
-      if (rdTitle && rdLabel && rdFill && rdTrack && rdCaption) {
-        rdTitle.textContent = `Round ${stats.activeRound} Completion (${MEMBERS.length} × ${formatThb(appState.roundAmount)})`;
-        rdLabel.textContent = `${formatThb(stats.activeRoundCollected)} / ${formatThb(stats.activeRoundTarget)}`;
-        rdFill.style.width = `${rdPct}%`;
-        rdTrack.setAttribute(`aria-valuenow`, String(rdPct));
-        const pendingCount = MEMBERS.length - stats.activeRoundPaidCount;
-        rdCaption.textContent = `${pendingCount} ${pendingCount === 1 ? `member` : `members`} pending for Round ${stats.activeRound}`;
-      }
+      updateContribRoundHint();
     }
 
-    function renderMemberPicker(stats) {
-      const grid = document.getElementById(`member-picker-grid`);
-      const select = document.getElementById(`contrib-member-select`);
-      if (!grid || !select) return;
+    function renderLedger() {
+      const listEl = document.getElementById(`ledger-list`);
+      const countEl = document.getElementById(`ledger-count-label`);
+      if (!listEl) return;
 
-      grid.innerHTML = MEMBERS.map(function (name) {
-        const isSelected = appState.selectedMember === name;
-        const paid = stats.memberTotals[name] || 0;
-        return `
-          <button
-            type="button"
-            class="member-pick-btn"
-            aria-pressed="${isSelected ? `true` : `false`}"
-            onclick="selectMember('${escapeHtml(name)}')"
-          >
-            <span class="member-pick-name">${escapeHtml(name)}</span>
-            <span class="member-pick-meta">${formatThb(paid)}</span>
-          </button>
-        `;
-      }).join(``);
-
-      select.innerHTML = MEMBERS.map(function (name) {
-        return `<option value="${escapeHtml(name)}" ${appState.selectedMember === name ? `selected` : ``}>${escapeHtml(name)}</option>`;
-      }).join(``);
-    }
-
-    function renderFcSelect() {
-      const sel = document.getElementById(`fc-role-select`);
-      if (!sel) return;
-      sel.innerHTML = MEMBERS.map(function (name) {
-        const selected = appState.selectedFc === name ? `selected` : ``;
-        return `<option value="${escapeHtml(name)}" ${selected}>${escapeHtml(name)} (Fund Coordinator)</option>`;
-      }).join(``);
-    }
-
-    function renderRoster(stats) {
-      const list = document.getElementById(`roster-list`);
-      const chip = document.getElementById(`roster-paid-chip`);
-      if (!list || !chip) return;
-
-      const roundAmt = appState.roundAmount || 1000;
-      const targetForActive = stats.activeRound * roundAmt;
-      chip.textContent = `${stats.activeRoundPaidCount} / ${MEMBERS.length} Paid Rd ${stats.activeRound}`;
-      chip.setAttribute(`data-status`, stats.activeRoundPaidCount === MEMBERS.length ? `ok` : `info`);
-
-      list.innerHTML = MEMBERS.map(function (name) {
-        const paid = stats.memberTotals[name] || 0;
-        const completedRounds = Math.floor(paid / roundAmt);
-        const shortfall = Math.max(0, targetForActive - paid);
-        let statusText = `Due ${formatThb(shortfall)}`;
-        let chipTone = `warn`;
-        if (paid >= (stats.activeRound + 1) * roundAmt) {
-          statusText = `Rd ${completedRounds} Ahead`;
-          chipTone = `ok`;
-        } else if (shortfall === 0) {
-          statusText = `Rd ${stats.activeRound} Paid`;
-          chipTone = `ok`;
-        } else if (paid === 0) {
-          statusText = `Pending Rd ${stats.activeRound}`;
-          chipTone = `info`;
-        }
-
-        return `
-          <button type="button" class="roster-item" onclick="quickPickMemberForContrib('${escapeHtml(name)}')">
-            <div>
-              <div class="roster-name">${escapeHtml(name)}</div>
-              <div class="roster-sub">${completedRounds} ${completedRounds === 1 ? `round` : `rounds`} completed</div>
-            </div>
-            <div class="roster-right">
-              <span class="roster-amount">${formatThb(paid)}</span>
-              <span class="chip" data-status="${chipTone}" style="padding: var(--space-2xs) var(--space-sm);">${statusText}</span>
-            </div>
-          </button>
-        `;
-      }).join(``);
-    }
-
-    function renderCategoryBreakdown(stats) {
-      const container = document.getElementById(`category-breakdown`);
-      const totalLabel = document.getElementById(`cat-total-label`);
-      if (!container || !totalLabel) return;
-
-      totalLabel.textContent = `${formatThb(stats.totalSpent)} total`;
-      const entries = Object.entries(stats.categoryTotals).sort(function (a, b) {
-        return b[1] - a[1];
+      const sorted = appState.transactions.slice().sort(function (a, b) {
+        return new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime();
       });
 
-      if (entries.length === 0) {
-        container.innerHTML = `
-          <div class="empty-state" style="padding: var(--space-md);">
-            <strong style="color: var(--on-surface);">No trip expenses recorded yet</strong>
-            <p style="margin-bottom: 0;">Switch to <strong>FC Expense</strong> mode to log meals, boats, parks, or resort payments.</p>
-          </div>
-        `;
-        return;
-      }
+      const q = searchQuery.trim().toLowerCase();
+      const filtered = sorted.filter(function (tx) {
+        if (activeFilter !== `all` && tx.type !== activeFilter) return false;
+        if (!q) return true;
+        const hay = `${tx.member || ``} ${tx.description || ``} ${tx.category || ``} ${tx.round || ``} ${tx.note || ``}`.toLowerCase();
+        return hay.includes(q);
+      });
 
-      container.innerHTML = entries.map(function (entry) {
-        const cat = entry[0];
-        const amt = entry[1];
-        const pct = stats.totalSpent > 0 ? Math.round((amt / stats.totalSpent) * 100) : 0;
-        const color = CATEGORY_COLORS[cat] || `var(--data-1)`;
-        return `
-          <div class="cat-row">
-            <div class="cat-row-top">
-              <strong>${escapeHtml(cat)}</strong>
-              <span style="font-variant-numeric: tabular-nums;">${formatThb(amt)} (${pct}%)</span>
-            </div>
-            <div class="cat-track">
-              <div class="cat-fill" style="width: ${pct}%; background: ${color};"></div>
-            </div>
-          </div>
-        `;
-      }).join(``);
-    }
-
-    function renderLedger(passedStats) {
-      const stats = passedStats || computeTelemetry();
-      const container = document.getElementById(`ledger-container`);
-      const searchEl = document.getElementById(`ledger-search`);
-      const fAll = document.getElementById(`filter-all`);
-      const fCred = document.getElementById(`filter-credit`);
-      const fDeb = document.getElementById(`filter-debit`);
-      if (!container) return;
-
-      if (fAll) {
-        fAll.textContent = `All (${appState.transactions.length})`;
-        fAll.setAttribute(`aria-pressed`, appState.ledgerFilter === `all` ? `true` : `false`);
-      }
-      if (fCred) {
-        fCred.textContent = `Credits + (${stats.creditCount})`;
-        fCred.setAttribute(`aria-pressed`, appState.ledgerFilter === `credit` ? `true` : `false`);
-      }
-      if (fDeb) {
-        fDeb.textContent = `Debits − (${stats.debitCount})`;
-        fDeb.setAttribute(`aria-pressed`, appState.ledgerFilter === `debit` ? `true` : `false`);
-      }
-
-      const query = searchEl ? searchEl.value.trim().toLowerCase() : ``;
-
-      const filtered = appState.transactions
-        .slice()
-        .sort(function (a, b) {
-          return new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime();
-        })
-        .filter(function (tx) {
-          if (appState.ledgerFilter !== `all` && tx.type !== appState.ledgerFilter) return false;
-          if (!query) return true;
-          const haystack = [
-            tx.member || ``,
-            tx.fcName || ``,
-            tx.description || ``,
-            tx.category || ``
-          ].join(` `).toLowerCase();
-          return haystack.indexOf(query) !== -1;
-        });
-
-      if (appState.transactions.length === 0) {
-        container.innerHTML = `
-          <div class="empty-state">
-            <strong style="color: var(--on-surface);">Your kitty ledger is empty</strong>
-            <p>Select a member above to record the first 1,000 THB contribution, or pull an existing <span style="font-family: var(--font-mono);">data.json</span> from GitHub.</p>
-            <button type="button" class="btn btn-primary btn-sm" onclick="focusContributionForm()">Add First Contribution</button>
-          </div>
-        `;
-        return;
+      if (countEl) {
+        countEl.textContent = `${filtered.length} of ${sorted.length} ${sorted.length === 1 ? `entry` : `entries`} shown`;
       }
 
       if (filtered.length === 0) {
-        container.innerHTML = `
-          <div class="empty-state">
-            <strong style="color: var(--on-surface);">No matching transactions</strong>
-            <p>Try clearing your search term or switching the filter back to All.</p>
-          </div>
-        `;
+        const emptyTitle = sorted.length === 0
+          ? `No transactions in the common fund yet.`
+          : `No transactions match your current filter.`;
+        const emptyHelp = sorted.length === 0
+          ? `Start Round 1 by recording a 1,000 THB contribution on the left, or tap Sync Sheet in Settings to pull existing records from Google Sheets.`
+          : `Clear your search text or switch back to All transactions to see the complete ledger.`;
+
+        listEl.innerHTML = `<div class="empty-state">
+          <p class="subhead" style="margin:0;">${escapeHtml(emptyTitle)}</p>
+          <p style="margin:0; color:var(--on-surface-variant);">${escapeHtml(emptyHelp)}</p>
+        </div>`;
         return;
       }
 
-      container.innerHTML = filtered.map(function (tx) {
-        const isCredit = tx.type === `credit`;
-        const signed = isCredit ? `+${formatThb(tx.amount)}` : `-${formatThb(tx.amount)}`;
-        const runningBal = stats.runningById[tx.id] !== undefined ? stats.runningById[tx.id] : 0;
-        const badgeTone = isCredit ? `ok` : `alert`;
-        const badgeText = isCredit ? `CREDIT` : `DEBIT`;
-        const title = isCredit
-          ? `${tx.member} — ${tx.description || `Kitty contribution`}`
-          : `${tx.description}`;
-        const whoLine = isCredit
-          ? `Member: ${tx.member}`
-          : `FC: ${tx.fcName || `Coordinator`} · ${tx.category || `Group Supplies`}`;
+      const isFc = appState.role === `fc`;
+      const pendingSet = new Set(appState.pendingSyncIds || []);
 
-        return `
-          <article class="tx-row">
-            <div class="tx-main">
-              <div class="tx-title-row">
-                <span class="chip" data-status="${badgeTone}" style="padding: var(--space-2xs) var(--space-sm);">${badgeText}</span>
-                <span class="tx-desc">${escapeHtml(title)}</span>
-              </div>
-              <div class="tx-meta">
-                <span>${escapeHtml(whoLine)}</span>
-                <span>·</span>
-                <time datetime="${escapeHtml(tx.timestamp)}">${escapeHtml(formatTimestamp(tx.timestamp))}</time>
-              </div>
+      listEl.innerHTML = filtered.map(function (tx) {
+        const isCredit = tx.type === `credit`;
+        const title = isCredit
+          ? `${tx.member || `Member`} — Cash Contribution`
+          : `${tx.description || `Group Expense`}`;
+        const tagText = isCredit ? (tx.round || `Contribution`) : (tx.category || `Other`);
+        const tagStatus = isCredit ? `ok` : `info`;
+        const signedAmt = isCredit ? `+${formatThb(tx.amount)}` : `−${formatThb(tx.amount)}`;
+        const isPending = pendingSet.has(tx.id);
+        const notePart = tx.note ? `<span>· ${escapeHtml(tx.note)}</span>` : ``;
+        const pendingBadge = isPending ? `<span class="chip" data-status="warn">Pending sync</span>` : ``;
+        const voidBtn = isFc
+          ? `<button type="button" class="btn btn-danger-outline" onclick="handleVoidTransaction(this, '${escapeHtml(tx.id)}')">Void</button>`
+          : ``;
+
+        return `<article class="ledger-row">
+          <div class="ledger-main">
+            <div class="ledger-top-line">
+              <span class="ledger-title">${escapeHtml(title)}</span>
+              <span class="chip" data-status="${tagStatus}">${escapeHtml(tagText)}</span>
+              ${pendingBadge}
             </div>
-            <div class="tx-right">
-              <div class="tx-amount-col">
-                <div class="tx-amount ${isCredit ? `is-credit` : `is-debit`}">${signed}</div>
-                <div class="tx-running">Bal: ${formatThb(runningBal)}</div>
-              </div>
-              <button
-                type="button"
-                class="btn btn-ghost btn-sm"
-                onclick="deleteTransaction('${escapeHtml(tx.id)}', this)"
-                aria-label="Remove transaction"
-              >
-                Remove
-              </button>
+            <div class="ledger-meta">
+              <span class="tabular">${escapeHtml(formatTimestamp(tx.timestamp))}</span>
+              <span>· Recorded by ${escapeHtml(tx.recordedBy || `Member`)}</span>
+              ${notePart}
             </div>
-          </article>
-        `;
+          </div>
+          <div class="ledger-right">
+            <span class="ledger-amount" data-type="${isCredit ? `credit` : `debit`}">${signedAmt}</span>
+            ${voidBtn}
+          </div>
+        </article>`;
       }).join(``);
     }
 
-    function renderSyncBadge() {
-      const btn = document.getElementById(`sync-status-btn`);
-      const label = document.getElementById(`sync-status-label`);
-      const shaEl = document.getElementById(`cfg-sha-display`);
-      if (!btn || !label) return;
-
-      const gh = appState.github;
-      if (!gh.repo) {
-        btn.setAttribute(`data-status`, `info`);
-        label.textContent = `Local Mode · Configure GitHub`;
-      } else if (gh.syncStatus === `synced`) {
-        btn.setAttribute(`data-status`, `ok`);
-        label.textContent = `GitHub Synced · ${gh.repo}`;
-      } else if (gh.syncStatus === `syncing`) {
-        btn.setAttribute(`data-status`, `info`);
-        label.textContent = `Syncing with GitHub…`;
-      } else if (gh.syncStatus === `error`) {
-        btn.setAttribute(`data-status`, `alert`);
-        label.textContent = gh.syncDetail || `GitHub Sync Error`;
-      } else {
-        btn.setAttribute(`data-status`, `warn`);
-        label.textContent = gh.syncDetail || `Pending GitHub Push`;
-      }
-
-      if (shaEl) {
-        shaEl.textContent = gh.remoteSha
-          ? `Remote SHA: ${gh.remoteSha} (${gh.lastSyncAt ? formatTimestamp(gh.lastSyncAt) : `synced`})`
-          : `Remote SHA: not synced yet`;
+    function renderAll() {
+      renderRoleUi();
+      renderSyncChips();
+      renderTelemetryAndRoster();
+      renderLedger();
+      if (window.lucide && typeof window.lucide.createIcons === `function`) {
+        window.lucide.createIcons();
       }
     }
 
-    /* ---------- UI Actions (Hoisted function declarations) ---------- */
-    function switchMode(mode) {
-      appState.mode = mode === `fc` ? `fc` : `member`;
-      const tabMem = document.getElementById(`tab-member`);
-      const tabFc = document.getElementById(`tab-fc`);
-      const formContrib = document.getElementById(`form-contribution`);
-      const formExpense = document.getElementById(`form-expense`);
-      const roleChip = document.getElementById(`active-role-chip`);
-
-      if (tabMem) tabMem.setAttribute(`aria-selected`, appState.mode === `member` ? `true` : `false`);
-      if (tabFc) tabFc.setAttribute(`aria-selected`, appState.mode === `fc` ? `true` : `false`);
-      if (formContrib) formContrib.style.display = appState.mode === `member` ? `flex` : `none`;
-      if (formExpense) formExpense.style.display = appState.mode === `fc` ? `flex` : `none`;
-      if (roleChip) {
-        roleChip.textContent = appState.mode === `member` ? `Member Credit (+)` : `FC Debit (−)`;
-        roleChip.setAttribute(`data-status`, appState.mode === `member` ? `ok` : `alert`);
-      }
-    }
-
-    function selectMember(name) {
-      appState.selectedMember = name;
-      renderMemberPicker(computeTelemetry());
+    function setRole(role) {
+      appState.role = role === `fc` ? `fc` : `member`;
+      pendingOverdraftPayload = null;
+      const overdraftBtn = document.getElementById(`btn-confirm-overdraft`);
+      if (overdraftBtn) overdraftBtn.style.display = `none`;
+      showInlineMessage(`expense-msg`, ``);
+      renderAll();
       persistState();
     }
 
-    function selectMemberFromDropdown(name) {
-      if (name) selectMember(name);
+    function selectMemberForContribution(name) {
+      const sel = document.getElementById(`contrib-member`);
+      if (sel) {
+        sel.value = name;
+        updateContribRoundHint();
+        sel.focus();
+      }
     }
 
-    function quickPickMemberForContrib(name) {
-      switchMode(`member`);
-      selectMember(name);
-      const amountInput = document.getElementById(`contrib-amount`);
-      if (amountInput) amountInput.focus();
+    function updateContribRoundHint() {
+      const sel = document.getElementById(`contrib-member`);
+      const hint = document.getElementById(`contrib-member-status-hint`);
+      const roundSel = document.getElementById(`contrib-round`);
+      if (!sel || !hint) return;
+
+      const t = computeTelemetry();
+      const paid = t.memberTotals[sel.value] || 0;
+      const nextRound = Math.floor(paid / t.roundSize) + 1;
+      hint.textContent = `Paid ${formatThb(paid)} so far`;
+
+      if (roundSel) {
+        const candidate = `Round ${Math.min(5, nextRound)}`;
+        if (Array.from(roundSel.options).some(function (o) { return o.value === candidate; })) {
+          roundSel.value = candidate;
+        }
+      }
     }
 
-    function updateSelectedFc(name) {
-      appState.selectedFc = name;
-      persistState();
-    }
-
-    function setContributionPreset(amount, btn) {
+    function selectContribPreset(amount) {
       const input = document.getElementById(`contrib-amount`);
       if (input) input.value = String(amount);
-      clearPresetHighlight();
-      if (btn) btn.classList.add(`is-active`);
+      updatePresetButtons(amount);
     }
 
-    function clearPresetHighlight() {
-      [`preset-1000`, `preset-2000`, `preset-500`].forEach(function (id) {
-        const el = document.getElementById(id);
-        if (el) el.classList.remove(`is-active`);
-      });
-    }
-
-    function focusContributionForm() {
-      switchMode(`member`);
-      const el = document.getElementById(`contrib-amount`);
-      if (el) el.focus();
-    }
-
-    function showGlobalFeedback(message, tone) {
-      const box = document.getElementById(`global-feedback`);
-      const txt = document.getElementById(`global-feedback-text`);
-      if (!box || !txt) return;
-      txt.textContent = message;
-      box.setAttribute(`data-tone`, tone || `info`);
-      box.classList.add(`is-visible`);
-    }
-
-    function dismissFeedback() {
-      const box = document.getElementById(`global-feedback`);
-      if (box) box.classList.remove(`is-visible`);
-    }
-
-    function showInlineError(boxId, textId, message) {
-      const box = document.getElementById(boxId);
-      const txt = document.getElementById(textId);
-      if (!box || !txt) return;
-      if (!message) {
-        box.classList.remove(`is-visible`);
-        txt.textContent = ``;
-        return;
+    function focusCustomContrib() {
+      const input = document.getElementById(`contrib-amount`);
+      updatePresetButtons(null);
+      if (input) {
+        input.focus();
+        input.select();
       }
-      txt.textContent = message;
-      box.classList.add(`is-visible`);
     }
 
-    async function submitContribution(event) {
+    function onContribAmountInput() {
+      const input = document.getElementById(`contrib-amount`);
+      const val = Number(input ? input.value : 0);
+      if (val === 1000 || val === 2000 || val === 3000) {
+        updatePresetButtons(val);
+      } else {
+        updatePresetButtons(null);
+      }
+    }
+
+    function updatePresetButtons(activeVal) {
+      const map = [
+        [`preset-1000`, 1000],
+        [`preset-2000`, 2000],
+        [`preset-3000`, 3000]
+      ];
+      map.forEach(function (pair) {
+        const btn = document.getElementById(pair[0]);
+        if (btn) btn.setAttribute(`aria-pressed`, activeVal === pair[1] ? `true` : `false`);
+      });
+      const customBtn = document.getElementById(`preset-custom`);
+      if (customBtn) customBtn.setAttribute(`aria-pressed`, activeVal === null ? `true` : `false`);
+    }
+
+    async function handleContributionSubmit(event) {
       event.preventDefault();
-      showInlineError(`contrib-error`, `contrib-error-text`, ``);
-
+      const memberEl = document.getElementById(`contrib-member`);
       const amountEl = document.getElementById(`contrib-amount`);
+      const roundEl = document.getElementById(`contrib-round`);
       const noteEl = document.getElementById(`contrib-note`);
-      const member = appState.selectedMember;
-      const amount = amountEl ? Number(amountEl.value) : 0;
 
-      if (!member || !MEMBERS.includes(member)) {
-        showInlineError(`contrib-error`, `contrib-error-text`, `Please select your name from the 10-member list.`);
+      const member = memberEl ? memberEl.value : ``;
+      const amount = Number(amountEl ? amountEl.value : 0);
+      const round = roundEl ? roundEl.value : `Round 1`;
+      const note = noteEl ? noteEl.value.trim() : ``;
+
+      if (!MEMBERS.includes(member)) {
+        showInlineMessage(`contrib-msg`, `Select one of the 10 group members first.`, `error`);
         return;
       }
       if (!Number.isFinite(amount) || amount <= 0) {
-        showInlineError(`contrib-error`, `contrib-error-text`, `Enter a valid THB amount greater than 0.`);
+        showInlineMessage(`contrib-msg`, `Enter a contribution amount greater than 0 THB.`, `error`);
         return;
       }
 
-      const stats = computeTelemetry();
-      const roundLabel = amount % appState.roundAmount === 0
-        ? `Round ${stats.activeRound} contribution (${amount / appState.roundAmount}× ${formatThb(appState.roundAmount)})`
-        : `Custom cash contribution`;
-      const note = noteEl && noteEl.value.trim() ? noteEl.value.trim() : roundLabel;
-
       const tx = {
-        id: `tx_${Date.now()}_${Math.random().toString(36).slice(2, 7)}`,
+        id: generateId(),
+        timestamp: new Date().toISOString(),
         type: `credit`,
-        amount: Math.round(amount),
         member: member,
-        fcName: ``,
         category: `Contribution`,
-        description: note,
-        timestamp: new Date().toISOString()
+        description: `${member} (${round})`,
+        round: round,
+        amount: Math.round(amount),
+        note: note,
+        recordedBy: appState.role === `fc` ? `Fund Coordinator (FC)` : `Member (${member})`
       };
 
       appState.transactions.push(tx);
+      appState.pendingSyncIds.push(tx.id);
       if (noteEl) noteEl.value = ``;
 
-      await persistState();
+      showInlineMessage(`contrib-msg`, `Added ${formatThb(tx.amount)} from ${member} (${round}).`, `ok`);
       renderAll();
-      showGlobalFeedback(`Recorded +${formatThb(tx.amount)} from ${member}.`, `ok`);
+      await persistState();
 
-      if (appState.github.repo && appState.github.pat && appState.github.autoSync) {
-        await pushToGitHub(`Credit +${tx.amount} THB from ${member}`, false);
-      } else if (appState.github.repo) {
-        appState.github.syncStatus = `pending`;
-        appState.github.syncDetail = `Pending GitHub Push`;
-        renderSyncBadge();
+      if (appState.settings.syncMode === `auto`) {
+        await pushTransactionToBackend(tx);
       }
     }
 
-    async function submitExpense(event) {
+    async function handleExpenseSubmit(event) {
       event.preventDefault();
-      showInlineError(`expense-error`, `expense-error-text`, ``);
+      if (appState.role !== `fc`) {
+        showInlineMessage(`expense-msg`, `Switch role to Fund Coordinator (FC) above to deduct expenses.`, `error`);
+        return;
+      }
 
-      const fcEl = document.getElementById(`fc-role-select`);
       const descEl = document.getElementById(`expense-desc`);
       const catEl = document.getElementById(`expense-category`);
       const amtEl = document.getElementById(`expense-amount`);
+      const locEl = document.getElementById(`expense-location`);
+      const overdraftBtn = document.getElementById(`btn-confirm-overdraft`);
 
-      const fcName = fcEl ? fcEl.value : appState.selectedFc;
       const description = descEl ? descEl.value.trim() : ``;
-      const category = catEl ? catEl.value : `Meals — Lunch`;
-      const amount = amtEl ? Number(amtEl.value) : 0;
+      const category = catEl ? catEl.value : `Other`;
+      const amount = Number(amtEl ? amtEl.value : 0);
+      const note = locEl ? locEl.value.trim() : ``;
 
       if (!description) {
-        showInlineError(`expense-error`, `expense-error-text`, `Enter an expense description (e.g. Day 1 - Lunch at Curvy Dining).`);
+        showInlineMessage(`expense-msg`, `Enter an expense description (e.g., ferry tickets, dinner, or 7-Eleven water).`, `error`);
         return;
       }
       if (!Number.isFinite(amount) || amount <= 0) {
-        showInlineError(`expense-error`, `expense-error-text`, `Enter a valid THB expense amount greater than 0.`);
+        showInlineMessage(`expense-msg`, `Enter an expense amount greater than 0 THB.`, `error`);
         return;
       }
 
-      const tx = {
-        id: `tx_${Date.now()}_${Math.random().toString(36).slice(2, 7)}`,
-        type: `debit`,
-        amount: Math.round(amount),
-        member: ``,
-        fcName: fcName,
-        category: category,
+      const telemetry = computeTelemetry();
+      const roundedAmt = Math.round(amount);
+
+      if (roundedAmt > telemetry.balance) {
+        pendingOverdraftPayload = {
+          description: description,
+          category: category,
+          amount: roundedAmt,
+          note: note
+        };
+        if (overdraftBtn) overdraftBtn.style.display = `inline-flex`;
+        showInlineMessage(
+          `expense-msg`,
+          `Expense (${formatThb(roundedAmt)}) exceeds remaining cash (${formatThb(telemetry.balance)}). Tap "Confirm Overdraft" if the FC covered the gap out-of-pocket.`,
+          `warn`
+        );
+        return;
+      }
+
+      await commitExpenseTransaction({
         description: description,
-        timestamp: new Date().toISOString()
+        category: category,
+        amount: roundedAmt,
+        note: note
+      });
+    }
+
+    async function confirmOverdraftExpense() {
+      if (!pendingOverdraftPayload) return;
+      const payload = pendingOverdraftPayload;
+      pendingOverdraftPayload = null;
+      const overdraftBtn = document.getElementById(`btn-confirm-overdraft`);
+      if (overdraftBtn) overdraftBtn.style.display = `none`;
+      await commitExpenseTransaction(payload);
+    }
+
+    async function commitExpenseTransaction(payload) {
+      const descEl = document.getElementById(`expense-desc`);
+      const amtEl = document.getElementById(`expense-amount`);
+      const locEl = document.getElementById(`expense-location`);
+
+      const tx = {
+        id: generateId(),
+        timestamp: new Date().toISOString(),
+        type: `debit`,
+        member: ``,
+        category: payload.category,
+        description: payload.description,
+        round: ``,
+        amount: payload.amount,
+        note: payload.note,
+        recordedBy: `Fund Coordinator (FC)`
       };
 
       appState.transactions.push(tx);
+      appState.pendingSyncIds.push(tx.id);
+
       if (descEl) descEl.value = ``;
       if (amtEl) amtEl.value = ``;
+      if (locEl) locEl.value = ``;
 
-      await persistState();
+      showInlineMessage(`expense-msg`, `Recorded ${formatThb(tx.amount)} debit for "${tx.description}".`, `ok`);
       renderAll();
-      showGlobalFeedback(`Recorded −${formatThb(tx.amount)} expense (${description}) by FC ${fcName}.`, `info`);
+      await persistState();
 
-      if (appState.github.repo && appState.github.pat && appState.github.autoSync) {
-        await pushToGitHub(`Debit -${tx.amount} THB: ${description}`, false);
-      } else if (appState.github.repo) {
-        appState.github.syncStatus = `pending`;
-        appState.github.syncDetail = `Pending GitHub Push`;
-        renderSyncBadge();
+      if (appState.settings.syncMode === `auto`) {
+        await pushTransactionToBackend(tx);
       }
     }
 
-    async function deleteTransaction(id, btn) {
-      if (btn && btn.dataset.armed !== `true`) {
+    async function handleVoidTransaction(btn, txId) {
+      if (appState.role !== `fc`) return;
+      if (btn.dataset.armed !== `true`) {
         btn.dataset.armed = `true`;
-        btn.textContent = `Confirm?`;
-        btn.classList.remove(`btn-ghost`);
-        btn.classList.add(`btn-danger`);
+        btn.className = `btn btn-danger-armed`;
+        btn.textContent = `Confirm Void`;
         setTimeout(function () {
           if (btn && btn.dataset.armed === `true`) {
             btn.dataset.armed = `false`;
-            btn.textContent = `Remove`;
-            btn.classList.remove(`btn-danger`);
-            btn.classList.add(`btn-ghost`);
+            btn.className = `btn btn-danger-outline`;
+            btn.textContent = `Void`;
           }
-        }, 3500);
+        }, 4000);
         return;
       }
 
-      const idx = appState.transactions.findIndex(function (tx) {
-        return tx.id === id;
+      appState.transactions = appState.transactions.filter(function (tx) {
+        return tx.id !== txId;
       });
-      if (idx === -1) return;
-      const removed = appState.transactions.splice(idx, 1)[0];
-
-      await persistState();
+      appState.pendingSyncIds = appState.pendingSyncIds.filter(function (id) {
+        return id !== txId;
+      });
       renderAll();
-      showGlobalFeedback(`Removed entry (${formatThb(removed.amount)}).`, `warn`);
+      await persistState();
 
-      if (appState.github.repo && appState.github.pat && appState.github.autoSync) {
-        await pushToGitHub(`Remove transaction ${removed.id}`, false);
+      if (appState.settings.syncMode === `auto`) {
+        await pushDeleteToBackend(txId);
       }
     }
 
-    function setLedgerFilter(filter) {
-      appState.ledgerFilter = filter;
+    function setLedgerFilter(filterType) {
+      activeFilter = filterType;
+      [`all`, `credit`, `debit`].forEach(function (key) {
+        const tab = document.getElementById(`tab-${key}`);
+        if (tab) tab.setAttribute(`aria-selected`, key === filterType ? `true` : `false`);
+      });
       renderLedger();
     }
 
-    /* ---------- Settings Modal & GitHub REST API ---------- */
-    function openSettingsModal() {
-      const modal = document.getElementById(`settings-modal`);
-      const repoEl = document.getElementById(`cfg-repo`);
-      const branchEl = document.getElementById(`cfg-branch`);
-      const pathEl = document.getElementById(`cfg-path`);
-      const patEl = document.getElementById(`cfg-pat`);
-      const roundEl = document.getElementById(`cfg-round-amount`);
-      const autoEl = document.getElementById(`cfg-autosync`);
-
-      if (repoEl) repoEl.value = appState.github.repo || ``;
-      if (branchEl) branchEl.value = appState.github.branch || `main`;
-      if (pathEl) pathEl.value = appState.github.path || `data.json`;
-      if (patEl) patEl.value = appState.github.pat || ``;
-      if (roundEl) roundEl.value = String(appState.roundAmount || 1000);
-      if (autoEl) autoEl.value = appState.github.autoSync ? `true` : `false`;
-
-      const preview = document.getElementById(`json-preview`);
-      if (preview) {
-        preview.textContent = JSON.stringify(buildDataJsonPayload(), null, 2);
-      }
-
-      showSettingsFeedback(``, `info`);
-      if (modal) modal.classList.add(`is-open`);
+    function setLedgerSearch(query) {
+      searchQuery = query || ``;
+      renderLedger();
     }
 
-    function closeSettingsModal() {
-      const modal = document.getElementById(`settings-modal`);
-      if (modal) modal.classList.remove(`is-open`);
-    }
+    /* Backend Sync via Google Apps Script Web App API */
+    function normalizeRemoteRecord(raw) {
+      if (!raw || typeof raw !== `object`) return null;
+      const rawType = String(raw.type || raw.txType || ``).toLowerCase();
+      const type = (rawType === `debit` || rawType === `expense`) ? `debit` : `credit`;
+      const amount = Number(raw.amount || raw.thb || 0);
+      if (!Number.isFinite(amount) || amount <= 0) return null;
 
-    function togglePatVisibility() {
-      const patEl = document.getElementById(`cfg-pat`);
-      const btn = document.getElementById(`toggle-pat-btn`);
-      if (!patEl || !btn) return;
-      if (patEl.type === `password`) {
-        patEl.type = `text`;
-        btn.textContent = `Hide`;
-      } else {
-        patEl.type = `password`;
-        btn.textContent = `Show`;
-      }
-    }
-
-    function showSettingsFeedback(message, tone) {
-      const box = document.getElementById(`settings-feedback`);
-      const txt = document.getElementById(`settings-feedback-text`);
-      if (!box || !txt) return;
-      if (!message) {
-        box.classList.remove(`is-visible`);
-        txt.textContent = ``;
-        return;
-      }
-      txt.textContent = message;
-      box.setAttribute(`data-tone`, tone || `info`);
-      box.classList.add(`is-visible`);
-    }
-
-    function readSettingsInputs() {
-      const repoEl = document.getElementById(`cfg-repo`);
-      const branchEl = document.getElementById(`cfg-branch`);
-      const pathEl = document.getElementById(`cfg-path`);
-      const patEl = document.getElementById(`cfg-pat`);
-      const roundEl = document.getElementById(`cfg-round-amount`);
-      const autoEl = document.getElementById(`cfg-autosync`);
-
-      appState.github.repo = repoEl ? repoEl.value.trim().replace(/^\/+|\/+$/g, ``) : ``;
-      appState.github.branch = branchEl && branchEl.value.trim() ? branchEl.value.trim() : `main`;
-      appState.github.path = pathEl && pathEl.value.trim() ? pathEl.value.trim().replace(/^\/+/, ``) : `data.json`;
-      appState.github.pat = patEl ? patEl.value.trim() : ``;
-      appState.github.autoSync = autoEl ? autoEl.value === `true` : true;
-
-      const roundVal = roundEl ? Number(roundEl.value) : 1000;
-      if (Number.isFinite(roundVal) && roundVal >= 100) {
-        appState.roundAmount = Math.round(roundVal);
-      }
-    }
-
-    async function saveSettings(event) {
-      event.preventDefault();
-      readSettingsInputs();
-
-      if (appState.github.repo && !/^[^/\s]+\/[^/\s]+$/.test(appState.github.repo)) {
-        showSettingsFeedback(`Repository must use owner/repo format (for example: andy-travel/thailand-2026-kitty).`, `alert`);
-        return;
-      }
-
-      if (!appState.github.repo) {
-        appState.github.syncStatus = `local`;
-        appState.github.syncDetail = `Local Mode · Configure GitHub`;
-      } else if (appState.github.syncStatus === `local`) {
-        appState.github.syncStatus = `pending`;
-        appState.github.syncDetail = `Ready to Pull/Push`;
-      }
-
-      await persistState();
-      renderAll();
-      showSettingsFeedback(`Settings saved. You can now test Pull (GET) or Push (PUT).`, `ok`);
-    }
-
-    function buildGitHubContentsUrl(includeRef) {
-      const repo = appState.github.repo;
-      const path = appState.github.path || `data.json`;
-      const branch = appState.github.branch || `main`;
-      const base = `https://api.github.com/repos/${repo}/contents/${path}`;
-      return includeRef ? `${base}?ref=${encodeURIComponent(branch)}` : base;
-    }
-
-    function buildGitHubHeaders(hasBody) {
-      const headers = {
-        "Accept": `application/vnd.github+json`,
-        "X-GitHub-Api-Version": `2022-11-28`
+      return {
+        id: String(raw.id || raw.txId || generateId()),
+        timestamp: String(raw.timestamp || raw.createdAt || raw.date || new Date().toISOString()),
+        type: type,
+        member: String(raw.member || raw.memberName || ``),
+        category: String(raw.category || (type === `credit` ? `Contribution` : `Other`)),
+        description: String(raw.description || raw.desc || (type === `credit` ? `${raw.member || `Member`} Contribution` : `Expense`)),
+        round: String(raw.round || ``),
+        amount: Math.round(amount),
+        note: String(raw.note || raw.location || ``),
+        recordedBy: String(raw.recordedBy || raw.role || (type === `debit` ? `Fund Coordinator (FC)` : `Member`))
       };
-      if (appState.github.pat) {
-        headers[`Authorization`] = `Bearer ${appState.github.pat}`;
-      }
-      if (hasBody) {
-        headers[`Content-Type`] = `application/json`;
-      }
-      return headers;
     }
 
-    async function pullFromGitHub(fromModal) {
-      if (fromModal) readSettingsInputs();
-      const repo = appState.github.repo;
-      if (!repo || !/^[^/\s]+\/[^/\s]+$/.test(repo)) {
-        if (fromModal) {
-          showSettingsFeedback(`Enter a valid owner/repo before pulling from GitHub.`, `warn`);
-        } else {
-          openSettingsModal();
-          showSettingsFeedback(`Configure your GitHub owner/repo first to pull data.json.`, `info`);
-        }
-        return false;
-      }
+    async function pushTransactionToBackend(tx) {
+      const targetUrl = (appState.settings.gasUrl || ``).trim();
+      if (!targetUrl) return false;
 
-      appState.github.syncStatus = `syncing`;
-      renderSyncBadge();
+      appState.syncStatus = `syncing`;
+      appState.syncDetail = `Syncing to Sheet…`;
+      renderSyncChips();
 
       try {
-        const res = await fetch(buildGitHubContentsUrl(true), {
-          method: `GET`,
-          headers: buildGitHubHeaders(false)
+        const response = await fetch(targetUrl, {
+          method: `POST`,
+          headers: { 'Content-Type': `text/plain;charset=utf-8` },
+          body: JSON.stringify({ action: `add`, transaction: tx })
         });
-
-        if (res.status === 404) {
-          appState.github.remoteSha = ``;
-          appState.github.syncStatus = `pending`;
-          appState.github.syncDetail = `data.json not found on GitHub`;
-          renderSyncBadge();
-          const msg404 = `File ${appState.github.path} does not exist yet in ${repo}. Click "Push Now (PUT)" to initialize it.`;
-          if (fromModal) showSettingsFeedback(msg404, `warn`);
-          else showGlobalFeedback(msg404, `warn`);
-          return false;
-        }
-
-        if (!res.ok) {
-          const errBody = await res.json().catch(function () { return {}; });
-          const reason = errBody.message || `HTTP ${res.status}`;
-          throw new Error(reason);
-        }
-
-        const payload = await res.json();
-        appState.github.remoteSha = payload.sha || ``;
-        const rawJson = decodeBase64Utf8(payload.content || ``);
-        const parsed = JSON.parse(rawJson);
-
-        if (Array.isArray(parsed.transactions)) {
-          appState.transactions = parsed.transactions;
-        }
-        if (typeof parsed.roundAmount === `number` && parsed.roundAmount >= 100) {
-          appState.roundAmount = parsed.roundAmount;
-        }
-
-        appState.github.syncStatus = `synced`;
-        appState.github.lastSyncAt = new Date().toISOString();
-        appState.github.syncDetail = `Synced with ${repo}`;
-
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        appState.pendingSyncIds = appState.pendingSyncIds.filter(function (id) {
+          return id !== tx.id;
+        });
+        appState.syncStatus = `synced`;
+        appState.lastSyncAt = new Date().toISOString();
+        appState.syncDetail = `Synced · ${formatTimestamp(appState.lastSyncAt)}`;
+        renderSyncChips();
+        renderLedger();
         await persistState();
-        renderAll();
-
-        const okMsg = `Pulled ${appState.transactions.length} transactions from ${repo}/${appState.github.path}.`;
-        if (fromModal) showSettingsFeedback(okMsg, `ok`);
-        else showGlobalFeedback(okMsg, `ok`);
         return true;
-      } catch (err) {
-        appState.github.syncStatus = `error`;
-        appState.github.syncDetail = `GitHub GET blocked/failed`;
-        renderSyncBadge();
-        const failMsg = `GitHub GET failed (${err.message}). Changes remain safely saved locally.`;
-        if (fromModal) showSettingsFeedback(failMsg, `alert`);
-        else showGlobalFeedback(failMsg, `warn`);
+      } catch (_err) {
+        appState.syncStatus = `offline`;
+        appState.syncDetail = `Saved locally · Sheet offline`;
+        renderSyncChips();
+        await persistState();
         return false;
       }
     }
 
-    async function pushToGitHub(commitMessage, fromModal) {
-      if (fromModal) readSettingsInputs();
-      const repo = appState.github.repo;
-      if (!repo || !/^[^/\s]+\/[^/\s]+$/.test(repo)) {
-        if (fromModal) showSettingsFeedback(`Enter a valid owner/repo before pushing.`, `warn`);
-        return false;
+    async function pushDeleteToBackend(txId) {
+      const targetUrl = (appState.settings.gasUrl || ``).trim();
+      if (!targetUrl) return;
+      try {
+        await fetch(targetUrl, {
+          method: `POST`,
+          headers: { 'Content-Type': `text/plain;charset=utf-8` },
+          body: JSON.stringify({ action: `delete`, id: txId })
+        });
+      } catch (_err) {
+        // Local void already persisted
       }
-      if (!appState.github.pat) {
-        if (fromModal) showSettingsFeedback(`Enter a Personal Access Token (contents:write) to push changes.`, `warn`);
+    }
+
+    async function syncWithBackend() {
+      const targetUrl = (appState.settings.gasUrl || ``).trim();
+      if (!targetUrl) {
+        appState.syncStatus = `error`;
+        appState.syncDetail = `No Apps Script URL set`;
+        renderSyncChips();
         return false;
       }
 
-      appState.github.syncStatus = `syncing`;
-      renderSyncBadge();
+      const syncBtn = document.getElementById(`btn-sync-now`);
+      if (syncBtn) syncBtn.disabled = true;
+      appState.syncStatus = `syncing`;
+      appState.syncDetail = `Syncing Sheet…`;
+      renderSyncChips();
 
       try {
-        // If we don't have a SHA yet, check GET first so updates don't hit 422/409
-        if (!appState.github.remoteSha) {
-          const probe = await fetch(buildGitHubContentsUrl(true), {
-            method: `GET`,
-            headers: buildGitHubHeaders(false)
+        // 1. Push any queued local transactions first
+        const pendingCopy = appState.pendingSyncIds.slice();
+        for (let i = 0; i < pendingCopy.length; i += 1) {
+          const pendingTx = appState.transactions.find(function (item) {
+            return item.id === pendingCopy[i];
           });
-          if (probe.ok) {
-            const probeJson = await probe.json();
-            appState.github.remoteSha = probeJson.sha || ``;
+          if (pendingTx) {
+            const pushRes = await fetch(targetUrl, {
+              method: `POST`,
+              headers: { 'Content-Type': `text/plain;charset=utf-8` },
+              body: JSON.stringify({ action: `add`, transaction: pendingTx })
+            });
+            if (pushRes.ok) {
+              appState.pendingSyncIds = appState.pendingSyncIds.filter(function (id) {
+                return id !== pendingTx.id;
+              });
+            }
           }
         }
 
-        const bodyObj = {
-          message: commitMessage || `Update ${appState.github.path} via Trip Kitty`,
-          content: encodeBase64Utf8(JSON.stringify(buildDataJsonPayload(), null, 2)),
-          branch: appState.github.branch || `main`
-        };
-        if (appState.github.remoteSha) {
-          bodyObj.sha = appState.github.remoteSha;
+        // 2. Pull remote transactions
+        const separator = targetUrl.includes(`?`) ? `&` : `?`;
+        const pullUrl = `${targetUrl}${separator}action=list&_t=${Date.now()}`;
+        const res = await fetch(pullUrl, { method: `GET` });
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const data = await res.json();
+
+        const rawList = Array.isArray(data)
+          ? data
+          : (Array.isArray(data.transactions) ? data.transactions
+            : (Array.isArray(data.data) ? data.data
+              : (Array.isArray(data.records) ? data.records : [])));
+
+        const normalized = rawList.map(normalizeRemoteRecord).filter(Boolean);
+        if (normalized.length > 0 || appState.pendingSyncIds.length === 0) {
+          const byId = new Map();
+          normalized.forEach(function (item) {
+            byId.set(item.id, item);
+          });
+          // Keep any still-pending local records so nothing is lost
+          appState.transactions.forEach(function (localItem) {
+            if (appState.pendingSyncIds.includes(localItem.id) && !byId.has(localItem.id)) {
+              byId.set(localItem.id, localItem);
+            }
+          });
+          appState.transactions = Array.from(byId.values());
         }
 
-        const res = await fetch(buildGitHubContentsUrl(false), {
-          method: `PUT`,
-          headers: buildGitHubHeaders(true),
-          body: JSON.stringify(bodyObj)
-        });
-
-        if (res.status === 409) {
-          appState.github.remoteSha = ``;
-          appState.github.syncStatus = `error`;
-          appState.github.syncDetail = `SHA conflict — Pull GET first`;
-          renderSyncBadge();
-          const conflictMsg = `Remote file changed on GitHub (409 conflict). Run Pull GET to fetch the latest SHA before pushing.`;
-          if (fromModal) showSettingsFeedback(conflictMsg, `warn`);
-          else showGlobalFeedback(conflictMsg, `warn`);
-          return false;
-        }
-
-        if (!res.ok) {
-          const errBody = await res.json().catch(function () { return {}; });
-          throw new Error(errBody.message || `HTTP ${res.status}`);
-        }
-
-        const result = await res.json();
-        appState.github.remoteSha = (result.content && result.content.sha) ? result.content.sha : appState.github.remoteSha;
-        appState.github.syncStatus = `synced`;
-        appState.github.lastSyncAt = new Date().toISOString();
-        appState.github.syncDetail = `Synced with ${repo}`;
-
+        appState.syncStatus = `synced`;
+        appState.lastSyncAt = new Date().toISOString();
+        appState.syncDetail = `Synced · ${formatTimestamp(appState.lastSyncAt)}`;
+        renderAll();
         await persistState();
-        renderSyncBadge();
-
-        const okMsg = `Pushed ${appState.transactions.length} transactions to GitHub (${repo}).`;
-        if (fromModal) showSettingsFeedback(okMsg, `ok`);
-        else showGlobalFeedback(okMsg, `ok`);
         return true;
-      } catch (err) {
-        appState.github.syncStatus = `error`;
-        appState.github.syncDetail = `GitHub PUT blocked/failed`;
-        renderSyncBadge();
-        const failMsg = `GitHub PUT failed (${err.message}). Your entry is safely stored locally and exportable as data.json.`;
-        if (fromModal) showSettingsFeedback(failMsg, `alert`);
-        else showGlobalFeedback(failMsg, `warn`);
+      } catch (_err) {
+        appState.syncStatus = `offline`;
+        appState.syncDetail = `Local mode · Sheet unreachable`;
+        renderSyncChips();
+        await persistState();
         return false;
+      } finally {
+        if (syncBtn) syncBtn.disabled = false;
       }
     }
 
-    /* ---------- Export & Reset ---------- */
-    function exportJsonFile() {
-      const content = JSON.stringify(buildDataJsonPayload(), null, 2);
-      if (window.notebookAppApi && typeof window.notebookAppApi.triggerFileDownload === `function`) {
-        window.notebookAppApi.triggerFileDownload({
-          content: content,
-          contentType: `text/plain`,
-          encoding: `UTF-8`,
-          filename: `data.json`
-        });
-      } else {
-        const blob = new Blob([content], { type: `application/json` });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement(`a`);
-        a.href = url;
-        a.download = `data.json`;
-        a.click();
-        URL.revokeObjectURL(url);
-      }
-      showGlobalFeedback(`Downloaded flat data.json snapshot.`, `ok`);
-    }
-
-    function exportCsvFile() {
-      const stats = computeTelemetry();
-      const rows = [[`Timestamp`, `Type`, `Member`, `FC`, `Category`, `Description`, `Amount_THB`, `Running_Balance_THB`]];
-      const sorted = appState.transactions.slice().sort(function (a, b) {
-        return new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime();
-      });
-      sorted.forEach(function (tx) {
-        const signed = tx.type === `credit` ? tx.amount : -tx.amount;
-        const bal = stats.runningById[tx.id] !== undefined ? stats.runningById[tx.id] : 0;
-        const cols = [
+    /* CSV Export */
+    function exportLedgerCsv() {
+      const headers = [`Timestamp`, `Type`, `Member`, `Category`, `Description`, `Round`, `Amount_THB`, `Note`, `Recorded_By`];
+      const rows = appState.transactions.map(function (tx) {
+        return [
           tx.timestamp,
           tx.type,
-          tx.member || ``,
-          tx.fcName || ``,
-          tx.category || ``,
-          tx.description || ``,
-          String(signed),
-          String(bal)
-        ].map(function (val) {
-          return `"${String(val).replace(/"/g, `""`)}"`;
-        });
-        rows.push(cols);
+          tx.member,
+          tx.category,
+          tx.description,
+          tx.round,
+          tx.amount,
+          tx.note,
+          tx.recordedBy
+        ].map(function (cell) {
+          const str = String(cell ?? ``).replace(/"/g, `""`);
+          return `"${str}"`;
+        }).join(`,`);
       });
-      const csv = rows.map(function (r) { return r.join(`,`); }).join(`\n`);
+      const csv = [headers.join(`,`)].concat(rows).join(`\n`);
 
       if (window.notebookAppApi && typeof window.notebookAppApi.triggerFileDownload === `function`) {
         window.notebookAppApi.triggerFileDownload({
           content: csv,
           contentType: `text/csv`,
           encoding: `UTF-8`,
-          filename: `trip-kitty-ledger.csv`
+          filename: `thailand-trip-kitty-ledger.csv`
         });
+      }
+    }
+
+    /* Settings Modal */
+    function openSettingsModal() {
+      const modal = document.getElementById(`settings-modal`);
+      const urlInput = document.getElementById(`setting-gas-url`);
+      const roundInput = document.getElementById(`setting-round-size`);
+      const syncSelect = document.getElementById(`setting-auto-sync`);
+
+      if (urlInput) urlInput.value = appState.settings.gasUrl || DEFAULT_GAS_URL;
+      if (roundInput) roundInput.value = String(appState.settings.roundAmount || 1000);
+      if (syncSelect) syncSelect.value = appState.settings.syncMode || `auto`;
+      showInlineMessage(`settings-msg`, ``);
+
+      if (modal) {
+        modal.classList.add(`is-open`);
+        if (urlInput) urlInput.focus();
+      }
+    }
+
+    function closeSettingsModal() {
+      const modal = document.getElementById(`settings-modal`);
+      if (modal) modal.classList.remove(`is-open`);
+      const trigger = document.getElementById(`btn-open-settings`);
+      if (trigger) trigger.focus();
+    }
+
+    function restoreDefaultGasUrl() {
+      const urlInput = document.getElementById(`setting-gas-url`);
+      if (urlInput) urlInput.value = DEFAULT_GAS_URL;
+      showInlineMessage(`settings-msg`, `Restored the pre-configured Google Apps Script URL. Click Save Settings to apply.`, `info`);
+    }
+
+    async function testAndPullBackend() {
+      const urlInput = document.getElementById(`setting-gas-url`);
+      if (urlInput && urlInput.value.trim()) {
+        appState.settings.gasUrl = urlInput.value.trim();
+      }
+      showInlineMessage(`settings-msg`, `Connecting to Google Apps Script endpoint…`, `warn`);
+      const ok = await syncWithBackend();
+      if (ok) {
+        showInlineMessage(`settings-msg`, `Connected and pulled ${appState.transactions.length} transactions from Google Sheets.`, `ok`);
       } else {
-        const blob = new Blob([csv], { type: `text/csv` });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement(`a`);
-        a.href = url;
-        a.download = `trip-kitty-ledger.csv`;
-        a.click();
-        URL.revokeObjectURL(url);
+        showInlineMessage(`settings-msg`, `Could not reach the Google Apps Script endpoint from this environment (CSP or offline). Entries remain safely stored locally.`, `warn`);
       }
-      showGlobalFeedback(`Exported CSV ledger.`, `ok`);
     }
 
-    async function copyJsonPayload() {
-      const jsonStr = JSON.stringify(buildDataJsonPayload(), null, 2);
-      if (navigator.clipboard && typeof navigator.clipboard.writeText === `function`) {
-        try {
-          await navigator.clipboard.writeText(jsonStr);
-          showSettingsFeedback(`Copied data.json to clipboard.`, `ok`);
-          return;
-        } catch (err) {
-          console.warn(`Clipboard copy failed:`, err);
-        }
-      }
-      showSettingsFeedback(`Select and copy the JSON preview box below.`, `info`);
-    }
+    async function handleSettingsSave(event) {
+      event.preventDefault();
+      const urlInput = document.getElementById(`setting-gas-url`);
+      const roundInput = document.getElementById(`setting-round-size`);
+      const syncSelect = document.getElementById(`setting-auto-sync`);
 
-    async function resetLedgerData(btn) {
-      if (btn && btn.dataset.armed !== `true`) {
-        btn.dataset.armed = `true`;
-        btn.textContent = `Click again to clear all entries`;
-        btn.classList.remove(`btn-ghost`);
-        btn.classList.add(`btn-danger`);
-        setTimeout(function () {
-          if (btn && btn.dataset.armed === `true`) {
-            btn.dataset.armed = `false`;
-            btn.textContent = `Reset Ledger`;
-            btn.classList.remove(`btn-danger`);
-            btn.classList.add(`btn-ghost`);
-          }
-        }, 3500);
+      const newUrl = urlInput ? urlInput.value.trim() : DEFAULT_GAS_URL;
+      const newRound = Number(roundInput ? roundInput.value : 1000);
+      const newSyncMode = syncSelect ? syncSelect.value : `auto`;
+
+      if (!newUrl.startsWith(`https://`)) {
+        showInlineMessage(`settings-msg`, `Enter a valid https:// Google Apps Script Web App URL.`, `error`);
+        return;
+      }
+      if (!Number.isFinite(newRound) || newRound < 100) {
+        showInlineMessage(`settings-msg`, `Round size must be at least 100 THB.`, `error`);
         return;
       }
 
-      if (btn) {
-        btn.dataset.armed = `false`;
-        btn.textContent = `Reset Ledger`;
-        btn.classList.remove(`btn-danger`);
-        btn.classList.add(`btn-ghost`);
-      }
+      appState.settings.gasUrl = newUrl;
+      appState.settings.roundAmount = Math.round(newRound);
+      appState.settings.syncMode = newSyncMode;
 
-      appState.transactions = [];
       await persistState();
       renderAll();
-      showSettingsFeedback(`All local ledger entries cleared.`, `warn`);
+      showInlineMessage(`settings-msg`, `Settings saved.`, `ok`);
+      setTimeout(closeSettingsModal, 450);
     }
 
-    /* ---------- Initialization ---------- */
-    async function initApp() {
-      await loadInitialState();
+    async function handleResetLocal(btn) {
+      if (btn.dataset.armed !== `true`) {
+        btn.dataset.armed = `true`;
+        btn.className = `btn btn-danger-armed`;
+        btn.textContent = `Click again to clear local cache`;
+        return;
+      }
+      btn.dataset.armed = `false`;
+      btn.className = `btn btn-danger-outline`;
+      btn.textContent = `Clear Local Cache`;
+
+      appState.transactions = [];
+      appState.pendingSyncIds = [];
+      appState.syncStatus = `idle`;
+      appState.syncDetail = `Local cache cleared`;
+      await persistState();
       renderAll();
+      showInlineMessage(`settings-msg`, `Local transactions cleared. You can pull again from Google Sheets or start fresh.`, `ok`);
+    }
+
+    /* Keyboard handling for Settings modal */
+    document.addEventListener(`keydown`, function (e) {
+      if (e.key === `Escape`) {
+        const modal = document.getElementById(`settings-modal`);
+        if (modal && modal.classList.contains(`is-open`)) {
+          closeSettingsModal();
+        }
+      }
+    });
+
+    async function initApp() {
+      try {
+        if (window.notebookAppApi && typeof window.notebookAppApi.getAppState === `function`) {
+          const saved = await window.notebookAppApi.getAppState();
+          if (saved && typeof saved === `object`) {
+            appState = {
+              role: saved.role === `fc` ? `fc` : `member`,
+              settings: {
+                gasUrl: (saved.settings && saved.settings.gasUrl) ? saved.settings.gasUrl : DEFAULT_GAS_URL,
+                roundAmount: (saved.settings && Number(saved.settings.roundAmount)) ? Number(saved.settings.roundAmount) : 1000,
+                syncMode: (saved.settings && saved.settings.syncMode) ? saved.settings.syncMode : `auto`
+              },
+              transactions: Array.isArray(saved.transactions) ? saved.transactions : [],
+              pendingSyncIds: Array.isArray(saved.pendingSyncIds) ? saved.pendingSyncIds : [],
+              lastSyncAt: saved.lastSyncAt || null,
+              syncStatus: saved.syncStatus || `idle`,
+              syncDetail: saved.syncDetail || `Local session ready`
+            };
+          }
+        }
+      } catch (_err) {
+        // Start with clean default state
+      }
+
+      renderAll();
+
       if (window.notebookAppApi && typeof window.notebookAppApi.notifyAppReady === `function`) {
         window.notebookAppApi.notifyAppReady();
       }
-    }
 
-    document.addEventListener(`keydown`, function (e) {
-      if (e.key === `Escape`) closeSettingsModal();
-    });
+      if (appState.settings.syncMode === `auto`) {
+        syncWithBackend();
+      }
+    }
 
     initApp();
   </script>
