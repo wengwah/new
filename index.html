@@ -5,9 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="artifact-type" content="tool">
   <meta name="design-style" content="vitals">
-  <title>Thailand Group Trip Common Fund (Kitty Pool)</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <title>Trip Kitty Pool — 10-Member Common Fund Tracker</title>
   <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400;1,700&family=Figtree:wght@300..900&display=swap" rel="stylesheet">
   <script src="https://unpkg.com/lucide@1.43.0/dist/umd/lucide.min.js"></script>
   <style>
@@ -30,7 +28,7 @@
 
       /* Accents */
       --primary: #0f7c8a;
-      --primary-hover: #0b6570;
+      --primary-hover: #0c6570;
       --on-primary: #ffffff;
       --primary-container: #e3f1f3;
       --on-primary-container: #0a5560;
@@ -44,25 +42,35 @@
       --data-2: #2e7d4f;
       --data-3: #b86e00;
       --data-4: #5c5fb0;
-      --data-5: #8a4b76;
-      --data-6: #46585f;
       --data-context: #b8c7ca;
 
-      /* Semantic */
-      --positive: #2e7d4f;
-      --positive-bg: color-mix(in srgb, #2e7d4f 12%, #ffffff);
-      --warning: #b86e00;
-      --warning-bg: color-mix(in srgb, #b86e00 12%, #ffffff);
-      --error-bg: color-mix(in srgb, #b3261e 10%, #ffffff);
-      --info-bg: var(--primary-container);
-
-      /* Focus ring */
-      --focus: #0f7c8a;
+      /* Semantic & derived tints */
+      --positive: var(--tertiary);
+      --positive-bg: #e2f1e8;
+      --warning: var(--data-3);
+      --warning-bg: #fdf1dc;
+      --warning-ink: #7a4800;
+      --error-bg: #fae6e5;
+      --focus: var(--primary);
+      --backdrop-scrim: rgb(27 43 51 / 0.45);
 
       /* Fonts */
       --font-headline: 'Figtree', sans-serif;
       --font-body: 'Atkinson Hyperlegible', sans-serif;
       --font-label: 'Figtree', sans-serif;
+      --font-mono: ui-monospace, 'SFMono-Regular', Menlo, Monaco, Consolas, monospace;
+
+      /* Shape */
+      --rounded: 0.625rem;
+      --rounded-lg: 0.875rem;
+      --rounded-full: 9999px;
+
+      /* Style effects */
+      --top-bar: 6px solid var(--primary);
+      --status-bar-width: 4px;
+      --card-border: 1px solid var(--outline-variant);
+      --card-lift: 0 1px 2px rgb(27 43 51 / 0.05), 0 6px 16px rgb(27 43 51 / 0.05);
+      --modal-shadow: 0 12px 36px rgb(27 43 51 / 0.18);
 
       /* Type scale (Focused Tool) */
       --display-size: clamp(1.75rem, 1.4rem + 1.2vw, 2.25rem);
@@ -70,28 +78,15 @@
       --subhead-size: clamp(1.0625rem, 1rem + 0.25vw, 1.1875rem);
       --body-size: clamp(0.9375rem, 0.9rem + 0.15vw, 1rem);
       --label-size: 0.75rem;
-
-      /* Shape */
-      --rounded: 0.625rem;
-      --rounded-lg: 0.875rem;
-      --rounded-full: 9999px;
+      --figure-hero-size: clamp(2rem, 1.6rem + 2vw, 2.75rem);
 
       /* Spacing scale (4pt base) */
-      --space-2xs: 0.125rem;
       --space-xs: 0.25rem;
       --space-sm: 0.5rem;
       --space-md: 1rem;
       --space-lg: 1.5rem;
       --space-xl: 2.5rem;
       --space-2xl: 4rem;
-
-      /* Effects */
-      --top-bar: 6px solid var(--primary);
-      --status-bar-width: 4px;
-      --card-border: 1px solid var(--outline-variant);
-      --card-lift: 0 1px 2px rgb(27 43 51 / 0.05), 0 6px 16px rgb(27 43 51 / 0.05);
-      --modal-backdrop: rgb(27 43 51 / 0.45);
-      --modal-shadow: 0 16px 40px rgb(27 43 51 / 0.18);
 
       /* Motion */
       --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
@@ -101,7 +96,6 @@
       --dur-long: 420ms;
     }
 
-    /* Base reset */
     *, *::before, *::after { box-sizing: border-box; }
     html, body {
       overflow-x: clip;
@@ -111,11 +105,16 @@
       color: var(--on-surface);
       font-family: var(--font-body);
       font-size: var(--body-size);
-      line-height: 1.6;
+      line-height: 1.55;
       -webkit-font-smoothing: antialiased;
     }
     header { position: static !important; }
-    button, input, select, textarea { font-family: inherit; }
+
+    button, input, select, textarea {
+      font-family: inherit;
+      font-size: inherit;
+      color: inherit;
+    }
 
     .page-shell {
       border-top: var(--top-bar);
@@ -125,8 +124,8 @@
     .page-grid {
       display: grid;
       gap: var(--space-lg);
-      padding: var(--space-lg) var(--space-md) var(--space-2xl);
-      max-width: 1200px;
+      padding: var(--space-lg);
+      max-width: 1040px;
       margin: 0 auto;
       overflow: hidden;
     }
@@ -138,126 +137,38 @@
       outline-offset: 2px;
     }
 
-    /* Typography */
+    /* Header */
+    .app-header {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: var(--space-md);
+      padding-bottom: var(--space-sm);
+    }
+
+    .title-block {
+      flex: 1 1 260px;
+    }
+
     .title {
+      margin: 0;
       font-family: var(--font-headline);
       font-weight: 800;
       font-size: var(--display-size);
       letter-spacing: -0.015em;
       line-height: 1.08;
       color: var(--on-surface);
-      margin: 0;
     }
-    .section-heading {
-      font-family: var(--font-headline);
-      font-weight: 800;
-      font-size: var(--headline-size);
-      letter-spacing: -0.015em;
-      line-height: 1.15;
-      color: var(--on-surface);
-      margin: 0;
-    }
-    .subhead {
-      font-family: var(--font-headline);
-      font-weight: 700;
-      font-size: var(--subhead-size);
-      line-height: 1.25;
-      color: var(--on-surface);
-      margin: 0;
-    }
+
     .lede {
-      font-size: 1.05em;
-      line-height: 1.55;
-      color: var(--on-surface-variant);
-      max-width: 65ch;
-      margin: var(--space-xs) 0 0;
-    }
-    .label-kicker {
-      font-family: var(--font-label);
-      font-weight: 600;
-      font-size: var(--label-size);
-      letter-spacing: 0.07em;
-      text-transform: uppercase;
-      color: var(--on-surface-variant);
-    }
-    .tabular {
-      font-variant-numeric: tabular-nums;
-    }
-
-    /* Header & Role Bar */
-    .app-header {
-      display: flex;
-      flex-direction: column;
-      gap: var(--space-md);
-      padding-bottom: var(--space-md);
-      border-bottom: 1px solid var(--outline-variant);
-    }
-    .header-top-row {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
-      align-items: flex-start;
-      gap: var(--space-md);
-    }
-    .header-actions {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      gap: var(--space-sm);
-    }
-
-    /* Control Strip (Role selector + Sync status) */
-    .role-bar {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: space-between;
-      gap: var(--space-md);
-      background: var(--background);
-      border: var(--card-border);
-      border-radius: var(--rounded-lg);
-      padding: var(--space-sm) var(--space-md);
-    }
-    .role-control-group {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      gap: var(--space-sm);
-    }
-    .segmented-role {
-      display: inline-flex;
-      background: var(--surface-container-low);
-      border: 1px solid var(--outline-variant);
-      border-radius: var(--rounded);
-      padding: var(--space-xs);
-      gap: var(--space-xs);
-    }
-    .role-btn {
-      min-height: 44px;
-      padding: var(--space-xs) var(--space-md);
-      border: none;
-      border-radius: calc(var(--rounded) - 2px);
-      background: transparent;
-      color: var(--on-surface-variant);
-      font-family: var(--font-label);
-      font-weight: 600;
+      margin: var(--space-xs) 0 0 0;
       font-size: var(--body-size);
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: var(--space-sm);
-      transition: background-color var(--dur-micro) var(--ease-in-out), color var(--dur-micro) var(--ease-in-out);
-    }
-    .role-btn:hover {
-      background: var(--surface-container);
-      color: var(--on-surface);
-    }
-    .role-btn[aria-pressed="true"] {
-      background: var(--primary);
-      color: var(--on-primary);
+      color: var(--on-surface-variant);
+      max-width: 58ch;
     }
 
-    .sync-cluster {
+    .header-actions {
       display: flex;
       flex-wrap: wrap;
       align-items: center;
@@ -284,259 +195,394 @@
     }
     .chip[data-status="warn"] {
       background: var(--warning-bg);
-      color: var(--on-surface);
+      color: var(--warning-ink);
     }
     .chip[data-status="alert"] {
       background: var(--error-bg);
       color: var(--error);
     }
-    .chip[data-status="neutral"] {
-      background: var(--surface-container-low);
-      color: var(--on-surface-variant);
-      border: 1px solid var(--outline-variant);
-    }
 
     /* Buttons */
     .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-sm);
       min-height: 44px;
       padding: var(--space-sm) var(--space-md);
       border-radius: var(--rounded);
       font-family: var(--font-label);
       font-weight: 600;
       font-size: var(--body-size);
-      line-height: 1.2;
       cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: var(--space-sm);
       border: 1px solid transparent;
-      transition: background-color var(--dur-micro) var(--ease-out), color var(--dur-micro) var(--ease-out), box-shadow var(--dur-micro) var(--ease-out);
+      background: var(--primary);
+      color: var(--on-primary);
+      transition: background-color var(--dur-micro) var(--ease-out),
+                  transform var(--dur-micro) var(--ease-out),
+                  box-shadow var(--dur-micro) var(--ease-out);
+      text-decoration: none;
+    }
+    .btn:hover:not(:disabled) {
+      background: var(--primary-hover);
+    }
+    .btn:active:not(:disabled) {
+      transform: translateY(1px);
     }
     .btn:disabled {
       opacity: 0.55;
       cursor: not-allowed;
     }
-    .btn-primary {
-      background: var(--primary);
-      color: var(--on-primary);
-    }
-    .btn-primary:hover:not(:disabled) {
-      background: var(--primary-hover);
-    }
+
     .btn-secondary {
       background: var(--background);
       color: var(--on-primary-container);
-      border-color: var(--primary);
+      border-color: var(--outline);
     }
     .btn-secondary:hover:not(:disabled) {
-      background: var(--surface-container-low);
+      background: var(--surface-container);
     }
+
     .btn-ghost {
-      background: var(--background);
-      color: var(--on-surface);
+      background: transparent;
+      color: var(--on-surface-variant);
       border-color: var(--outline-variant);
+      min-height: 44px;
+      padding: var(--space-xs) var(--space-md);
     }
     .btn-ghost:hover:not(:disabled) {
       background: var(--surface-container-low);
+      color: var(--on-surface);
     }
+
     .btn-danger-outline {
       background: var(--background);
       color: var(--error);
-      border-color: var(--outline-variant);
-      min-height: 44px;
-      padding: var(--space-xs) var(--space-sm);
-      font-size: var(--label-size);
+      border-color: var(--error);
     }
     .btn-danger-outline:hover:not(:disabled) {
       background: var(--error-bg);
-      border-color: var(--error);
-    }
-    .btn-danger-armed {
-      background: var(--error);
-      color: var(--on-error);
-      border-color: var(--error);
     }
 
-    /* Status Cards & Telemetry Grid */
-    .telemetry-grid {
-      display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: var(--space-md);
+    .btn-compact {
+      min-height: 44px;
+      padding: var(--space-xs) var(--space-md);
+      font-size: var(--label-size);
     }
+
+    .icon-sm {
+      width: 18px;
+      height: 18px;
+      flex-shrink: 0;
+    }
+
+    /* Status cards (Vitals Treatment 1) */
     .status-card {
       background: var(--background);
       border: var(--card-border);
       border-left: var(--status-bar-width) solid var(--primary);
       border-radius: var(--rounded-lg);
       padding: var(--space-md) var(--space-lg);
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      gap: var(--space-xs);
       box-shadow: var(--card-lift);
-      animation: cardEnter var(--dur-short) var(--ease-out) both;
     }
-    .status-card[data-status="ok"] { border-left-color: var(--tertiary); }
-    .status-card[data-status="warn"] { border-left-color: var(--warning); }
-    .status-card[data-status="alert"] { border-left-color: var(--error); }
+    .status-card[data-status="ok"] {
+      border-left-color: var(--tertiary);
+    }
+    .status-card[data-status="warn"] {
+      border-left-color: var(--data-3);
+    }
+    .status-card[data-status="alert"] {
+      border-left-color: var(--error);
+    }
+
+    .surface-card {
+      background: var(--background);
+      border: var(--card-border);
+      border-radius: var(--rounded-lg);
+      padding: var(--space-lg);
+      box-shadow: var(--card-lift);
+    }
+
+    .kicker {
+      display: block;
+      font-family: var(--font-label);
+      font-weight: 600;
+      font-size: var(--label-size);
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      color: var(--on-surface-variant);
+      margin-bottom: var(--space-xs);
+    }
+
+    /* Hero Balance & Telemetry */
+    .telemetry-section {
+      display: grid;
+      gap: var(--space-md);
+    }
+
+    .hero-balance-card {
+      display: grid;
+      gap: var(--space-md);
+    }
+
+    .hero-top-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: var(--space-md);
+    }
+
+    .figure-hero {
+      font-family: var(--font-headline);
+      font-weight: 800;
+      font-size: var(--figure-hero-size);
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      font-variant-numeric: tabular-nums;
+      color: var(--on-surface);
+      margin: 0;
+    }
+
+    .figure-sub {
+      margin: var(--space-xs) 0 0 0;
+      font-size: var(--body-size);
+      color: var(--on-surface-variant);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(210px, 100%), 1fr));
+      gap: var(--space-md);
+    }
 
     .kpi-value {
       font-family: var(--font-headline);
       font-weight: 800;
-      font-size: clamp(1.5rem, 1.2rem + 1vw, 2rem);
-      line-height: 1.1;
-      letter-spacing: -0.02em;
-      color: var(--on-surface);
+      font-size: clamp(1.375rem, 1.15rem + 0.8vw, 1.75rem);
+      line-height: 1.15;
       font-variant-numeric: tabular-nums;
-      margin: var(--space-xs) 0 0;
-    }
-    .kpi-caption {
-      font-size: var(--label-size);
-      font-weight: 700;
-      color: var(--on-surface-variant);
       margin: 0;
     }
+
+    .kpi-caption {
+      margin: var(--space-xs) 0 0 0;
+      font-size: var(--label-size);
+      font-family: var(--font-label);
+      font-weight: 600;
+      color: var(--on-surface-variant);
+    }
     .kpi-caption[data-tone="ok"] { color: var(--secondary); }
+    .kpi-caption[data-tone="warn"] { color: var(--warning-ink); }
     .kpi-caption[data-tone="alert"] { color: var(--error); }
 
-    /* Telemetry Bar Panel (Collected vs Spent + Category Breakdown) */
-    .panel {
-      background: var(--background);
-      border: var(--card-border);
-      border-radius: var(--rounded-lg);
-      padding: var(--space-lg);
-      box-shadow: var(--card-lift);
-    }
-    .telemetry-split {
+    /* Progress / Target range bar */
+    .meter-block {
       display: grid;
-      grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
-      gap: var(--space-lg);
-      align-items: start;
+      gap: var(--space-xs);
+    }
+    .meter-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: var(--space-sm);
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      font-weight: 600;
+      color: var(--on-surface-variant);
     }
     .meter-track {
       position: relative;
-      height: 16px;
-      border-radius: var(--rounded-full);
-      background: var(--surface-container-low);
-      border: 1px solid var(--outline-variant);
-      overflow: hidden;
-      margin: var(--space-sm) 0;
-    }
-    .meter-fill-spent {
-      height: 100%;
-      background: var(--primary);
-      border-radius: var(--rounded-full);
-      transition: width var(--dur-short) var(--ease-out);
-    }
-    .meter-fill-spent[data-over="true"] {
-      background: var(--error);
-    }
-    .meter-legend {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
-      gap: var(--space-sm);
-      font-size: var(--label-size);
-      color: var(--on-surface-variant);
-    }
-    .category-bars {
-      display: grid;
-      gap: var(--space-sm);
-      margin-top: var(--space-sm);
-    }
-    .cat-row {
-      display: grid;
-      grid-template-columns: minmax(110px, 1fr) minmax(80px, 2fr) auto;
-      align-items: center;
-      gap: var(--space-sm);
-      font-size: var(--label-size);
-    }
-    .cat-bar-bg {
       height: 10px;
-      background: var(--surface-container-low);
       border-radius: var(--rounded-full);
+      background: var(--surface-container);
       overflow: hidden;
     }
-    .cat-bar-fill {
+    .meter-fill {
       height: 100%;
       border-radius: var(--rounded-full);
-      transition: width var(--dur-short) var(--ease-out);
+      background: var(--primary);
+      width: 0%;
+      transition: width var(--dur-long) var(--ease-out), background-color var(--dur-short) var(--ease-out);
     }
+    .meter-fill[data-tone="ok"] { background: var(--tertiary); }
+    .meter-fill[data-tone="warn"] { background: var(--data-3); }
+    .meter-fill[data-tone="alert"] { background: var(--error); }
 
-    /* Main Workspace Grid: Forms (Left) + Member Roster & Ledger (Right) */
+    /* Main 2-column workspace on desktop, single column mobile-first */
     .workspace-grid {
       display: grid;
-      grid-template-columns: minmax(0, 420px) minmax(0, 1fr);
+      grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
       gap: var(--space-lg);
       align-items: start;
     }
-    .stack-col {
-      display: grid;
-      gap: var(--space-lg);
+
+    .section-heading {
+      margin: 0;
+      font-family: var(--font-headline);
+      font-weight: 800;
+      font-size: var(--headline-size);
+      letter-spacing: -0.015em;
+      line-height: 1.15;
+      color: var(--on-surface);
     }
 
-    /* Forms */
-    .form-panel {
-      background: var(--background);
+    .section-sub {
+      margin: var(--space-xs) 0 0 0;
+      color: var(--on-surface-variant);
+      font-size: var(--body-size);
+    }
+
+    /* Role Switcher */
+    .role-tabs {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: var(--space-sm);
+      padding: var(--space-xs);
+      background: var(--surface-container-low);
       border: var(--card-border);
       border-radius: var(--rounded-lg);
-      padding: var(--space-lg);
+      margin-top: var(--space-md);
+    }
+
+    .role-tab {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-sm);
+      min-height: 44px;
+      padding: var(--space-sm) var(--space-md);
+      border: 0;
+      border-radius: var(--rounded);
+      background: transparent;
+      color: var(--on-surface-variant);
+      font-family: var(--font-label);
+      font-weight: 600;
+      font-size: var(--body-size);
+      cursor: pointer;
+      transition: background-color var(--dur-micro) var(--ease-in-out),
+                  color var(--dur-micro) var(--ease-in-out),
+                  box-shadow var(--dur-micro) var(--ease-in-out);
+      text-align: center;
+    }
+    .role-tab:hover {
+      background: var(--surface-container);
+      color: var(--on-surface);
+    }
+    .role-tab[aria-selected="true"] {
+      background: var(--background);
+      color: var(--on-primary-container);
       box-shadow: var(--card-lift);
+    }
+
+    /* Form Controls */
+    .form-stack {
       display: grid;
       gap: var(--space-md);
+      margin-top: var(--space-lg);
     }
-    .form-panel-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      gap: var(--space-sm);
-      padding-bottom: var(--space-sm);
-      border-bottom: 1px solid var(--outline-variant);
-    }
+
     .field-group {
       display: grid;
       gap: var(--space-xs);
     }
+
     .field-label {
-      font-family: var(--font-label);
-      font-weight: 600;
-      font-size: var(--label-size);
-      color: var(--on-surface);
       display: flex;
       justify-content: space-between;
-      align-items: center;
-      gap: var(--space-xs);
+      align-items: baseline;
+      gap: var(--space-sm);
+      font-family: var(--font-label);
+      font-weight: 600;
+      font-size: var(--body-size);
+      color: var(--on-surface);
     }
+
     .field-hint {
+      font-family: var(--font-body);
       font-weight: 400;
+      font-size: var(--label-size);
       color: var(--on-surface-variant);
     }
+
     .input-control, .select-control {
       width: 100%;
-      min-height: 44px;
+      min-height: 46px;
       padding: var(--space-sm) var(--space-md);
       border: 1px solid var(--outline);
       border-radius: var(--rounded);
       background: var(--background);
       color: var(--on-surface);
       font-size: var(--body-size);
-      line-height: 1.4;
       transition: border-color var(--dur-micro) var(--ease-out), box-shadow var(--dur-micro) var(--ease-out);
     }
     .select-control {
       padding-right: var(--space-xl);
     }
     .input-control:focus, .select-control:focus {
+      outline: none;
       border-color: var(--primary);
-      outline: 3px solid color-mix(in srgb, var(--primary) 20%, transparent);
-      outline-offset: 0;
+      box-shadow: 0 0 0 3px var(--surface-container);
     }
-    .input-row-2 {
+
+    .input-row-aligned {
       display: grid;
-      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      grid-template-columns: minmax(0, 1fr) auto;
       gap: var(--space-sm);
       align-items: end;
+    }
+
+    /* Member Picker Grid */
+    .member-picker-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(min(132px, 100%), 1fr));
+      gap: var(--space-sm);
+    }
+
+    .member-pick-btn {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: center;
+      min-height: 52px;
+      padding: var(--space-sm) var(--space-md);
+      border-radius: var(--rounded);
+      border: 1px solid var(--outline-variant);
+      background: var(--surface-container-low);
+      color: var(--on-surface);
+      cursor: pointer;
+      text-align: left;
+      transition: background-color var(--dur-micro) var(--ease-out),
+                  border-color var(--dur-micro) var(--ease-out),
+                  box-shadow var(--dur-micro) var(--ease-out);
+    }
+    .member-pick-btn:hover {
+      background: var(--surface-container);
+    }
+    .member-pick-btn[aria-pressed="true"] {
+      background: var(--primary-container);
+      border-color: var(--primary);
+      box-shadow: inset 0 0 0 1px var(--primary);
+    }
+
+    .member-pick-name {
+      font-family: var(--font-label);
+      font-weight: 700;
+      font-size: var(--body-size);
+      line-height: 1.2;
+      color: var(--on-surface);
+    }
+    .member-pick-btn[aria-pressed="true"] .member-pick-name {
+      color: var(--on-primary-container);
+    }
+
+    .member-pick-meta {
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      color: var(--on-surface-variant);
+      font-variant-numeric: tabular-nums;
+      margin-top: var(--space-xs);
     }
 
     /* Quick Preset Pills */
@@ -545,240 +591,303 @@
       flex-wrap: wrap;
       gap: var(--space-sm);
     }
-    .preset-btn {
+
+    .preset-pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
       min-height: 44px;
       padding: var(--space-xs) var(--space-md);
-      border: 1px solid var(--outline);
-      border-radius: var(--rounded);
-      background: var(--surface-container-low);
+      border-radius: var(--rounded-full);
+      border: 1px solid var(--outline-variant);
+      background: var(--background);
       color: var(--on-surface);
       font-family: var(--font-label);
       font-weight: 600;
       font-size: var(--label-size);
       cursor: pointer;
-      transition: background-color var(--dur-micro) var(--ease-out), color var(--dur-micro) var(--ease-out), border-color var(--dur-micro) var(--ease-out);
+      transition: background-color var(--dur-micro) var(--ease-out), border-color var(--dur-micro) var(--ease-out);
     }
-    .preset-btn:hover {
-      background: var(--surface-container);
+    .preset-pill:hover {
+      background: var(--surface-container-low);
     }
-    .preset-btn[aria-pressed="true"] {
-      background: var(--primary);
-      color: var(--on-primary);
+    .preset-pill[aria-pressed="true"] {
+      background: var(--primary-container);
+      color: var(--on-primary-container);
       border-color: var(--primary);
     }
 
-    /* Inline Form Messages & Callouts */
-    .inline-message {
-      padding: var(--space-sm) var(--space-md);
-      border-radius: var(--rounded);
-      font-size: var(--label-size);
-      font-weight: 700;
-      display: none;
-    }
-    .inline-message.is-visible {
-      display: block;
-    }
-    .inline-message[data-tone="ok"] {
-      background: var(--positive-bg);
-      color: var(--secondary);
-      border-left: var(--status-bar-width) solid var(--tertiary);
-    }
-    .inline-message[data-tone="error"] {
-      background: var(--error-bg);
-      color: var(--error);
-      border-left: var(--status-bar-width) solid var(--error);
-    }
-    .inline-message[data-tone="warn"] {
-      background: var(--warning-bg);
-      color: var(--on-surface);
-      border-left: var(--status-bar-width) solid var(--warning);
-    }
-    .callout-info {
+    /* Inline feedback callout */
+    .callout {
+      display: flex;
+      align-items: flex-start;
+      gap: var(--space-sm);
+      padding: var(--space-md);
+      border-radius: var(--rounded-lg);
+      border-left: var(--status-bar-width) solid var(--primary);
       background: var(--primary-container);
       color: var(--on-primary-container);
-      border-left: var(--status-bar-width) solid var(--primary);
-      border-radius: var(--rounded);
-      padding: var(--space-md);
-      display: grid;
-      gap: var(--space-sm);
+      font-size: var(--body-size);
+    }
+    .callout[data-tone="ok"] {
+      border-left-color: var(--tertiary);
+      background: var(--positive-bg);
+      color: var(--secondary);
+    }
+    .callout[data-tone="warn"] {
+      border-left-color: var(--data-3);
+      background: var(--warning-bg);
+      color: var(--warning-ink);
+    }
+    .callout[data-tone="alert"] {
+      border-left-color: var(--error);
+      background: var(--error-bg);
+      color: var(--error);
     }
 
-    /* Member Contribution Matrix */
-    .member-grid-wrapper {
-      container-type: inline-size;
-    }
-    .member-grid {
+    .hidden { display: none !important; }
+
+    /* Member Standings List */
+    .standings-list {
       display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: var(--space-sm);
       margin-top: var(--space-md);
     }
-    @container (min-width: 560px) {
-      .member-grid {
-        grid-template-columns: repeat(5, minmax(0, 1fr));
-      }
-    }
-    .member-tile {
-      text-align: left;
-      min-height: 44px;
-      padding: var(--space-sm) var(--space-md);
-      border: 1px solid var(--outline-variant);
-      border-left: var(--status-bar-width) solid var(--data-context);
-      border-radius: var(--rounded);
-      background: var(--background);
-      cursor: pointer;
+
+    .standing-row {
       display: grid;
-      gap: var(--space-xs);
-      transition: background-color var(--dur-micro) var(--ease-out), box-shadow var(--dur-micro) var(--ease-out);
-    }
-    .member-tile:hover {
+      grid-template-columns: minmax(0, 1fr) auto auto;
+      align-items: center;
+      gap: var(--space-sm);
+      padding: var(--space-sm) var(--space-md);
+      border-radius: var(--rounded);
       background: var(--surface-container-low);
+      border: 1px solid var(--outline-variant);
     }
-    .member-tile[data-round-met="true"] {
-      border-left-color: var(--tertiary);
-    }
-    .member-tile[data-round-met="partial"] {
-      border-left-color: var(--warning);
-    }
-    .member-name {
-      font-family: var(--font-headline);
+
+    .standing-name {
+      font-family: var(--font-label);
       font-weight: 700;
-      font-size: var(--body-size);
       color: var(--on-surface);
     }
-    .member-total {
+    .standing-sub {
+      font-size: var(--label-size);
+      color: var(--on-surface-variant);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .standing-amount {
+      font-family: var(--font-headline);
+      font-weight: 700;
+      font-variant-numeric: tabular-nums;
+      color: var(--on-surface);
+      text-align: right;
+    }
+
+    /* Category Spend Bars */
+    .category-bars {
+      display: grid;
+      gap: var(--space-sm);
+      margin-top: var(--space-md);
+    }
+    .cat-bar-row {
+      display: grid;
+      gap: var(--space-xs);
+    }
+    .cat-bar-meta {
+      display: flex;
+      justify-content: space-between;
       font-family: var(--font-label);
-      font-weight: 800;
-      font-size: var(--body-size);
+      font-size: var(--label-size);
+      font-weight: 600;
       color: var(--on-surface);
       font-variant-numeric: tabular-nums;
     }
-    .member-round-tag {
-      font-family: var(--font-label);
-      font-size: var(--label-size);
-      font-weight: 600;
-      color: var(--on-surface-variant);
+    .cat-bar-track {
+      height: 8px;
+      border-radius: var(--rounded-full);
+      background: var(--surface-container-low);
+      overflow: hidden;
     }
-    .member-tile[data-round-met="true"] .member-round-tag {
-      color: var(--secondary);
+    .cat-bar-fill {
+      height: 100%;
+      border-radius: var(--rounded-full);
+      background: var(--data-1);
     }
 
-    /* Live Transaction Ledger */
-    .ledger-toolbar {
+    /* Ledger Section */
+    .ledger-card {
+      display: grid;
+      gap: var(--space-md);
+    }
+
+    .ledger-controls {
       display: flex;
       flex-wrap: wrap;
+      align-items: end;
       justify-content: space-between;
-      align-items: center;
-      gap: var(--space-sm);
-      margin-bottom: var(--space-md);
+      gap: var(--space-md);
     }
-    .filter-tabs {
+
+    .filter-pills {
       display: flex;
       flex-wrap: wrap;
       gap: var(--space-sm);
     }
-    .tab-btn {
-      min-height: 44px;
-      padding: var(--space-xs) var(--space-md);
-      border: 1px solid var(--outline-variant);
-      border-bottom: 3px solid transparent;
-      border-radius: var(--rounded);
-      background: var(--background);
-      color: var(--on-surface-variant);
-      font-family: var(--font-label);
-      font-weight: 600;
-      font-size: var(--label-size);
-      cursor: pointer;
-      transition: background-color var(--dur-micro) var(--ease-out), color var(--dur-micro) var(--ease-out);
+
+    .ledger-search-wrap {
+      flex: 1 1 200px;
+      max-width: 320px;
     }
-    .tab-btn:hover {
-      background: var(--surface-container-low);
-      color: var(--on-surface);
-    }
-    .tab-btn[aria-selected="true"] {
-      background: var(--surface-container-low);
-      color: var(--on-primary-container);
-      border-bottom-color: var(--primary);
+
+    .ledger-list-wrap {
+      container-type: inline-size;
     }
 
     .ledger-list {
       display: grid;
-      gap: 0;
-      border-top: 1px solid var(--outline-variant);
+      gap: var(--space-sm);
     }
-    .ledger-row {
+
+    .ledger-item {
       display: grid;
-      grid-template-columns: minmax(0, 1fr) auto;
-      gap: var(--space-sm) var(--space-md);
-      padding: var(--space-md) 0;
-      border-bottom: 1px solid var(--outline-variant);
-      align-items: center;
+      grid-template-columns: minmax(0, 1fr);
+      gap: var(--space-sm);
+      padding: var(--space-md);
+      border-radius: var(--rounded);
+      border: var(--card-border);
+      border-left: var(--status-bar-width) solid var(--tertiary);
+      background: var(--background);
     }
-    .ledger-main {
+    .ledger-item[data-type="Debit"] {
+      border-left-color: var(--data-3);
+    }
+
+    .ledger-item-main {
       display: grid;
       gap: var(--space-xs);
     }
-    .ledger-top-line {
+
+    .ledger-item-top {
       display: flex;
       flex-wrap: wrap;
       align-items: center;
       gap: var(--space-sm);
     }
-    .ledger-title {
+
+    .ledger-name {
+      font-family: var(--font-label);
       font-weight: 700;
       color: var(--on-surface);
     }
+
+    .ledger-desc {
+      margin: 0;
+      color: var(--on-surface);
+      word-break: break-word;
+    }
+
     .ledger-meta {
-      font-size: var(--label-size);
-      color: var(--on-surface-variant);
       display: flex;
       flex-wrap: wrap;
-      gap: var(--space-sm);
       align-items: center;
+      gap: var(--space-sm);
+      font-size: var(--label-size);
+      color: var(--on-surface-variant);
+      font-family: var(--font-label);
     }
-    .ledger-right {
+
+    .ledger-item-side {
       display: flex;
-      flex-direction: column;
-      align-items: flex-end;
-      gap: var(--space-xs);
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-sm);
+      padding-top: var(--space-xs);
+      border-top: 1px solid var(--outline-variant);
     }
+
     .ledger-amount {
       font-family: var(--font-headline);
       font-weight: 800;
       font-size: var(--subhead-size);
       font-variant-numeric: tabular-nums;
-      white-space: nowrap;
+      color: var(--secondary);
     }
-    .ledger-amount[data-type="credit"] { color: var(--secondary); }
-    .ledger-amount[data-type="debit"] { color: var(--error); }
+    .ledger-amount[data-type="Debit"] {
+      color: var(--error);
+    }
 
-    .empty-state {
-      padding: var(--space-xl) var(--space-md);
-      text-align: left;
-      background: var(--surface-container-low);
-      border: 1px dashed var(--outline);
-      border-radius: var(--rounded);
-      display: grid;
+    .ledger-item-actions {
+      display: flex;
+      align-items: center;
       gap: var(--space-sm);
     }
 
+    @container (min-width: 580px) {
+      .ledger-item {
+        grid-template-columns: minmax(0, 1fr) auto;
+        align-items: center;
+      }
+      .ledger-item-side {
+        flex-direction: column;
+        align-items: flex-end;
+        justify-content: center;
+        padding-top: 0;
+        border-top: 0;
+      }
+    }
+
+    .empty-state {
+      padding: var(--space-xl) var(--space-md);
+      text-align: center;
+      background: var(--surface-container-low);
+      border: 1px dashed var(--outline);
+      border-radius: var(--rounded-lg);
+      display: grid;
+      gap: var(--space-sm);
+      justify-items: center;
+    }
+
+    .empty-state-title {
+      margin: 0;
+      font-family: var(--font-headline);
+      font-weight: 700;
+      font-size: var(--subhead-size);
+      color: var(--on-surface);
+    }
+
+    .empty-state-body {
+      margin: 0;
+      max-width: 46ch;
+      color: var(--on-surface-variant);
+    }
+
+    /* Footer utility row */
+    .ledger-footer {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-sm);
+      padding-top: var(--space-sm);
+      border-top: 1px solid var(--outline-variant);
+    }
+
     /* Settings Modal */
-    .modal-overlay {
+    .modal-backdrop {
       position: fixed;
       inset: 0;
-      background: var(--modal-backdrop);
-      display: none;
+      z-index: 100;
+      background: var(--backdrop-scrim);
+      display: flex;
       align-items: center;
       justify-content: center;
       padding: var(--space-md);
-      z-index: 50;
     }
-    .modal-overlay.is-open {
-      display: flex;
-    }
-    .modal-dialog {
+
+    .modal-panel {
       width: 100%;
-      max-width: 560px;
+      max-width: 580px;
       max-height: 90vh;
       overflow-y: auto;
       background: var(--background);
@@ -790,52 +899,46 @@
       display: grid;
       gap: var(--space-md);
     }
+
     .modal-header {
       display: flex;
+      align-items: flex-start;
       justify-content: space-between;
-      align-items: center;
       gap: var(--space-md);
-      padding-bottom: var(--space-sm);
-      border-bottom: 1px solid var(--outline-variant);
     }
+
+    .code-preview {
+      margin: 0;
+      padding: var(--space-md);
+      border-radius: var(--rounded);
+      background: var(--surface-container-low);
+      border: 1px solid var(--outline-variant);
+      font-family: var(--font-mono);
+      font-size: var(--label-size);
+      color: var(--on-surface);
+      overflow-x: auto;
+      line-height: 1.5;
+    }
+
     .modal-footer {
       display: flex;
       flex-wrap: wrap;
-      justify-content: flex-end;
+      justify-content: space-between;
+      align-items: center;
       gap: var(--space-sm);
-      padding-top: var(--space-sm);
+      padding-top: var(--space-md);
       border-top: 1px solid var(--outline-variant);
     }
 
-    .icon-sm {
-      width: 18px;
-      height: 18px;
-      flex-shrink: 0;
-    }
-
-    .trip-footer {
+    .footer-note {
       font-size: var(--label-size);
       color: var(--on-surface-variant);
-      border-top: 1px solid var(--outline-variant);
-      padding-top: var(--space-md);
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
-      gap: var(--space-sm);
+      text-align: left;
+      padding-bottom: var(--space-lg);
     }
 
-    @keyframes cardEnter {
-      from { opacity: 0; transform: translateY(6px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    @media (max-width: 960px) {
-      .telemetry-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-      }
-      .telemetry-split {
-        grid-template-columns: 1fr;
-      }
+    /* Responsive breakpoints */
+    @media (max-width: 860px) {
       .workspace-grid {
         grid-template-columns: 1fr;
       }
@@ -843,21 +946,17 @@
 
     @media (max-width: 640px) {
       .page-grid {
-        grid-template-columns: 1fr;
-        padding: var(--space-md) var(--space-sm) var(--space-xl);
+        padding: var(--space-md);
         gap: var(--space-md);
       }
-      .telemetry-grid {
-        grid-template-columns: 1fr;
-      }
-      .input-row-2 {
-        grid-template-columns: 1fr;
-      }
-      .panel, .form-panel {
+      .surface-card, .status-card {
         padding: var(--space-md);
       }
-      .role-bar {
-        padding: var(--space-sm);
+      .role-tabs {
+        grid-template-columns: 1fr;
+      }
+      .ledger-search-wrap {
+        max-width: none;
       }
     }
 
@@ -873,381 +972,342 @@
 <body>
   <div class="page-shell">
     <main class="page-grid">
-
       <!-- Header -->
       <header class="app-header">
-        <div class="header-top-row">
-          <div>
-            <span class="label-kicker">10-Member Trip Kitty · Nov 26 – Dec 5, 2026 · THB</span>
-            <h1 class="title">Thailand Group Trip Common Fund</h1>
-            <p class="lede">
-              Shared cash pool tracker for Lopburi, Uthai Thani, Erawan, Sangkhla Buri, Sai Yok, Kanchanaburi, and Nakhon Pathom.
-            </p>
-          </div>
-          <div class="header-actions">
-            <button type="button" class="btn btn-secondary" id="btn-sync-now" onclick="syncWithBackend()">
-              <i data-lucide="refresh-cw" class="icon-sm" aria-hidden="true"></i>
-              <span>Sync Sheet</span>
-            </button>
-            <button type="button" class="btn btn-ghost" id="btn-open-settings" onclick="openSettingsModal()">
-              <i data-lucide="settings" class="icon-sm" aria-hidden="true"></i>
-              <span>Settings</span>
-            </button>
-          </div>
+        <div class="title-block">
+          <h1 class="title">Trip Kitty Pool</h1>
+          <p class="lede">Shared 10-member cash fund in Thai Baht (THB) with live Google Sheets ledger sync.</p>
         </div>
-
-        <!-- Role Selector & Backend Sync Status -->
-        <div class="role-bar" role="region" aria-label="Role and sync controls">
-          <div class="role-control-group">
-            <span class="label-kicker" id="role-group-label">Active Role</span>
-            <div class="segmented-role" role="group" aria-labelledby="role-group-label">
-              <button type="button" class="role-btn" id="role-btn-member" aria-pressed="true" onclick="setRole('member')">
-                <i data-lucide="users" class="icon-sm" aria-hidden="true"></i>
-                <span>Member</span>
-              </button>
-              <button type="button" class="role-btn" id="role-btn-fc" aria-pressed="false" onclick="setRole('fc')">
-                <i data-lucide="shield-check" class="icon-sm" aria-hidden="true"></i>
-                <span>Fund Coordinator (FC)</span>
-              </button>
-            </div>
-          </div>
-
-          <div class="sync-cluster">
-            <span class="chip" id="sync-status-chip" data-status="info">Ready · Local &amp; Sheet Sync</span>
-            <span class="chip" id="pending-queue-chip" data-status="neutral" style="display:none;">0 unsynced</span>
-          </div>
+        <div class="header-actions">
+          <span id="sync-status-chip" class="chip" data-status="info">Ready</span>
+          <button type="button" id="btn-sync-sheet" class="btn btn-secondary btn-compact" onclick="syncFromGoogleSheet()">
+            <i data-lucide="refresh-cw" class="icon-sm" aria-hidden="true"></i>
+            <span>Sync Sheet</span>
+          </button>
+          <button type="button" id="btn-open-settings" class="btn btn-secondary btn-compact" onclick="openSettingsModal()">
+            <i data-lucide="settings" class="icon-sm" aria-hidden="true"></i>
+            <span>Settings</span>
+          </button>
         </div>
       </header>
 
-      <!-- Real-Time Telemetry Cards -->
-      <section class="telemetry-grid" aria-label="Common fund telemetry">
-        <article class="status-card" id="card-balance" data-status="ok">
-          <span class="label-kicker">Remaining Cash Balance</span>
-          <p class="kpi-value" id="kpi-balance">฿0</p>
-          <p class="kpi-caption" id="kpi-balance-sub">฿0 per member share (10 pax)</p>
-        </article>
-
-        <article class="status-card" data-status="ok">
-          <span class="label-kicker">Total Collected (Credits)</span>
-          <p class="kpi-value" id="kpi-collected">฿0</p>
-          <p class="kpi-caption" id="kpi-collected-sub" data-tone="ok">0 contributions logged</p>
-        </article>
-
-        <article class="status-card" id="card-spent" data-status="info">
-          <span class="label-kicker">Total Spent (Debits)</span>
-          <p class="kpi-value" id="kpi-spent">฿0</p>
-          <p class="kpi-caption" id="kpi-spent-sub">0% of pool utilized</p>
-        </article>
-
-        <article class="status-card" id="card-round" data-status="info">
-          <span class="label-kicker">Active Contribution Round</span>
-          <p class="kpi-value" id="kpi-round">Round 1</p>
-          <p class="kpi-caption" id="kpi-round-sub">0 / 10 members paid ฿1,000</p>
-        </article>
-      </section>
-
-      <!-- Collected vs Spent Telemetry & Category Breakdown -->
-      <section class="panel" aria-label="Collected versus spent breakdown">
-        <div class="telemetry-split">
-          <div>
-            <div style="display:flex; justify-content:space-between; align-items:baseline; gap:var(--space-sm); flex-wrap:wrap;">
-              <h2 class="subhead">Pool Utilization (Collected vs. Spent)</h2>
-              <span class="label-kicker tabular" id="utilization-ratio-label">฿0 spent / ฿0 collected</span>
+      <!-- Real-Time Telemetry & Remaining Cash Balance -->
+      <section class="telemetry-section" aria-label="Fund telemetry">
+        <div id="hero-balance-card" class="status-card hero-balance-card" data-status="info">
+          <div class="hero-top-row">
+            <div>
+              <span class="kicker">Remaining cash balance</span>
+              <p id="hero-balance-value" class="figure-hero">฿0</p>
+              <p id="hero-balance-sub" class="figure-sub">฿0 per member across 10 travelers</p>
             </div>
-            <div class="meter-track" role="progressbar" id="utilization-progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-label="Percentage of collected funds spent">
-              <div class="meter-fill-spent" id="meter-fill-spent" style="width: 0%;"></div>
-            </div>
-            <div class="meter-legend">
-              <span id="meter-spent-legend">Spent: ฿0</span>
-              <span id="meter-remaining-legend">Remaining buffer: ฿0</span>
-            </div>
+            <span id="hero-status-chip" class="chip" data-status="info">Awaiting Round 1</span>
           </div>
 
-          <div>
-            <div style="display:flex; justify-content:space-between; align-items:baseline; gap:var(--space-sm);">
-              <h2 class="subhead">Spending by Category</h2>
-              <span class="label-kicker">Debits</span>
+          <div class="meter-block">
+            <div class="meter-header">
+              <span>Fund utilization (Spent vs. Collected)</span>
+              <span id="utilization-label">0% spent · ฿0 remaining</span>
             </div>
-            <div class="category-bars" id="category-bars">
-              <p style="margin:0; font-size:var(--label-size); color:var(--on-surface-variant);">
-                No expenses recorded yet. Category shares appear here once the FC logs debits.
-              </p>
+            <div class="meter-track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="utilization-progressbar">
+              <div id="utilization-fill" class="meter-fill" data-tone="ok"></div>
             </div>
+          </div>
+        </div>
+
+        <div class="kpi-grid">
+          <div class="status-card" data-status="ok">
+            <span class="kicker">Total collected</span>
+            <p id="kpi-collected-value" class="kpi-value">฿0</p>
+            <p id="kpi-collected-caption" class="kpi-caption" data-tone="ok">0 contribution entries</p>
+          </div>
+
+          <div class="status-card" data-status="warn">
+            <span class="kicker">Total spent</span>
+            <p id="kpi-spent-value" class="kpi-value">฿0</p>
+            <p id="kpi-spent-caption" class="kpi-caption">0 expense entries</p>
+          </div>
+
+          <div class="status-card" data-status="info">
+            <span class="kicker">Active contribution round</span>
+            <p id="kpi-round-value" class="kpi-value">Round 1</p>
+            <p id="kpi-round-caption" class="kpi-caption">0 / 10 settled at ฿1,000 each</p>
           </div>
         </div>
       </section>
 
-      <!-- Main Workspace: Input Forms & Roster/Ledger -->
-      <section class="workspace-grid" aria-label="Fund entry forms and live ledger">
+      <!-- Primary Workspace: Entry Form + Member Standings -->
+      <section class="workspace-grid" aria-label="Fund actions and standings">
+        <!-- Left: Action Panel -->
+        <div class="surface-card">
+          <h2 class="section-heading">Record a Transaction</h2>
+          <p class="section-sub">Choose your role to top up the kitty pool or log a shared trip expense.</p>
 
-        <!-- Left Column: Contribution Form + FC Expense Form -->
-        <div class="stack-col">
+          <div class="role-tabs" role="tablist" aria-label="Transaction role">
+            <button type="button" role="tab" id="tab-role-member" class="role-tab" aria-selected="true" onclick="switchRole('member')">
+              <i data-lucide="wallet" class="icon-sm" aria-hidden="true"></i>
+              <span>Member Top-Up (+ Credit)</span>
+            </button>
+            <button type="button" role="tab" id="tab-role-fc" class="role-tab" aria-selected="false" onclick="switchRole('fc')">
+              <i data-lucide="receipt" class="icon-sm" aria-hidden="true"></i>
+              <span>Fund Coordinator (− Debit)</span>
+            </button>
+          </div>
 
-          <!-- Member Cash Contribution Form -->
-          <form class="form-panel" id="contribution-form" onsubmit="handleContributionSubmit(event)" novalidate>
-            <div class="form-panel-header">
-              <div>
-                <h2 class="subhead">Record Member Contribution</h2>
-                <span class="label-kicker">Credit · 1,000 THB Rounds or Custom</span>
+          <!-- Inline submission feedback -->
+          <div id="action-feedback" class="callout hidden" role="status" aria-live="polite" style="margin-top: var(--space-md);">
+            <i data-lucide="info" class="icon-sm" aria-hidden="true"></i>
+            <span id="action-feedback-text"></span>
+          </div>
+
+          <!-- Member Contribution Form -->
+          <form id="member-form" class="form-stack" onsubmit="submitMemberContribution(event)">
+            <div class="field-group">
+              <div class="field-label">
+                <span>1. Self-Select Your Name</span>
+                <span id="selected-member-badge" class="field-hint">Tap a name below</span>
               </div>
-              <span class="chip" data-status="ok">+ Credit</span>
+              <div id="member-picker-grid" class="member-picker-grid" role="group" aria-label="Trip members"></div>
             </div>
 
             <div class="field-group">
-              <label class="field-label" for="contrib-member">
-                <span>Member Name</span>
-                <span class="field-hint">Tap a member tile to select</span>
+              <div class="field-label">
+                <span>2. Contribution Amount (THB)</span>
+                <span id="round-target-hint" class="field-hint">Standard round: ฿1,000</span>
+              </div>
+              <div class="preset-row" role="group" aria-label="Preset contribution amounts">
+                <button type="button" class="preset-pill" data-amount="1000" aria-pressed="true" onclick="selectCreditPreset(1000, this)">฿1,000 (1 Round)</button>
+                <button type="button" class="preset-pill" data-amount="2000" aria-pressed="false" onclick="selectCreditPreset(2000, this)">฿2,000 (2 Rounds)</button>
+                <button type="button" class="preset-pill" data-amount="500" aria-pressed="false" onclick="selectCreditPreset(500, this)">฿500</button>
+                <button type="button" class="preset-pill" data-amount="custom" aria-pressed="false" onclick="selectCreditPreset('custom', this)">Custom</button>
+              </div>
+            </div>
+
+            <div class="field-group">
+              <label for="member-amount-input" class="field-label">
+                <span>Cash Amount (THB)</span>
+                <span class="field-hint">Credit to common fund</span>
               </label>
-              <select class="select-control" id="contrib-member" onchange="updateContribRoundHint()">
-                <option value="Andy">Andy</option>
-                <option value="Cheryl">Cheryl</option>
-                <option value="Cindy">Cindy</option>
-                <option value="Edmund">Edmund</option>
-                <option value="Kim Sai">Kim Sai</option>
-                <option value="Patricia">Patricia</option>
-                <option value="Priscilla">Priscilla</option>
-                <option value="Rina">Rina</option>
-                <option value="Shirlyn">Shirlyn</option>
-                <option value="Weng Wah">Weng Wah</option>
+              <input type="number" id="member-amount-input" class="input-control" min="1" step="1" value="1000" required oninput="onCustomCreditInput()">
+            </div>
+
+            <div class="field-group">
+              <label for="member-desc-input" class="field-label">
+                <span>Contribution Note</span>
+                <span class="field-hint">Auto-filled with active round</span>
+              </label>
+              <input type="text" id="member-desc-input" class="input-control" value="Round 1 Contribution" maxlength="140" required>
+            </div>
+
+            <button type="submit" id="btn-submit-credit" class="btn">
+              <i data-lucide="plus-circle" class="icon-sm" aria-hidden="true"></i>
+              <span id="btn-submit-credit-label">Submit ฿1,000 Contribution</span>
+            </button>
+          </form>
+
+          <!-- Fund Coordinator (FC) Expense Form -->
+          <form id="fc-form" class="form-stack hidden" onsubmit="submitFcExpense(event)">
+            <div class="field-group">
+              <label for="fc-category-select" class="field-label">
+                <span>1. Meal / Expense Category</span>
+                <span class="field-hint">Tagged on ledger &amp; telemetry</span>
+              </label>
+              <select id="fc-category-select" class="select-control" onchange="updateExpenseButtonLabel()">
+                <option value="Meal - Lunch">Meal — Lunch</option>
+                <option value="Meal - Dinner">Meal — Dinner</option>
+                <option value="Meal - Breakfast">Meal — Breakfast</option>
+                <option value="Cafe &amp; Drinks">Cafe &amp; Drinks</option>
+                <option value="Transport &amp; Boat">Transport &amp; Boat</option>
+                <option value="Tickets &amp; Activities">Tickets &amp; Activities</option>
+                <option value="Supplies &amp; Misc">Supplies &amp; Misc</option>
               </select>
             </div>
 
             <div class="field-group">
-              <span class="field-label">
-                <span>Quick Round Presets (THB)</span>
-                <span class="field-hint" id="contrib-member-status-hint">Paid ฿0 so far</span>
-              </span>
-              <div class="preset-row" role="group" aria-label="Contribution amount presets">
-                <button type="button" class="preset-btn" id="preset-1000" aria-pressed="true" onclick="selectContribPreset(1000)">+฿1,000 (1 Round)</button>
-                <button type="button" class="preset-btn" id="preset-2000" aria-pressed="false" onclick="selectContribPreset(2000)">+฿2,000 (2 Rounds)</button>
-                <button type="button" class="preset-btn" id="preset-3000" aria-pressed="false" onclick="selectContribPreset(3000)">+฿3,000</button>
-                <button type="button" class="preset-btn" id="preset-custom" aria-pressed="false" onclick="focusCustomContrib()">Custom</button>
-              </div>
-            </div>
-
-            <div class="input-row-2">
-              <div class="field-group">
-                <label class="field-label" for="contrib-amount">Amount (THB)</label>
-                <input type="number" class="input-control tabular" id="contrib-amount" min="1" step="1" value="1000" oninput="onContribAmountInput()" required>
-              </div>
-              <div class="field-group">
-                <label class="field-label" for="contrib-round">Round Tag</label>
-                <select class="select-control" id="contrib-round">
-                  <option value="Round 1">Round 1</option>
-                  <option value="Round 2">Round 2</option>
-                  <option value="Round 3">Round 3</option>
-                  <option value="Round 4">Round 4</option>
-                  <option value="Round 5">Round 5</option>
-                  <option value="Custom">Custom / Top-up</option>
-                </select>
+              <label for="fc-desc-input" class="field-label">
+                <span>2. Expense Description</span>
+                <span class="field-hint">Free-text venue or item note</span>
+              </label>
+              <input type="text" id="fc-desc-input" class="input-control" placeholder="e.g., Day 1 - Lunch at Curvy Dining" maxlength="160" required oninput="updateExpenseButtonLabel()">
+              <div class="preset-row" aria-label="Quick venue examples" style="margin-top: var(--space-xs);">
+                <button type="button" class="preset-pill" onclick="fillExpenseExample('Day 1 - Lunch at Curvy Dining', 'Meal - Lunch')">Day 1 - Lunch at Curvy Dining</button>
+                <button type="button" class="preset-pill" onclick="fillExpenseExample('After the Rain Coffee &amp; Gallery', 'Cafe &amp; Drinks')">After the Rain Coffee</button>
+                <button type="button" class="preset-pill" onclick="fillExpenseExample('Erawan Waterfall Entry &amp; Parking', 'Tickets &amp; Activities')">Erawan Park Entry</button>
               </div>
             </div>
 
             <div class="field-group">
-              <label class="field-label" for="contrib-note">
-                <span>Note</span>
-                <span class="field-hint">Optional</span>
+              <label for="fc-amount-input" class="field-label">
+                <span>3. Expense Amount (THB)</span>
+                <span class="field-hint">Debit from common fund</span>
               </label>
-              <input type="text" class="input-control" id="contrib-note" maxlength="120" placeholder="e.g., Cash handed at Bangkok">
+              <input type="number" id="fc-amount-input" class="input-control" min="1" step="1" placeholder="e.g., 2450" required oninput="updateExpenseButtonLabel()">
             </div>
 
-            <div class="inline-message" id="contrib-msg" role="status" aria-live="polite"></div>
+            <div class="field-group">
+              <label for="fc-recorder-select" class="field-label">
+                <span>4. Recorded By (FC / Payer)</span>
+                <span class="field-hint">Sent as name in JSON payload</span>
+              </label>
+              <select id="fc-recorder-select" class="select-control">
+                <option value="Fund Coordinator">Fund Coordinator (FC)</option>
+              </select>
+            </div>
 
-            <button type="submit" class="btn btn-primary" id="btn-submit-contrib">
-              <i data-lucide="plus-circle" class="icon-sm" aria-hidden="true"></i>
-              <span>Add Cash Contribution</span>
+            <button type="submit" id="btn-submit-debit" class="btn">
+              <i data-lucide="minus-circle" class="icon-sm" aria-hidden="true"></i>
+              <span id="btn-submit-debit-label">Record Expense (Debit)</span>
             </button>
           </form>
-
-          <!-- FC Expense Form -->
-          <section class="form-panel" aria-label="Fund Coordinator expense form">
-            <div class="form-panel-header">
-              <div>
-                <h2 class="subhead">Record Group Expense</h2>
-                <span class="label-kicker">Debit · Fund Coordinator (FC) Only</span>
-              </div>
-              <span class="chip" id="fc-badge-chip" data-status="warn">FC Locked</span>
-            </div>
-
-            <div class="callout-info" id="fc-locked-callout">
-              <div>
-                <strong>Member view is active.</strong> Only the Fund Coordinator (FC) can debit the common fund for group meals, park tickets, transfers, or supplies.
-              </div>
-              <div>
-                <button type="button" class="btn btn-secondary" onclick="setRole('fc')">
-                  <i data-lucide="shield-check" class="icon-sm" aria-hidden="true"></i>
-                  <span>Switch to Fund Coordinator (FC)</span>
-                </button>
-              </div>
-            </div>
-
-            <form id="expense-form" onsubmit="handleExpenseSubmit(event)" style="display:none; gap:var(--space-md);" novalidate>
-              <div class="field-group">
-                <label class="field-label" for="expense-desc">Expense Description</label>
-                <input type="text" class="input-control" id="expense-desc" maxlength="160" placeholder="e.g., After the Rain Coffee &amp; boat ride" required>
-              </div>
-
-              <div class="input-row-2">
-                <div class="field-group">
-                  <label class="field-label" for="expense-category">Category</label>
-                  <select class="select-control" id="expense-category">
-                    <option value="Meals & Cafes">Meals &amp; Cafes</option>
-                    <option value="Transport & Fuel">Transport &amp; Fuel</option>
-                    <option value="Activities & Entry">Activities &amp; Entry</option>
-                    <option value="Lodging & Tips">Lodging &amp; Tips</option>
-                    <option value="Supplies & Pharmacy">Supplies &amp; Pharmacy</option>
-                    <option value="Other">Other</option>
-                  </select>
-                </div>
-
-                <div class="field-group">
-                  <label class="field-label" for="expense-amount">Amount (THB)</label>
-                  <input type="number" class="input-control tabular" id="expense-amount" min="1" step="1" placeholder="e.g., 1450" required>
-                </div>
-              </div>
-
-              <div class="field-group">
-                <label class="field-label" for="expense-location">
-                  <span>Trip Stop / Paid By Note</span>
-                  <span class="field-hint">Optional</span>
-                </label>
-                <input type="text" class="input-control" id="expense-location" maxlength="100" placeholder="e.g., Erawan Waterfall · FC cash">
-              </div>
-
-              <div class="inline-message" id="expense-msg" role="status" aria-live="polite"></div>
-
-              <div style="display:flex; flex-wrap:wrap; gap:var(--space-sm);">
-                <button type="submit" class="btn btn-primary" id="btn-submit-expense" style="flex:1;">
-                  <i data-lucide="receipt" class="icon-sm" aria-hidden="true"></i>
-                  <span>Deduct Expense from Pool</span>
-                </button>
-                <button type="button" class="btn btn-danger-outline" id="btn-confirm-overdraft" style="display:none;" onclick="confirmOverdraftExpense()">
-                  Confirm Overdraft
-                </button>
-              </div>
-            </form>
-          </section>
-
         </div>
 
-        <!-- Right Column: 10-Member Contribution Roster + Live Transaction Ledger -->
-        <div class="stack-col">
-
-          <!-- 10-Member Contribution Status -->
-          <section class="panel member-grid-wrapper" aria-label="10-member contribution tracker">
-            <div style="display:flex; flex-wrap:wrap; justify-content:space-between; align-items:baseline; gap:var(--space-sm);">
+        <!-- Right: Member Standings & Spend Breakdown -->
+        <div style="display: grid; gap: var(--space-lg);">
+          <div class="surface-card">
+            <div style="display: flex; justify-content: space-between; align-items: baseline; gap: var(--space-sm);">
               <div>
-                <h2 class="subhead">10-Member Contribution Roster</h2>
-                <span class="label-kicker" id="roster-round-target">Active Round 1 Target: ฿1,000 / member</span>
+                <h2 class="section-heading">Member Standings</h2>
+                <p class="section-sub">Alphabetical 10-pax roster &amp; round progress.</p>
               </div>
-              <span class="chip" id="roster-summary-chip" data-status="info">0 / 10 complete</span>
+              <span id="round-completion-chip" class="chip" data-status="info">0 / 10 R1</span>
             </div>
+            <div id="standings-list" class="standings-list"></div>
+          </div>
 
-            <div class="member-grid" id="member-grid">
-              <!-- Populated dynamically for all 10 alphabetical members -->
-            </div>
-          </section>
-
-          <!-- Live Transaction Ledger -->
-          <section class="panel" aria-label="Live transaction ledger">
-            <div class="ledger-toolbar">
-              <div>
-                <h2 class="subhead">Live Transaction Ledger</h2>
-                <span class="label-kicker" id="ledger-count-label">0 entries recorded</span>
-              </div>
-
-              <div style="display:flex; flex-wrap:wrap; gap:var(--space-sm); align-items:center;">
-                <button type="button" class="btn btn-ghost" onclick="exportLedgerCsv()">
-                  <i data-lucide="download" class="icon-sm" aria-hidden="true"></i>
-                  <span>Export CSV</span>
-                </button>
-              </div>
-            </div>
-
-            <div class="ledger-toolbar" style="margin-bottom:var(--space-sm);">
-              <div class="filter-tabs" role="tablist" aria-label="Filter transactions by type">
-                <button type="button" class="tab-btn" role="tab" id="tab-all" aria-selected="true" onclick="setLedgerFilter('all')">All</button>
-                <button type="button" class="tab-btn" role="tab" id="tab-credit" aria-selected="false" onclick="setLedgerFilter('credit')">Contributions (+)</button>
-                <button type="button" class="tab-btn" role="tab" id="tab-debit" aria-selected="false" onclick="setLedgerFilter('debit')">Expenses (−)</button>
-              </div>
-
-              <div style="min-width:190px; flex:1; max-width:280px;">
-                <label class="field-label" for="ledger-search" style="margin-bottom:var(--space-2xs);">Search Member or Description</label>
-                <input type="search" class="input-control" id="ledger-search" placeholder="Filter ledger…" oninput="setLedgerSearch(this.value)">
-              </div>
-            </div>
-
-            <div class="ledger-list" id="ledger-list">
-              <!-- Populated dynamically -->
-            </div>
-          </section>
-
+          <div class="surface-card">
+            <h2 class="section-heading">Spend by Category</h2>
+            <p class="section-sub">Breakdown of recorded coordinator debits.</p>
+            <div id="category-breakdown" class="category-bars"></div>
+          </div>
         </div>
       </section>
 
-      <footer class="trip-footer">
-        <span>Route stops: Lopburi · Uthai Thani · Ban Rai · Si Sawat (Erawan) · Sangkhla Buri · Sai Yok · Kanchanaburi · Nakhon Pathom</span>
-        <span>Backend: Google Sheets Apps Script Web App + Local Session Persistence</span>
+      <!-- Live Transaction Ledger -->
+      <section class="surface-card ledger-card" aria-label="Live transaction ledger">
+        <div class="ledger-controls">
+          <div>
+            <h2 class="section-heading">Live Transaction Ledger</h2>
+            <p class="section-sub">Newest entries first with timestamps and Google Sheets sync state.</p>
+          </div>
+          <div class="ledger-search-wrap">
+            <label for="ledger-search-input" class="field-label">
+              <span>Search Ledger</span>
+            </label>
+            <input type="search" id="ledger-search-input" class="input-control" placeholder="Filter by member, meal, or note…" oninput="renderLedger()">
+          </div>
+        </div>
+
+        <div class="filter-pills" role="group" aria-label="Filter transactions by type">
+          <button type="button" class="preset-pill" data-filter="all" aria-pressed="true" onclick="setLedgerFilter('all', this)">All Entries</button>
+          <button type="button" class="preset-pill" data-filter="Credit" aria-pressed="false" onclick="setLedgerFilter('Credit', this)">Credits (+)</button>
+          <button type="button" class="preset-pill" data-filter="Debit" aria-pressed="false" onclick="setLedgerFilter('Debit', this)">Debits (−)</button>
+        </div>
+
+        <div class="ledger-list-wrap">
+          <div id="ledger-list" class="ledger-list"></div>
+        </div>
+
+        <div class="ledger-footer">
+          <div style="display: flex; flex-wrap: wrap; gap: var(--space-sm);">
+            <button type="button" class="btn btn-secondary btn-compact" onclick="exportLedgerCsv()">
+              <i data-lucide="download" class="icon-sm" aria-hidden="true"></i>
+              <span>Export CSV</span>
+            </button>
+            <button type="button" id="btn-retry-pending" class="btn btn-secondary btn-compact hidden" onclick="retryPendingSync()">
+              <i data-lucide="upload-cloud" class="icon-sm" aria-hidden="true"></i>
+              <span id="btn-retry-pending-label">Retry Pending</span>
+            </button>
+          </div>
+          <span id="ledger-count-summary" class="field-hint">0 transactions stored</span>
+        </div>
+      </section>
+
+      <footer class="footer-note">
+        Trip Kitty Pool · Pre-configured for Google Sheets Apps Script JSON API ({ type, name, description, credit, debit }). State persists locally via Notebook App Storage when offline or sandboxed.
       </footer>
     </main>
   </div>
 
   <!-- Settings Modal -->
-  <div class="modal-overlay" id="settings-modal" role="dialog" aria-modal="true" aria-labelledby="settings-modal-title">
-    <div class="modal-dialog">
+  <div id="settings-modal-backdrop" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="settings-modal-title" onclick="handleBackdropClick(event)">
+    <div class="modal-panel">
       <div class="modal-header">
         <div>
-          <h2 class="section-heading" id="settings-modal-title">Common Fund Settings</h2>
-          <span class="label-kicker">Google Apps Script Backend &amp; Round Rules</span>
+          <span class="kicker">Backend &amp; Pool Configuration</span>
+          <h2 id="settings-modal-title" class="section-heading">Settings</h2>
         </div>
-        <button type="button" class="btn btn-ghost" onclick="closeSettingsModal()" aria-label="Close settings">
+        <button type="button" class="btn btn-ghost btn-compact" aria-label="Close settings" onclick="closeSettingsModal()">
           <i data-lucide="x" class="icon-sm" aria-hidden="true"></i>
+          <span>Close</span>
         </button>
       </div>
 
-      <form id="settings-form" onsubmit="handleSettingsSave(event)" style="display:grid; gap:var(--space-md);" novalidate>
+      <div id="settings-feedback" class="callout hidden" role="status" aria-live="polite">
+        <i data-lucide="info" class="icon-sm" aria-hidden="true"></i>
+        <span id="settings-feedback-text"></span>
+      </div>
+
+      <form class="form-stack" style="margin-top: 0;" onsubmit="saveSettings(event)">
         <div class="field-group">
-          <label class="field-label" for="setting-gas-url">Google Apps Script Web App URL</label>
-          <input type="url" class="input-control" id="setting-gas-url" required>
-          <span class="field-hint" style="font-size:var(--label-size);">
-            Pre-configured endpoint for reading and appending common-fund credits and debits to Google Sheets.
+          <label for="setting-gas-url" class="field-label">
+            <span>Google Apps Script Web App URL</span>
+            <span class="field-hint">Pre-configured endpoint</span>
+          </label>
+          <input type="url" id="setting-gas-url" class="input-control" required>
+        </div>
+
+        <div class="field-group">
+          <label for="setting-post-mode" class="field-label">
+            <span>HTTP POST Content-Type Mode</span>
+            <span class="field-hint">Controls CORS preflight</span>
+          </label>
+          <select id="setting-post-mode" class="select-control">
+            <option value="text/plain">CORS-Safe JSON (text/plain;charset=utf-8 — recommended for Apps Script)</option>
+            <option value="application/json">Strict application/json</option>
+          </select>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(200px, 100%), 1fr)); gap: var(--space-md);">
+          <div class="field-group">
+            <label for="setting-round-amount" class="field-label">
+              <span>Round Amount (THB)</span>
+            </label>
+            <input type="number" id="setting-round-amount" class="input-control" min="100" step="100" required>
+          </div>
+          <div class="field-group">
+            <label for="setting-low-threshold" class="field-label">
+              <span>Low Balance Alert (THB)</span>
+            </label>
+            <input type="number" id="setting-low-threshold" class="input-control" min="0" step="100" required>
+          </div>
+        </div>
+
+        <div class="field-group">
+          <span class="field-label">
+            <span>POST JSON Payload Contract</span>
+            <span class="field-hint">Sent on every Credit / Debit</span>
           </span>
-        </div>
-
-        <div class="input-row-2">
-          <div class="field-group">
-            <label class="field-label" for="setting-round-size">Contribution Round Size (THB)</label>
-            <input type="number" class="input-control tabular" id="setting-round-size" min="100" step="100" required>
-          </div>
-          <div class="field-group">
-            <label class="field-label" for="setting-auto-sync">Sync Behavior</label>
-            <select class="select-control" id="setting-auto-sync">
-              <option value="auto">Auto-sync on change &amp; load</option>
-              <option value="manual">Manual sync only (offline mode)</option>
-            </select>
-          </div>
-        </div>
-
-        <div class="inline-message" id="settings-msg" role="status" aria-live="polite"></div>
-
-        <div style="display:flex; flex-wrap:wrap; gap:var(--space-sm); justify-content:space-between; align-items:center;">
-          <button type="button" class="btn btn-ghost" onclick="restoreDefaultGasUrl()">Restore Default URL</button>
-          <button type="button" class="btn btn-secondary" onclick="testAndPullBackend()">
-            <i data-lucide="cloud-download" class="icon-sm" aria-hidden="true"></i>
-            <span>Pull &amp; Test Sheet API</span>
-          </button>
-        </div>
-
-        <div style="border-top:1px solid var(--outline-variant); padding-top:var(--space-md); display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:var(--space-sm);">
-          <span class="label-kicker">Local Cache Controls</span>
-          <button type="button" class="btn btn-danger-outline" id="btn-reset-local" onclick="handleResetLocal(this)">
-            Clear Local Cache
-          </button>
+          <pre id="payload-contract-preview" class="code-preview">{
+  "type": "Debit",
+  "name": "Fund Coordinator",
+  "description": "Day 1 - Lunch at Curvy Dining [Meal - Lunch]",
+  "credit": 0,
+  "debit": 2450
+}</pre>
         </div>
 
         <div class="modal-footer">
-          <button type="button" class="btn btn-ghost" onclick="closeSettingsModal()">Cancel</button>
-          <button type="submit" class="btn btn-primary">Save Settings</button>
+          <div style="display: flex; flex-wrap: wrap; gap: var(--space-sm);">
+            <button type="button" class="btn btn-secondary btn-compact" onclick="resetDefaultGasUrl()">
+              <span>Restore Default URL</span>
+            </button>
+            <button type="button" id="btn-reset-ledger" class="btn btn-danger-outline btn-compact" onclick="resetLocalLedger(this)">
+              <span>Reset Local Ledger</span>
+            </button>
+          </div>
+          <button type="submit" class="btn">
+            <i data-lucide="save" class="icon-sm" aria-hidden="true"></i>
+            <span>Save Settings</span>
+          </button>
         </div>
       </form>
     </div>
@@ -1255,9 +1315,9 @@
 
   <api-shim></api-shim>
   <script>
-    const DEFAULT_GAS_URL = `https://script.google.com/macros/s/AKfycbygwwut-7AVLgEL-iAgiqHJaBak67eNxBGR056CBaREEzk0bDGDvv8ijrBV7_koSq0U/exec`;
+    const DEFAULT_GAS_URL = `https://script.google.com/macros/s/AKfycbz01YASbNnvmosssyli-W3Lem9IfC-eW7UmyxFDFLirtzDm8iH-UPXguZVbQclqzxD4/exec`;
 
-    const MEMBERS = [
+    const TRIP_MEMBERS = [
       `Andy`,
       `Cheryl`,
       `Cindy`,
@@ -1270,61 +1330,41 @@
       `Weng Wah`
     ];
 
-    const CATEGORY_COLORS = {
-      'Meals & Cafes': 'var(--data-1)',
-      'Transport & Fuel': 'var(--data-2)',
-      'Activities & Entry': 'var(--data-3)',
-      'Lodging & Tips': 'var(--data-4)',
-      'Supplies & Pharmacy': 'var(--data-5)',
-      'Other': 'var(--data-6)'
-    };
+    const CATEGORY_LIST = [
+      `Meal - Lunch`,
+      `Meal - Dinner`,
+      `Meal - Breakfast`,
+      `Cafe & Drinks`,
+      `Transport & Boat`,
+      `Tickets & Activities`,
+      `Supplies & Misc`
+    ];
 
     let appState = {
-      role: 'member',
-      settings: {
-        gasUrl: DEFAULT_GAS_URL,
-        roundAmount: 1000,
-        syncMode: 'auto'
-      },
+      gasUrl: DEFAULT_GAS_URL,
+      postMode: `text/plain`,
+      roundAmount: 1000,
+      lowThreshold: 2000,
+      role: `member`,
+      selectedMember: ``,
+      creditPreset: 1000,
+      ledgerFilter: `all`,
       transactions: [],
-      pendingSyncIds: [],
       lastSyncAt: null,
-      syncStatus: 'idle',
-      syncDetail: 'Local session ready'
+      lastSyncState: `ready`
     };
 
-    let activeFilter = 'all';
-    let searchQuery = '';
-    let pendingOverdraftPayload = null;
+    let isSubmitting = false;
 
-    function formatThb(value) {
-      const num = Number(value) || 0;
-      const absStr = Math.abs(Math.round(num)).toLocaleString('en-US');
-      return num < 0 ? `-฿${absStr}` : `฿${absStr}`;
+    function formatThb(amount) {
+      const n = Math.round(Number(amount) || 0);
+      const abs = Math.abs(n).toLocaleString(`en-US`);
+      return n < 0 ? `-฿${abs}` : `฿${abs}`;
     }
 
-    function formatTimestamp(iso) {
-      try {
-        const d = new Date(iso);
-        if (Number.isNaN(d.getTime())) return String(iso || ``);
-        return d.toLocaleString('en-GB', {
-          day: '2-digit',
-          month: 'short',
-          hour: '2-digit',
-          minute: '2-digit',
-          hour12: false
-        });
-      } catch (_err) {
-        return String(iso || ``);
-      }
-    }
-
-    function generateId() {
-      return `tx_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
-    }
-
-    function escapeHtml(str) {
-      return String(str ?? ``)
+    function escapeHtml(text) {
+      const str = String(text ?? ``);
+      return str
         .replace(/&/g, `&amp;`)
         .replace(/</g, `&lt;`)
         .replace(/>/g, `&gt;`)
@@ -1332,915 +1372,1083 @@
         .replace(/'/g, `&#39;`);
     }
 
-    function showInlineMessage(elementId, message, tone) {
-      const el = document.getElementById(elementId);
-      if (!el) return;
-      if (!message) {
-        el.className = `inline-message`;
-        el.textContent = ``;
-        return;
-      }
-      el.className = `inline-message is-visible`;
-      el.setAttribute(`data-tone`, tone || `ok`);
-      el.textContent = message;
-    }
-
-    async function persistState() {
-      if (window.notebookAppApi && typeof window.notebookAppApi.setAppState === `function`) {
-        try {
-          await window.notebookAppApi.setAppState(appState);
-        } catch (_err) {
-          // Graceful fallback if host API is temporarily unavailable
-        }
+    function formatTimestamp(isoString) {
+      try {
+        const d = new Date(isoString);
+        if (Number.isNaN(d.getTime())) return String(isoString || ``);
+        return d.toLocaleString(`en-GB`, {
+          day: `2-digit`,
+          month: `short`,
+          year: `numeric`,
+          hour: `2-digit`,
+          minute: `2-digit`,
+          hour12: false
+        });
+      } catch (e) {
+        return String(isoString || ``);
       }
     }
 
-    function computeTelemetry() {
-      const roundSize = Math.max(100, Number(appState.settings.roundAmount) || 1000);
-      const memberTotals = {};
-      MEMBERS.forEach(function (name) {
-        memberTotals[name] = 0;
-      });
-
+    function computeMetrics() {
       let totalCollected = 0;
       let totalSpent = 0;
       let creditCount = 0;
       let debitCount = 0;
-      const categoryTotals = {};
 
-      appState.transactions.forEach(function (tx) {
-        const amt = Number(tx.amount) || 0;
-        if (tx.type === `credit`) {
-          totalCollected += amt;
+      const memberTotals = {};
+      for (const m of TRIP_MEMBERS) {
+        memberTotals[m] = 0;
+      }
+
+      const categoryTotals = {};
+      for (const c of CATEGORY_LIST) {
+        categoryTotals[c] = 0;
+      }
+
+      for (const tx of appState.transactions) {
+        const c = Number(tx.credit) || 0;
+        const d = Number(tx.debit) || 0;
+        if (c > 0) {
+          totalCollected += c;
           creditCount += 1;
-          if (tx.member && Object.prototype.hasOwnProperty.call(memberTotals, tx.member)) {
-            memberTotals[tx.member] += amt;
+          if (Object.prototype.hasOwnProperty.call(memberTotals, tx.name)) {
+            memberTotals[tx.name] += c;
           }
-        } else if (tx.type === `debit`) {
-          totalSpent += amt;
-          debitCount += 1;
-          const cat = tx.category || `Other`;
-          categoryTotals[cat] = (categoryTotals[cat] || 0) + amt;
         }
-      });
+        if (d > 0) {
+          totalSpent += d;
+          debitCount += 1;
+          const cat = tx.category || inferCategoryFromDesc(tx.description);
+          categoryTotals[cat] = (categoryTotals[cat] || 0) + d;
+        }
+      }
 
       const balance = totalCollected - totalSpent;
-      const perMemberShare = balance / MEMBERS.length;
+      const perMemberShare = balance / TRIP_MEMBERS.length;
+      const roundUnit = Math.max(100, Number(appState.roundAmount) || 1000);
 
-      // Determine active contribution round: lowest round R >= 1 where not all 10 members have reached R * roundSize
       let activeRound = 1;
-      while (activeRound < 50) {
-        const targetForRound = activeRound * roundSize;
-        const allPaid = MEMBERS.every(function (m) {
-          return memberTotals[m] >= targetForRound;
-        });
-        if (!allPaid) break;
+      while (true) {
+        const targetForRound = activeRound * roundUnit;
+        const settledCount = TRIP_MEMBERS.filter((m) => memberTotals[m] >= targetForRound).length;
+        if (settledCount < TRIP_MEMBERS.length || activeRound > 50) {
+          break;
+        }
         activeRound += 1;
       }
 
-      const activeRoundTarget = activeRound * roundSize;
-      const paidThisRoundCount = MEMBERS.filter(function (m) {
-        return memberTotals[m] >= activeRoundTarget;
-      }).length;
+      const activeRoundTarget = activeRound * roundUnit;
+      const settledInActiveRound = TRIP_MEMBERS.filter((m) => memberTotals[m] >= activeRoundTarget).length;
 
       return {
-        roundSize,
-        memberTotals,
         totalCollected,
         totalSpent,
-        creditCount,
-        debitCount,
-        categoryTotals,
         balance,
         perMemberShare,
+        creditCount,
+        debitCount,
+        memberTotals,
+        categoryTotals,
+        roundUnit,
         activeRound,
-        activeRoundTarget,
-        paidThisRoundCount
+        settledInActiveRound
       };
     }
 
-    function renderRoleUi() {
-      const isFc = appState.role === `fc`;
-      const btnMember = document.getElementById(`role-btn-member`);
-      const btnFc = document.getElementById(`role-btn-fc`);
-      const fcLockedCallout = document.getElementById(`fc-locked-callout`);
-      const expenseForm = document.getElementById(`expense-form`);
-      const fcBadge = document.getElementById(`fc-badge-chip`);
-
-      if (btnMember) btnMember.setAttribute(`aria-pressed`, isFc ? `false` : `true`);
-      if (btnFc) btnFc.setAttribute(`aria-pressed`, isFc ? `true` : `false`);
-      if (fcLockedCallout) fcLockedCallout.style.display = isFc ? `none` : `grid`;
-      if (expenseForm) expenseForm.style.display = isFc ? `grid` : `none`;
-      if (fcBadge) {
-        fcBadge.setAttribute(`data-status`, isFc ? `ok` : `warn`);
-        fcBadge.textContent = isFc ? `FC Active` : `FC Locked`;
-      }
+    function inferCategoryFromDesc(desc) {
+      const text = String(desc || ``).toLowerCase();
+      if (text.includes(`breakfast`)) return `Meal - Breakfast`;
+      if (text.includes(`lunch`)) return `Meal - Lunch`;
+      if (text.includes(`dinner`)) return `Meal - Dinner`;
+      if (text.includes(`cafe`) || text.includes(`coffee`) || text.includes(`drink`)) return `Cafe & Drinks`;
+      if (text.includes(`boat`) || text.includes(`van`) || text.includes(`taxi`) || text.includes(`transport`) || text.includes(`fuel`)) return `Transport & Boat`;
+      if (text.includes(`ticket`) || text.includes(`park`) || text.includes(`waterfall`) || text.includes(`entry`)) return `Tickets & Activities`;
+      return `Supplies & Misc`;
     }
 
-    function renderSyncChips() {
-      const syncChip = document.getElementById(`sync-status-chip`);
-      const queueChip = document.getElementById(`pending-queue-chip`);
-
-      if (syncChip) {
-        let tone = `info`;
-        if (appState.syncStatus === `synced`) tone = `ok`;
-        else if (appState.syncStatus === `error` || appState.syncStatus === `offline`) tone = `warn`;
-        syncChip.setAttribute(`data-status`, tone);
-        syncChip.textContent = appState.syncDetail || `Local session ready`;
-      }
-
-      if (queueChip) {
-        const count = Array.isArray(appState.pendingSyncIds) ? appState.pendingSyncIds.length : 0;
-        if (count > 0) {
-          queueChip.style.display = `inline-flex`;
-          queueChip.textContent = `${count} pending sync`;
-        } else {
-          queueChip.style.display = `none`;
+    async function persistState() {
+      try {
+        if (window.notebookAppApi && typeof window.notebookAppApi.setAppState === `function`) {
+          await window.notebookAppApi.setAppState({
+            gasUrl: appState.gasUrl,
+            postMode: appState.postMode,
+            roundAmount: appState.roundAmount,
+            lowThreshold: appState.lowThreshold,
+            role: appState.role,
+            selectedMember: appState.selectedMember,
+            transactions: appState.transactions,
+            lastSyncAt: appState.lastSyncAt,
+            lastSyncState: appState.lastSyncState
+          });
         }
+      } catch (err) {
+        // Non-fatal in preview environments
       }
     }
 
-    function renderTelemetryAndRoster() {
-      const t = computeTelemetry();
-
-      const balCard = document.getElementById(`card-balance`);
-      const kpiBal = document.getElementById(`kpi-balance`);
-      const kpiBalSub = document.getElementById(`kpi-balance-sub`);
-      if (kpiBal) kpiBal.textContent = formatThb(t.balance);
-      if (kpiBalSub) {
-        kpiBalSub.textContent = `${formatThb(t.perMemberShare)} per member share (10 pax)`;
-        kpiBalSub.setAttribute(`data-tone`, t.balance < 0 ? `alert` : `ok`);
-      }
-      if (balCard) {
-        if (t.balance < 0) balCard.setAttribute(`data-status`, `alert`);
-        else if (t.totalCollected > 0 && t.balance < t.roundSize * 2) balCard.setAttribute(`data-status`, `warn`);
-        else balCard.setAttribute(`data-status`, `ok`);
-      }
-
-      const kpiCol = document.getElementById(`kpi-collected`);
-      const kpiColSub = document.getElementById(`kpi-collected-sub`);
-      if (kpiCol) kpiCol.textContent = formatThb(t.totalCollected);
-      if (kpiColSub) {
-        kpiColSub.textContent = `${t.creditCount} ${t.creditCount === 1 ? `contribution` : `contributions`} logged`;
-      }
-
-      const kpiSpent = document.getElementById(`kpi-spent`);
-      const kpiSpentSub = document.getElementById(`kpi-spent-sub`);
-      const cardSpent = document.getElementById(`card-spent`);
-      const pctSpent = t.totalCollected > 0 ? Math.round((t.totalSpent / t.totalCollected) * 100) : 0;
-      if (kpiSpent) kpiSpent.textContent = formatThb(t.totalSpent);
-      if (kpiSpentSub) kpiSpentSub.textContent = `${pctSpent}% of collected pool utilized (${t.debitCount} ${t.debitCount === 1 ? `debit` : `debits`})`;
-      if (cardSpent) cardSpent.setAttribute(`data-status`, pctSpent > 100 ? `alert` : `info`);
-
-      const kpiRound = document.getElementById(`kpi-round`);
-      const kpiRoundSub = document.getElementById(`kpi-round-sub`);
-      if (kpiRound) kpiRound.textContent = `Round ${t.activeRound}`;
-      if (kpiRoundSub) {
-        kpiRoundSub.textContent = `${t.paidThisRoundCount} / ${MEMBERS.length} members reached ${formatThb(t.activeRoundTarget)}`;
-      }
-
-      // Utilization Bar
-      const ratioLabel = document.getElementById(`utilization-ratio-label`);
-      const bar = document.getElementById(`utilization-progressbar`);
-      const fill = document.getElementById(`meter-fill-spent`);
-      const spentLegend = document.getElementById(`meter-spent-legend`);
-      const remLegend = document.getElementById(`meter-remaining-legend`);
-      const clampedPct = Math.min(100, Math.max(0, pctSpent));
-
-      if (ratioLabel) ratioLabel.textContent = `${formatThb(t.totalSpent)} spent / ${formatThb(t.totalCollected)} collected`;
-      if (bar) bar.setAttribute(`aria-valuenow`, String(clampedPct));
-      if (fill) {
-        fill.style.width = `${clampedPct}%`;
-        fill.setAttribute(`data-over`, t.totalSpent > t.totalCollected ? `true` : `false`);
-      }
-      if (spentLegend) spentLegend.textContent = `Spent: ${formatThb(t.totalSpent)} (${pctSpent}%)`;
-      if (remLegend) remLegend.textContent = `Remaining buffer: ${formatThb(t.balance)}`;
-
-      // Category Breakdown
-      const catContainer = document.getElementById(`category-bars`);
-      if (catContainer) {
-        const entries = Object.entries(t.categoryTotals).sort(function (a, b) {
-          return b[1] - a[1];
-        });
-        if (entries.length === 0) {
-          catContainer.innerHTML = `<p style="margin:0; font-size:var(--label-size); color:var(--on-surface-variant);">No expenses recorded yet. Category shares appear here once the FC logs debits.</p>`;
-        } else {
-          const maxVal = entries[0][1] || 1;
-          catContainer.innerHTML = entries.map(function (entry) {
-            const cat = entry[0];
-            const val = entry[1];
-            const widthPct = Math.round((val / maxVal) * 100);
-            const color = CATEGORY_COLORS[cat] || `var(--data-1)`;
-            return `<div class="cat-row">
-              <span>${escapeHtml(cat)}</span>
-              <div class="cat-bar-bg"><div class="cat-bar-fill" style="width:${widthPct}%; background:${color};"></div></div>
-              <strong class="tabular">${formatThb(val)}</strong>
-            </div>`;
-          }).join(``);
+    async function loadPersistedState() {
+      try {
+        if (window.notebookAppApi && typeof window.notebookAppApi.getAppState === `function`) {
+          const saved = await window.notebookAppApi.getAppState();
+          if (saved && typeof saved === `object`) {
+            if (typeof saved.gasUrl === `string` && saved.gasUrl.trim()) {
+              appState.gasUrl = saved.gasUrl.trim();
+            }
+            if (saved.postMode === `text/plain` || saved.postMode === `application/json`) {
+              appState.postMode = saved.postMode;
+            }
+            if (Number(saved.roundAmount) >= 100) {
+              appState.roundAmount = Number(saved.roundAmount);
+            }
+            if (Number(saved.lowThreshold) >= 0) {
+              appState.lowThreshold = Number(saved.lowThreshold);
+            }
+            if (saved.role === `member` || saved.role === `fc`) {
+              appState.role = saved.role;
+            }
+            if (typeof saved.selectedMember === `string`) {
+              appState.selectedMember = saved.selectedMember;
+            }
+            if (Array.isArray(saved.transactions)) {
+              appState.transactions = saved.transactions;
+            }
+            if (saved.lastSyncAt) {
+              appState.lastSyncAt = saved.lastSyncAt;
+            }
+            if (saved.lastSyncState) {
+              appState.lastSyncState = saved.lastSyncState;
+            }
+          }
         }
+      } catch (err) {
+        // Proceed with defaults
       }
-
-      // Roster
-      const rosterTarget = document.getElementById(`roster-round-target`);
-      const rosterChip = document.getElementById(`roster-summary-chip`);
-      const memberGrid = document.getElementById(`member-grid`);
-      if (rosterTarget) rosterTarget.textContent = `Active Round ${t.activeRound} Target: ${formatThb(t.activeRoundTarget)} cumulative / member`;
-      if (rosterChip) {
-        rosterChip.textContent = `${t.paidThisRoundCount} / ${MEMBERS.length} complete`;
-        rosterChip.setAttribute(`data-status`, t.paidThisRoundCount === MEMBERS.length ? `ok` : `info`);
-      }
-
-      if (memberGrid) {
-        memberGrid.innerHTML = MEMBERS.map(function (name) {
-          const paid = t.memberTotals[name] || 0;
-          const roundsDone = Math.floor(paid / t.roundSize);
-          let metState = `none`;
-          if (paid >= t.activeRoundTarget) metState = `true`;
-          else if (paid > (t.activeRound - 1) * t.roundSize) metState = `partial`;
-
-          const roundText = paid >= t.activeRoundTarget
-            ? `R${roundsDone} paid`
-            : `Needs ${formatThb(t.activeRoundTarget - paid)}`;
-
-          return `<button type="button" class="member-tile" data-round-met="${metState}" onclick="selectMemberForContribution('${escapeHtml(name)}')" title="Select ${escapeHtml(name)} in contribution form">
-            <span class="member-name">${escapeHtml(name)}</span>
-            <span class="member-total">${formatThb(paid)}</span>
-            <span class="member-round-tag">${escapeHtml(roundText)}</span>
-          </button>`;
-        }).join(``);
-      }
-
-      updateContribRoundHint();
-    }
-
-    function renderLedger() {
-      const listEl = document.getElementById(`ledger-list`);
-      const countEl = document.getElementById(`ledger-count-label`);
-      if (!listEl) return;
-
-      const sorted = appState.transactions.slice().sort(function (a, b) {
-        return new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime();
-      });
-
-      const q = searchQuery.trim().toLowerCase();
-      const filtered = sorted.filter(function (tx) {
-        if (activeFilter !== `all` && tx.type !== activeFilter) return false;
-        if (!q) return true;
-        const hay = `${tx.member || ``} ${tx.description || ``} ${tx.category || ``} ${tx.round || ``} ${tx.note || ``}`.toLowerCase();
-        return hay.includes(q);
-      });
-
-      if (countEl) {
-        countEl.textContent = `${filtered.length} of ${sorted.length} ${sorted.length === 1 ? `entry` : `entries`} shown`;
-      }
-
-      if (filtered.length === 0) {
-        const emptyTitle = sorted.length === 0
-          ? `No transactions in the common fund yet.`
-          : `No transactions match your current filter.`;
-        const emptyHelp = sorted.length === 0
-          ? `Start Round 1 by recording a 1,000 THB contribution on the left, or tap Sync Sheet in Settings to pull existing records from Google Sheets.`
-          : `Clear your search text or switch back to All transactions to see the complete ledger.`;
-
-        listEl.innerHTML = `<div class="empty-state">
-          <p class="subhead" style="margin:0;">${escapeHtml(emptyTitle)}</p>
-          <p style="margin:0; color:var(--on-surface-variant);">${escapeHtml(emptyHelp)}</p>
-        </div>`;
-        return;
-      }
-
-      const isFc = appState.role === `fc`;
-      const pendingSet = new Set(appState.pendingSyncIds || []);
-
-      listEl.innerHTML = filtered.map(function (tx) {
-        const isCredit = tx.type === `credit`;
-        const title = isCredit
-          ? `${tx.member || `Member`} — Cash Contribution`
-          : `${tx.description || `Group Expense`}`;
-        const tagText = isCredit ? (tx.round || `Contribution`) : (tx.category || `Other`);
-        const tagStatus = isCredit ? `ok` : `info`;
-        const signedAmt = isCredit ? `+${formatThb(tx.amount)}` : `−${formatThb(tx.amount)}`;
-        const isPending = pendingSet.has(tx.id);
-        const notePart = tx.note ? `<span>· ${escapeHtml(tx.note)}</span>` : ``;
-        const pendingBadge = isPending ? `<span class="chip" data-status="warn">Pending sync</span>` : ``;
-        const voidBtn = isFc
-          ? `<button type="button" class="btn btn-danger-outline" onclick="handleVoidTransaction(this, '${escapeHtml(tx.id)}')">Void</button>`
-          : ``;
-
-        return `<article class="ledger-row">
-          <div class="ledger-main">
-            <div class="ledger-top-line">
-              <span class="ledger-title">${escapeHtml(title)}</span>
-              <span class="chip" data-status="${tagStatus}">${escapeHtml(tagText)}</span>
-              ${pendingBadge}
-            </div>
-            <div class="ledger-meta">
-              <span class="tabular">${escapeHtml(formatTimestamp(tx.timestamp))}</span>
-              <span>· Recorded by ${escapeHtml(tx.recordedBy || `Member`)}</span>
-              ${notePart}
-            </div>
-          </div>
-          <div class="ledger-right">
-            <span class="ledger-amount" data-type="${isCredit ? `credit` : `debit`}">${signedAmt}</span>
-            ${voidBtn}
-          </div>
-        </article>`;
-      }).join(``);
     }
 
     function renderAll() {
-      renderRoleUi();
-      renderSyncChips();
-      renderTelemetryAndRoster();
+      const metrics = computeMetrics();
+      renderTelemetry(metrics);
+      renderMemberPicker(metrics);
+      renderStandings(metrics);
+      renderCategoryBreakdown(metrics);
       renderLedger();
+      renderSyncChip();
+      populateFcRecorderSelect();
+      refreshRoleUI();
+      refreshCreditButtonLabel();
       if (window.lucide && typeof window.lucide.createIcons === `function`) {
         window.lucide.createIcons();
       }
     }
 
-    function setRole(role) {
+    function renderTelemetry(metrics) {
+      const heroCard = document.getElementById(`hero-balance-card`);
+      const heroVal = document.getElementById(`hero-balance-value`);
+      const heroSub = document.getElementById(`hero-balance-sub`);
+      const heroChip = document.getElementById(`hero-status-chip`);
+      const utilLabel = document.getElementById(`utilization-label`);
+      const utilBar = document.getElementById(`utilization-progressbar`);
+      const utilFill = document.getElementById(`utilization-fill`);
+
+      const kpiCollectedVal = document.getElementById(`kpi-collected-value`);
+      const kpiCollectedCap = document.getElementById(`kpi-collected-caption`);
+      const kpiSpentVal = document.getElementById(`kpi-spent-value`);
+      const kpiSpentCap = document.getElementById(`kpi-spent-caption`);
+      const kpiRoundVal = document.getElementById(`kpi-round-value`);
+      const kpiRoundCap = document.getElementById(`kpi-round-caption`);
+      const roundTargetHint = document.getElementById(`round-target-hint`);
+
+      if (heroVal) heroVal.textContent = formatThb(metrics.balance);
+      if (heroSub) heroSub.textContent = `${formatThb(metrics.perMemberShare)} per member across 10 travelers`;
+
+      let balanceStatus = `info`;
+      let chipText = `Awaiting Round 1`;
+      if (metrics.totalCollected > 0) {
+        if (metrics.balance < 0) {
+          balanceStatus = `alert`;
+          chipText = `Overdrawn — Top-Up Needed`;
+        } else if (metrics.balance <= appState.lowThreshold) {
+          balanceStatus = `warn`;
+          chipText = `Low Balance — Prepare Round ${metrics.activeRound}`;
+        } else {
+          balanceStatus = `ok`;
+          chipText = `Healthy Pool`;
+        }
+      }
+
+      if (heroCard) heroCard.dataset.status = balanceStatus;
+      if (heroChip) {
+        heroChip.dataset.status = balanceStatus;
+        heroChip.textContent = chipText;
+      }
+
+      const spentPct = metrics.totalCollected > 0
+        ? Math.min(100, Math.round((metrics.totalSpent / metrics.totalCollected) * 100))
+        : 0;
+      if (utilLabel) {
+        utilLabel.textContent = `${spentPct}% spent · ${formatThb(metrics.balance)} remaining`;
+      }
+      if (utilBar) {
+        utilBar.setAttribute(`aria-valuenow`, String(spentPct));
+      }
+      if (utilFill) {
+        utilFill.style.width = `${spentPct}%`;
+        utilFill.dataset.tone = metrics.balance < 0 ? `alert` : (spentPct >= 80 ? `warn` : `ok`);
+      }
+
+      if (kpiCollectedVal) kpiCollectedVal.textContent = formatThb(metrics.totalCollected);
+      if (kpiCollectedCap) {
+        kpiCollectedCap.textContent = `${metrics.creditCount} contribution ${metrics.creditCount === 1 ? `entry` : `entries`}`;
+      }
+
+      if (kpiSpentVal) kpiSpentVal.textContent = formatThb(metrics.totalSpent);
+      if (kpiSpentCap) {
+        kpiSpentCap.textContent = `${metrics.debitCount} expense ${metrics.debitCount === 1 ? `entry` : `entries`}`;
+      }
+
+      if (kpiRoundVal) kpiRoundVal.textContent = `Round ${metrics.activeRound}`;
+      if (kpiRoundCap) {
+        kpiRoundCap.textContent = `${metrics.settledInActiveRound} / ${TRIP_MEMBERS.length} settled at ${formatThb(metrics.roundUnit)} each`;
+      }
+      if (roundTargetHint) {
+        roundTargetHint.textContent = `Standard round: ${formatThb(metrics.roundUnit)}`;
+      }
+    }
+
+    function renderMemberPicker(metrics) {
+      const container = document.getElementById(`member-picker-grid`);
+      const badge = document.getElementById(`selected-member-badge`);
+      if (!container) return;
+
+      const targetForRound = metrics.activeRound * metrics.roundUnit;
+
+      container.innerHTML = TRIP_MEMBERS.map((member) => {
+        const isSelected = appState.selectedMember === member;
+        const total = metrics.memberTotals[member] || 0;
+        const doneThisRound = total >= targetForRound;
+        const safeName = escapeHtml(member);
+        return `
+          <button type="button"
+                  class="member-pick-btn"
+                  aria-pressed="${isSelected ? `true` : `false`}"
+                  onclick="selectMember('${member}')">
+            <span class="member-pick-name">${safeName}</span>
+            <span class="member-pick-meta">${formatThb(total)}${doneThisRound ? ` · R${metrics.activeRound} ✓` : ``}</span>
+          </button>
+        `;
+      }).join(``);
+
+      if (badge) {
+        badge.textContent = appState.selectedMember
+          ? `Selected: ${appState.selectedMember}`
+          : `Tap a name below`;
+      }
+    }
+
+    function renderStandings(metrics) {
+      const container = document.getElementById(`standings-list`);
+      const chip = document.getElementById(`round-completion-chip`);
+      if (!container) return;
+
+      const targetForRound = metrics.activeRound * metrics.roundUnit;
+      if (chip) {
+        chip.textContent = `${metrics.settledInActiveRound} / ${TRIP_MEMBERS.length} R${metrics.activeRound}`;
+        chip.dataset.status = metrics.settledInActiveRound === TRIP_MEMBERS.length ? `ok` : `info`;
+      }
+
+      container.innerHTML = TRIP_MEMBERS.map((member) => {
+        const total = metrics.memberTotals[member] || 0;
+        const roundsDone = Math.floor(total / metrics.roundUnit);
+        const settled = total >= targetForRound;
+        const statusTone = settled ? `ok` : (total > 0 ? `info` : `warn`);
+        const statusText = settled ? `R${metrics.activeRound} Paid` : (total > 0 ? `R${roundsDone} Paid` : `Pending`);
+
+        return `
+          <div class="standing-row">
+            <div>
+              <div class="standing-name">${escapeHtml(member)}</div>
+              <div class="standing-sub">${roundsDone} ${roundsDone === 1 ? `round` : `rounds`} completed</div>
+            </div>
+            <span class="chip" data-status="${statusTone}">${statusText}</span>
+            <div class="standing-amount">${formatThb(total)}</div>
+          </div>
+        `;
+      }).join(``);
+    }
+
+    function renderCategoryBreakdown(metrics) {
+      const container = document.getElementById(`category-breakdown`);
+      if (!container) return;
+
+      if (metrics.totalSpent <= 0) {
+        container.innerHTML = `
+          <div class="empty-state" style="padding: var(--space-lg) var(--space-md);">
+            <p class="empty-state-title">No expenses logged yet</p>
+            <p class="empty-state-body">Switch to Fund Coordinator (− Debit) to log meals, cafe stops, or park tickets.</p>
+          </div>
+        `;
+        return;
+      }
+
+      const entries = Object.entries(metrics.categoryTotals)
+        .filter(([, amt]) => amt > 0)
+        .sort((a, b) => b[1] - a[1]);
+
+      const paletteColors = [`var(--data-1)`, `var(--data-2)`, `var(--data-3)`, `var(--data-4)`];
+
+      container.innerHTML = entries.map(([cat, amt], idx) => {
+        const pct = Math.round((amt / metrics.totalSpent) * 100);
+        const color = paletteColors[idx % paletteColors.length];
+        return `
+          <div class="cat-bar-row">
+            <div class="cat-bar-meta">
+              <span>${escapeHtml(cat)}</span>
+              <span>${formatThb(amt)} (${pct}%)</span>
+            </div>
+            <div class="cat-bar-track">
+              <div class="cat-bar-fill" style="width: ${pct}%; background-color: ${color};"></div>
+            </div>
+          </div>
+        `;
+      }).join(``);
+    }
+
+    function renderLedger() {
+      const list = document.getElementById(`ledger-list`);
+      const searchEl = document.getElementById(`ledger-search-input`);
+      const summaryEl = document.getElementById(`ledger-count-summary`);
+      const retryBtn = document.getElementById(`btn-retry-pending`);
+      const retryLabel = document.getElementById(`btn-retry-pending-label`);
+      if (!list) return;
+
+      const query = (searchEl ? searchEl.value : ``).trim().toLowerCase();
+      const pendingCount = appState.transactions.filter((t) => t.syncStatus === `pending`).length;
+
+      if (retryBtn && retryLabel) {
+        if (pendingCount > 0) {
+          retryBtn.classList.remove(`hidden`);
+          retryLabel.textContent = `Retry ${pendingCount} Pending`;
+        } else {
+          retryBtn.classList.add(`hidden`);
+        }
+      }
+
+      const filtered = appState.transactions.filter((tx) => {
+        if (appState.ledgerFilter !== `all` && tx.type !== appState.ledgerFilter) {
+          return false;
+        }
+        if (query) {
+          const hay = `${tx.name} ${tx.description} ${tx.category || ``} ${tx.type}`.toLowerCase();
+          if (!hay.includes(query)) return false;
+        }
+        return true;
+      });
+
+      if (summaryEl) {
+        summaryEl.textContent = `${filtered.length} of ${appState.transactions.length} ${appState.transactions.length === 1 ? `transaction` : `transactions`}`;
+      }
+
+      if (appState.transactions.length === 0) {
+        list.innerHTML = `
+          <div class="empty-state">
+            <p class="empty-state-title">The kitty ledger is empty</p>
+            <p class="empty-state-body">Select a member above to record the first ฿${(appState.roundAmount || 1000).toLocaleString(`en-US`)} Round 1 contribution, or tap Sync Sheet to pull existing rows from Google Sheets.</p>
+          </div>
+        `;
+        return;
+      }
+
+      if (filtered.length === 0) {
+        list.innerHTML = `
+          <div class="empty-state">
+            <p class="empty-state-title">No matching transactions</p>
+            <p class="empty-state-body">Clear the search filter or switch back to All Entries.</p>
+          </div>
+        `;
+        return;
+      }
+
+      list.innerHTML = filtered.map((tx) => {
+        const isCredit = tx.type === `Credit`;
+        const amountText = isCredit ? `+${formatThb(tx.credit)}` : `-${formatThb(tx.debit)}`;
+        const typeTone = isCredit ? `ok` : `warn`;
+        const syncTone = tx.syncStatus === `synced` ? `ok` : (tx.syncStatus === `pending` ? `warn` : `info`);
+        const syncText = tx.syncStatus === `synced` ? `Synced` : (tx.syncStatus === `pending` ? `Pending Sync` : `Remote`);
+        const categoryChip = tx.category
+          ? `<span class="chip" data-status="info">${escapeHtml(tx.category)}</span>`
+          : ``;
+
+        return `
+          <article class="ledger-item" data-type="${escapeHtml(tx.type)}">
+            <div class="ledger-item-main">
+              <div class="ledger-item-top">
+                <span class="chip" data-status="${typeTone}">${escapeHtml(tx.type)}</span>
+                <span class="ledger-name">${escapeHtml(tx.name)}</span>
+                ${categoryChip}
+              </div>
+              <p class="ledger-desc">${escapeHtml(tx.description)}</p>
+              <div class="ledger-meta">
+                <span>${escapeHtml(formatTimestamp(tx.timestamp))}</span>
+                <span>·</span>
+                <span class="chip" data-status="${syncTone}">${syncText}</span>
+              </div>
+            </div>
+            <div class="ledger-item-side">
+              <span class="ledger-amount" data-type="${escapeHtml(tx.type)}">${amountText}</span>
+              <div class="ledger-item-actions">
+                ${tx.syncStatus === `pending` ? `<button type="button" class="btn btn-secondary btn-compact" onclick="retrySingleTx('${escapeHtml(tx.id)}')">Retry</button>` : ``}
+                <button type="button" class="btn btn-ghost btn-compact" onclick="removeTx('${escapeHtml(tx.id)}', this)">Remove</button>
+              </div>
+            </div>
+          </article>
+        `;
+      }).join(``);
+    }
+
+    function renderSyncChip() {
+      const chip = document.getElementById(`sync-status-chip`);
+      if (!chip) return;
+      const pendingCount = appState.transactions.filter((t) => t.syncStatus === `pending`).length;
+      if (pendingCount > 0) {
+        chip.dataset.status = `warn`;
+        chip.textContent = `${pendingCount} Pending Sync`;
+      } else if (appState.lastSyncState === `synced`) {
+        chip.dataset.status = `ok`;
+        chip.textContent = `Sheet Synced`;
+      } else if (appState.lastSyncState === `syncing`) {
+        chip.dataset.status = `info`;
+        chip.textContent = `Syncing…`;
+      } else if (appState.lastSyncState === `offline`) {
+        chip.dataset.status = `warn`;
+        chip.textContent = `Saved Locally`;
+      } else {
+        chip.dataset.status = `info`;
+        chip.textContent = `Apps Script Ready`;
+      }
+    }
+
+    function populateFcRecorderSelect() {
+      const select = document.getElementById(`fc-recorder-select`);
+      if (!select) return;
+      const currentVal = select.value || `Fund Coordinator`;
+      const options = [`Fund Coordinator`, ...TRIP_MEMBERS];
+      select.innerHTML = options.map((opt) => {
+        const label = opt === `Fund Coordinator` ? `Fund Coordinator (FC)` : `${opt} (FC Delegate)`;
+        return `<option value="${escapeHtml(opt)}">${escapeHtml(label)}</option>`;
+      }).join(``);
+      if (options.includes(currentVal)) {
+        select.value = currentVal;
+      }
+    }
+
+    function switchRole(role) {
       appState.role = role === `fc` ? `fc` : `member`;
-      pendingOverdraftPayload = null;
-      const overdraftBtn = document.getElementById(`btn-confirm-overdraft`);
-      if (overdraftBtn) overdraftBtn.style.display = `none`;
-      showInlineMessage(`expense-msg`, ``);
-      renderAll();
+      refreshRoleUI();
       persistState();
     }
 
-    function selectMemberForContribution(name) {
-      const sel = document.getElementById(`contrib-member`);
-      if (sel) {
-        sel.value = name;
-        updateContribRoundHint();
-        sel.focus();
-      }
+    function refreshRoleUI() {
+      const memberTab = document.getElementById(`tab-role-member`);
+      const fcTab = document.getElementById(`tab-role-fc`);
+      const memberForm = document.getElementById(`member-form`);
+      const fcForm = document.getElementById(`fc-form`);
+
+      const isMember = appState.role === `member`;
+      if (memberTab) memberTab.setAttribute(`aria-selected`, isMember ? `true` : `false`);
+      if (fcTab) fcTab.setAttribute(`aria-selected`, isMember ? `false` : `true`);
+      if (memberForm) memberForm.classList.toggle(`hidden`, !isMember);
+      if (fcForm) fcForm.classList.toggle(`hidden`, isMember);
     }
 
-    function updateContribRoundHint() {
-      const sel = document.getElementById(`contrib-member`);
-      const hint = document.getElementById(`contrib-member-status-hint`);
-      const roundSel = document.getElementById(`contrib-round`);
-      if (!sel || !hint) return;
+    function selectMember(name) {
+      appState.selectedMember = name;
+      const metrics = computeMetrics();
+      renderMemberPicker(metrics);
 
-      const t = computeTelemetry();
-      const paid = t.memberTotals[sel.value] || 0;
-      const nextRound = Math.floor(paid / t.roundSize) + 1;
-      hint.textContent = `Paid ${formatThb(paid)} so far`;
+      const descInput = document.getElementById(`member-desc-input`);
+      if (descInput && (!descInput.value.trim() || descInput.value.startsWith(`Round `))) {
+        descInput.value = `Round ${metrics.activeRound} Contribution`;
+      }
+      refreshCreditButtonLabel();
+      clearFeedback();
+      persistState();
+    }
 
-      if (roundSel) {
-        const candidate = `Round ${Math.min(5, nextRound)}`;
-        if (Array.from(roundSel.options).some(function (o) { return o.value === candidate; })) {
-          roundSel.value = candidate;
+    function selectCreditPreset(presetValue, btnEl) {
+      const pills = document.querySelectorAll(`#member-form .preset-pill`);
+      pills.forEach((p) => p.setAttribute(`aria-pressed`, `false`));
+      if (btnEl) btnEl.setAttribute(`aria-pressed`, `true`);
+
+      const amountInput = document.getElementById(`member-amount-input`);
+      const descInput = document.getElementById(`member-desc-input`);
+      const metrics = computeMetrics();
+
+      if (presetValue === `custom`) {
+        if (amountInput) {
+          amountInput.focus();
+          amountInput.select();
         }
-      }
-    }
-
-    function selectContribPreset(amount) {
-      const input = document.getElementById(`contrib-amount`);
-      if (input) input.value = String(amount);
-      updatePresetButtons(amount);
-    }
-
-    function focusCustomContrib() {
-      const input = document.getElementById(`contrib-amount`);
-      updatePresetButtons(null);
-      if (input) {
-        input.focus();
-        input.select();
-      }
-    }
-
-    function onContribAmountInput() {
-      const input = document.getElementById(`contrib-amount`);
-      const val = Number(input ? input.value : 0);
-      if (val === 1000 || val === 2000 || val === 3000) {
-        updatePresetButtons(val);
+        if (descInput) {
+          descInput.value = `Custom Top-Up`;
+        }
       } else {
-        updatePresetButtons(null);
+        const numericAmt = Number(presetValue) || 1000;
+        if (amountInput) amountInput.value = String(numericAmt);
+        if (descInput) {
+          if (numericAmt === 1000) {
+            descInput.value = `Round ${metrics.activeRound} Contribution`;
+          } else if (numericAmt === 2000) {
+            descInput.value = `Rounds ${metrics.activeRound}–${metrics.activeRound + 1} Contribution`;
+          } else {
+            descInput.value = `Partial Top-Up`;
+          }
+        }
       }
+      refreshCreditButtonLabel();
     }
 
-    function updatePresetButtons(activeVal) {
-      const map = [
-        [`preset-1000`, 1000],
-        [`preset-2000`, 2000],
-        [`preset-3000`, 3000]
-      ];
-      map.forEach(function (pair) {
-        const btn = document.getElementById(pair[0]);
-        if (btn) btn.setAttribute(`aria-pressed`, activeVal === pair[1] ? `true` : `false`);
+    function onCustomCreditInput() {
+      const pills = document.querySelectorAll(`#member-form .preset-pill`);
+      const amountInput = document.getElementById(`member-amount-input`);
+      const currentVal = Number(amountInput ? amountInput.value : 0);
+      pills.forEach((p) => {
+        const attr = p.getAttribute(`data-amount`);
+        const isMatch = attr !== `custom` && Number(attr) === currentVal;
+        p.setAttribute(`aria-pressed`, isMatch ? `true` : `false`);
       });
-      const customBtn = document.getElementById(`preset-custom`);
-      if (customBtn) customBtn.setAttribute(`aria-pressed`, activeVal === null ? `true` : `false`);
+      if (![1000, 2000, 500].includes(currentVal)) {
+        const customBtn = document.querySelector(`#member-form .preset-pill[data-amount="custom"]`);
+        if (customBtn) customBtn.setAttribute(`aria-pressed`, `true`);
+      }
+      refreshCreditButtonLabel();
     }
 
-    async function handleContributionSubmit(event) {
-      event.preventDefault();
-      const memberEl = document.getElementById(`contrib-member`);
-      const amountEl = document.getElementById(`contrib-amount`);
-      const roundEl = document.getElementById(`contrib-round`);
-      const noteEl = document.getElementById(`contrib-note`);
+    function refreshCreditButtonLabel() {
+      const label = document.getElementById(`btn-submit-credit-label`);
+      const amountInput = document.getElementById(`member-amount-input`);
+      if (!label) return;
+      const amt = Number(amountInput ? amountInput.value : 0);
+      const who = appState.selectedMember ? ` for ${appState.selectedMember}` : ``;
+      label.textContent = amt > 0
+        ? `Submit ${formatThb(amt)} Contribution${who}`
+        : `Submit Contribution${who}`;
+    }
 
-      const member = memberEl ? memberEl.value : ``;
-      const amount = Number(amountEl ? amountEl.value : 0);
-      const round = roundEl ? roundEl.value : `Round 1`;
-      const note = noteEl ? noteEl.value.trim() : ``;
+    function fillExpenseExample(desc, category) {
+      const descInput = document.getElementById(`fc-desc-input`);
+      const catSelect = document.getElementById(`fc-category-select`);
+      if (descInput) descInput.value = desc;
+      if (catSelect && category) catSelect.value = category;
+      updateExpenseButtonLabel();
+    }
 
-      if (!MEMBERS.includes(member)) {
-        showInlineMessage(`contrib-msg`, `Select one of the 10 group members first.`, `error`);
-        return;
+    function updateExpenseButtonLabel() {
+      const label = document.getElementById(`btn-submit-debit-label`);
+      const amountInput = document.getElementById(`fc-amount-input`);
+      if (!label) return;
+      const amt = Number(amountInput ? amountInput.value : 0);
+      label.textContent = amt > 0
+        ? `Record ${formatThb(amt)} Expense (Debit)`
+        : `Record Expense (Debit)`;
+    }
+
+    function showFeedback(tone, text) {
+      const box = document.getElementById(`action-feedback`);
+      const msg = document.getElementById(`action-feedback-text`);
+      if (!box || !msg) return;
+      box.dataset.tone = tone;
+      msg.textContent = text;
+      box.classList.remove(`hidden`);
+    }
+
+    function clearFeedback() {
+      const box = document.getElementById(`action-feedback`);
+      if (box) box.classList.add(`hidden`);
+    }
+
+    function showSettingsFeedback(tone, text) {
+      const box = document.getElementById(`settings-feedback`);
+      const msg = document.getElementById(`settings-feedback-text`);
+      if (!box || !msg) return;
+      box.dataset.tone = tone;
+      msg.textContent = text;
+      box.classList.remove(`hidden`);
+    }
+
+    function generateTxId() {
+      return `tx_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
+    }
+
+    async function postPayloadToGas(payload) {
+      const endpoint = (appState.gasUrl || ``).trim();
+      if (!endpoint) {
+        return { ok: false, reason: `No Google Apps Script URL configured.` };
       }
-      if (!Number.isFinite(amount) || amount <= 0) {
-        showInlineMessage(`contrib-msg`, `Enter a contribution amount greater than 0 THB.`, `error`);
-        return;
-      }
 
-      const tx = {
-        id: generateId(),
-        timestamp: new Date().toISOString(),
-        type: `credit`,
-        member: member,
-        category: `Contribution`,
-        description: `${member} (${round})`,
-        round: round,
-        amount: Math.round(amount),
-        note: note,
-        recordedBy: appState.role === `fc` ? `Fund Coordinator (FC)` : `Member (${member})`
+      const cleanPayload = {
+        type: String(payload.type),
+        name: String(payload.name),
+        description: String(payload.description),
+        credit: Number(payload.credit) || 0,
+        debit: Number(payload.debit) || 0
       };
 
-      appState.transactions.push(tx);
-      appState.pendingSyncIds.push(tx.id);
-      if (noteEl) noteEl.value = ``;
+      const contentType = appState.postMode === `application/json`
+        ? `application/json`
+        : `text/plain;charset=utf-8`;
 
-      showInlineMessage(`contrib-msg`, `Added ${formatThb(tx.amount)} from ${member} (${round}).`, `ok`);
-      renderAll();
-      await persistState();
+      try {
+        const res = await fetch(endpoint, {
+          method: `POST`,
+          mode: `cors`,
+          redirect: `follow`,
+          headers: {
+            'Content-Type': contentType
+          },
+          body: JSON.stringify(cleanPayload)
+        });
 
-      if (appState.settings.syncMode === `auto`) {
-        await pushTransactionToBackend(tx);
+        if (!res.ok) {
+          return { ok: false, reason: `HTTP ${res.status}` };
+        }
+        return { ok: true };
+      } catch (err) {
+        return { ok: false, reason: err && err.message ? err.message : `Network unreachable` };
       }
     }
 
-    async function handleExpenseSubmit(event) {
+    async function submitMemberContribution(event) {
       event.preventDefault();
-      if (appState.role !== `fc`) {
-        showInlineMessage(`expense-msg`, `Switch role to Fund Coordinator (FC) above to deduct expenses.`, `error`);
+      if (isSubmitting) return;
+
+      if (!appState.selectedMember) {
+        showFeedback(`alert`, `Select your name from the 10-member grid before submitting.`);
         return;
       }
 
-      const descEl = document.getElementById(`expense-desc`);
-      const catEl = document.getElementById(`expense-category`);
-      const amtEl = document.getElementById(`expense-amount`);
-      const locEl = document.getElementById(`expense-location`);
-      const overdraftBtn = document.getElementById(`btn-confirm-overdraft`);
+      const amountInput = document.getElementById(`member-amount-input`);
+      const descInput = document.getElementById(`member-desc-input`);
+      const btn = document.getElementById(`btn-submit-credit`);
 
-      const description = descEl ? descEl.value.trim() : ``;
-      const category = catEl ? catEl.value : `Other`;
-      const amount = Number(amtEl ? amtEl.value : 0);
-      const note = locEl ? locEl.value.trim() : ``;
+      const creditAmt = Math.round(Number(amountInput ? amountInput.value : 0));
+      const descText = (descInput ? descInput.value : ``).trim() || `Round Contribution`;
 
-      if (!description) {
-        showInlineMessage(`expense-msg`, `Enter an expense description (e.g., ferry tickets, dinner, or 7-Eleven water).`, `error`);
-        return;
-      }
-      if (!Number.isFinite(amount) || amount <= 0) {
-        showInlineMessage(`expense-msg`, `Enter an expense amount greater than 0 THB.`, `error`);
+      if (!Number.isFinite(creditAmt) || creditAmt <= 0) {
+        showFeedback(`alert`, `Enter a valid THB contribution amount greater than 0.`);
         return;
       }
 
-      const telemetry = computeTelemetry();
-      const roundedAmt = Math.round(amount);
+      isSubmitting = true;
+      if (btn) btn.disabled = true;
 
-      if (roundedAmt > telemetry.balance) {
-        pendingOverdraftPayload = {
-          description: description,
-          category: category,
-          amount: roundedAmt,
-          note: note
-        };
-        if (overdraftBtn) overdraftBtn.style.display = `inline-flex`;
-        showInlineMessage(
-          `expense-msg`,
-          `Expense (${formatThb(roundedAmt)}) exceeds remaining cash (${formatThb(telemetry.balance)}). Tap "Confirm Overdraft" if the FC covered the gap out-of-pocket.`,
-          `warn`
-        );
-        return;
-      }
-
-      await commitExpenseTransaction({
-        description: description,
-        category: category,
-        amount: roundedAmt,
-        note: note
-      });
-    }
-
-    async function confirmOverdraftExpense() {
-      if (!pendingOverdraftPayload) return;
-      const payload = pendingOverdraftPayload;
-      pendingOverdraftPayload = null;
-      const overdraftBtn = document.getElementById(`btn-confirm-overdraft`);
-      if (overdraftBtn) overdraftBtn.style.display = `none`;
-      await commitExpenseTransaction(payload);
-    }
-
-    async function commitExpenseTransaction(payload) {
-      const descEl = document.getElementById(`expense-desc`);
-      const amtEl = document.getElementById(`expense-amount`);
-      const locEl = document.getElementById(`expense-location`);
+      const payload = {
+        type: `Credit`,
+        name: appState.selectedMember,
+        description: descText,
+        credit: creditAmt,
+        debit: 0
+      };
 
       const tx = {
-        id: generateId(),
+        id: generateTxId(),
         timestamp: new Date().toISOString(),
-        type: `debit`,
-        member: ``,
-        category: payload.category,
+        type: payload.type,
+        name: payload.name,
         description: payload.description,
-        round: ``,
-        amount: payload.amount,
-        note: payload.note,
-        recordedBy: `Fund Coordinator (FC)`
+        category: ``,
+        credit: payload.credit,
+        debit: 0,
+        syncStatus: `pending`
       };
 
-      appState.transactions.push(tx);
-      appState.pendingSyncIds.push(tx.id);
-
-      if (descEl) descEl.value = ``;
-      if (amtEl) amtEl.value = ``;
-      if (locEl) locEl.value = ``;
-
-      showInlineMessage(`expense-msg`, `Recorded ${formatThb(tx.amount)} debit for "${tx.description}".`, `ok`);
+      appState.transactions.unshift(tx);
+      appState.lastSyncState = `syncing`;
       renderAll();
-      await persistState();
 
-      if (appState.settings.syncMode === `auto`) {
-        await pushTransactionToBackend(tx);
+      const result = await postPayloadToGas(payload);
+      if (result.ok) {
+        tx.syncStatus = `synced`;
+        appState.lastSyncState = `synced`;
+        appState.lastSyncAt = new Date().toISOString();
+        showFeedback(`ok`, `Recorded +${formatThb(creditAmt)} for ${payload.name} and synced to Google Sheets.`);
+      } else {
+        tx.syncStatus = `pending`;
+        appState.lastSyncState = `offline`;
+        showFeedback(`warn`, `Saved +${formatThb(creditAmt)} for ${payload.name} locally. Sheet sync pending (${result.reason}).`);
       }
+
+      isSubmitting = false;
+      if (btn) btn.disabled = false;
+      await persistState();
+      renderAll();
     }
 
-    async function handleVoidTransaction(btn, txId) {
-      if (appState.role !== `fc`) return;
-      if (btn.dataset.armed !== `true`) {
-        btn.dataset.armed = `true`;
-        btn.className = `btn btn-danger-armed`;
-        btn.textContent = `Confirm Void`;
-        setTimeout(function () {
-          if (btn && btn.dataset.armed === `true`) {
-            btn.dataset.armed = `false`;
-            btn.className = `btn btn-danger-outline`;
-            btn.textContent = `Void`;
-          }
-        }, 4000);
+    async function submitFcExpense(event) {
+      event.preventDefault();
+      if (isSubmitting) return;
+
+      const catSelect = document.getElementById(`fc-category-select`);
+      const descInput = document.getElementById(`fc-desc-input`);
+      const amountInput = document.getElementById(`fc-amount-input`);
+      const recorderSelect = document.getElementById(`fc-recorder-select`);
+      const btn = document.getElementById(`btn-submit-debit`);
+
+      const category = catSelect ? catSelect.value : `Supplies & Misc`;
+      const rawDesc = (descInput ? descInput.value : ``).trim();
+      const debitAmt = Math.round(Number(amountInput ? amountInput.value : 0));
+      const recorder = recorderSelect ? recorderSelect.value : `Fund Coordinator`;
+
+      if (!rawDesc) {
+        showFeedback(`alert`, `Enter an expense description such as "Day 1 - Lunch at Curvy Dining".`);
+        return;
+      }
+      if (!Number.isFinite(debitAmt) || debitAmt <= 0) {
+        showFeedback(`alert`, `Enter a valid expense amount in THB greater than 0.`);
         return;
       }
 
-      appState.transactions = appState.transactions.filter(function (tx) {
-        return tx.id !== txId;
-      });
-      appState.pendingSyncIds = appState.pendingSyncIds.filter(function (id) {
-        return id !== txId;
-      });
-      renderAll();
-      await persistState();
+      isSubmitting = true;
+      if (btn) btn.disabled = true;
 
-      if (appState.settings.syncMode === `auto`) {
-        await pushDeleteToBackend(txId);
-      }
-    }
+      const formattedDescription = rawDesc.includes(`[${category}]`)
+        ? rawDesc
+        : `${rawDesc} [${category}]`;
 
-    function setLedgerFilter(filterType) {
-      activeFilter = filterType;
-      [`all`, `credit`, `debit`].forEach(function (key) {
-        const tab = document.getElementById(`tab-${key}`);
-        if (tab) tab.setAttribute(`aria-selected`, key === filterType ? `true` : `false`);
-      });
-      renderLedger();
-    }
-
-    function setLedgerSearch(query) {
-      searchQuery = query || ``;
-      renderLedger();
-    }
-
-    /* Backend Sync via Google Apps Script Web App API */
-    function normalizeRemoteRecord(raw) {
-      if (!raw || typeof raw !== `object`) return null;
-      const rawType = String(raw.type || raw.txType || ``).toLowerCase();
-      const type = (rawType === `debit` || rawType === `expense`) ? `debit` : `credit`;
-      const amount = Number(raw.amount || raw.thb || 0);
-      if (!Number.isFinite(amount) || amount <= 0) return null;
-
-      return {
-        id: String(raw.id || raw.txId || generateId()),
-        timestamp: String(raw.timestamp || raw.createdAt || raw.date || new Date().toISOString()),
-        type: type,
-        member: String(raw.member || raw.memberName || ``),
-        category: String(raw.category || (type === `credit` ? `Contribution` : `Other`)),
-        description: String(raw.description || raw.desc || (type === `credit` ? `${raw.member || `Member`} Contribution` : `Expense`)),
-        round: String(raw.round || ``),
-        amount: Math.round(amount),
-        note: String(raw.note || raw.location || ``),
-        recordedBy: String(raw.recordedBy || raw.role || (type === `debit` ? `Fund Coordinator (FC)` : `Member`))
+      const payload = {
+        type: `Debit`,
+        name: recorder,
+        description: formattedDescription,
+        credit: 0,
+        debit: debitAmt
       };
-    }
 
-    async function pushTransactionToBackend(tx) {
-      const targetUrl = (appState.settings.gasUrl || ``).trim();
-      if (!targetUrl) return false;
+      const tx = {
+        id: generateTxId(),
+        timestamp: new Date().toISOString(),
+        type: payload.type,
+        name: payload.name,
+        description: rawDesc,
+        category: category,
+        credit: 0,
+        debit: payload.debit,
+        syncStatus: `pending`
+      };
 
-      appState.syncStatus = `syncing`;
-      appState.syncDetail = `Syncing to Sheet…`;
-      renderSyncChips();
+      appState.transactions.unshift(tx);
+      appState.lastSyncState = `syncing`;
+      renderAll();
 
-      try {
-        const response = await fetch(targetUrl, {
-          method: `POST`,
-          headers: { 'Content-Type': `text/plain;charset=utf-8` },
-          body: JSON.stringify({ action: `add`, transaction: tx })
-        });
-        if (!response.ok) throw new Error(`HTTP ${response.status}`);
-        appState.pendingSyncIds = appState.pendingSyncIds.filter(function (id) {
-          return id !== tx.id;
-        });
-        appState.syncStatus = `synced`;
+      const result = await postPayloadToGas(payload);
+      if (result.ok) {
+        tx.syncStatus = `synced`;
+        appState.lastSyncState = `synced`;
         appState.lastSyncAt = new Date().toISOString();
-        appState.syncDetail = `Synced · ${formatTimestamp(appState.lastSyncAt)}`;
-        renderSyncChips();
-        renderLedger();
-        await persistState();
-        return true;
-      } catch (_err) {
-        appState.syncStatus = `offline`;
-        appState.syncDetail = `Saved locally · Sheet offline`;
-        renderSyncChips();
-        await persistState();
-        return false;
+        showFeedback(`ok`, `Recorded −${formatThb(debitAmt)} (${rawDesc}) and synced to Google Sheets.`);
+      } else {
+        tx.syncStatus = `pending`;
+        appState.lastSyncState = `offline`;
+        showFeedback(`warn`, `Saved −${formatThb(debitAmt)} (${rawDesc}) locally. Sheet sync pending (${result.reason}).`);
       }
+
+      if (descInput) descInput.value = ``;
+      if (amountInput) amountInput.value = ``;
+      updateExpenseButtonLabel();
+
+      isSubmitting = false;
+      if (btn) btn.disabled = false;
+      await persistState();
+      renderAll();
     }
 
-    async function pushDeleteToBackend(txId) {
-      const targetUrl = (appState.settings.gasUrl || ``).trim();
-      if (!targetUrl) return;
-      try {
-        await fetch(targetUrl, {
-          method: `POST`,
-          headers: { 'Content-Type': `text/plain;charset=utf-8` },
-          body: JSON.stringify({ action: `delete`, id: txId })
+    async function retrySingleTx(txId) {
+      const tx = appState.transactions.find((t) => t.id === txId);
+      if (!tx) return;
+
+      const fullDesc = tx.type === `Debit` && tx.category && !tx.description.includes(`[${tx.category}]`)
+        ? `${tx.description} [${tx.category}]`
+        : tx.description;
+
+      appState.lastSyncState = `syncing`;
+      renderSyncChip();
+
+      const result = await postPayloadToGas({
+        type: tx.type,
+        name: tx.name,
+        description: fullDesc,
+        credit: tx.credit,
+        debit: tx.debit
+      });
+
+      if (result.ok) {
+        tx.syncStatus = `synced`;
+        appState.lastSyncState = `synced`;
+        appState.lastSyncAt = new Date().toISOString();
+        showFeedback(`ok`, `Synced pending entry (${tx.name}) to Google Sheets.`);
+      } else {
+        appState.lastSyncState = `offline`;
+        showFeedback(`warn`, `Could not reach Google Sheets yet (${result.reason}).`);
+      }
+
+      await persistState();
+      renderAll();
+    }
+
+    async function retryPendingSync() {
+      const pending = appState.transactions.filter((t) => t.syncStatus === `pending`);
+      if (pending.length === 0) return;
+
+      appState.lastSyncState = `syncing`;
+      renderSyncChip();
+
+      let successCount = 0;
+      for (const tx of [...pending].reverse()) {
+        const fullDesc = tx.type === `Debit` && tx.category && !tx.description.includes(`[${tx.category}]`)
+          ? `${tx.description} [${tx.category}]`
+          : tx.description;
+
+        const result = await postPayloadToGas({
+          type: tx.type,
+          name: tx.name,
+          description: fullDesc,
+          credit: tx.credit,
+          debit: tx.debit
         });
-      } catch (_err) {
-        // Local void already persisted
+        if (result.ok) {
+          tx.syncStatus = `synced`;
+          successCount += 1;
+        }
       }
+
+      if (successCount === pending.length) {
+        appState.lastSyncState = `synced`;
+        appState.lastSyncAt = new Date().toISOString();
+        showFeedback(`ok`, `All ${successCount} pending entries synced to Google Sheets.`);
+      } else {
+        appState.lastSyncState = `offline`;
+        showFeedback(`warn`, `Synced ${successCount} of ${pending.length} pending entries. Retry remaining when online.`);
+      }
+
+      await persistState();
+      renderAll();
     }
 
-    async function syncWithBackend() {
-      const targetUrl = (appState.settings.gasUrl || ``).trim();
-      if (!targetUrl) {
-        appState.syncStatus = `error`;
-        appState.syncDetail = `No Apps Script URL set`;
-        renderSyncChips();
-        return false;
+    async function syncFromGoogleSheet() {
+      const endpoint = (appState.gasUrl || ``).trim();
+      const syncBtn = document.getElementById(`btn-sync-sheet`);
+      if (!endpoint) {
+        showFeedback(`alert`, `Configure a Google Apps Script URL in Settings first.`);
+        return;
       }
 
-      const syncBtn = document.getElementById(`btn-sync-now`);
       if (syncBtn) syncBtn.disabled = true;
-      appState.syncStatus = `syncing`;
-      appState.syncDetail = `Syncing Sheet…`;
-      renderSyncChips();
+      appState.lastSyncState = `syncing`;
+      renderSyncChip();
 
       try {
-        // 1. Push any queued local transactions first
-        const pendingCopy = appState.pendingSyncIds.slice();
-        for (let i = 0; i < pendingCopy.length; i += 1) {
-          const pendingTx = appState.transactions.find(function (item) {
-            return item.id === pendingCopy[i];
-          });
-          if (pendingTx) {
-            const pushRes = await fetch(targetUrl, {
-              method: `POST`,
-              headers: { 'Content-Type': `text/plain;charset=utf-8` },
-              body: JSON.stringify({ action: `add`, transaction: pendingTx })
-            });
-            if (pushRes.ok) {
-              appState.pendingSyncIds = appState.pendingSyncIds.filter(function (id) {
-                return id !== pendingTx.id;
-              });
-            }
-          }
-        }
-
-        // 2. Pull remote transactions
-        const separator = targetUrl.includes(`?`) ? `&` : `?`;
-        const pullUrl = `${targetUrl}${separator}action=list&_t=${Date.now()}`;
-        const res = await fetch(pullUrl, { method: `GET` });
+        const res = await fetch(endpoint, { method: `GET`, mode: `cors`, redirect: `follow` });
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        const data = await res.json();
+        const json = await res.json();
+        const rows = Array.isArray(json) ? json : (Array.isArray(json.data) ? json.data : (Array.isArray(json.rows) ? json.rows : null));
 
-        const rawList = Array.isArray(data)
-          ? data
-          : (Array.isArray(data.transactions) ? data.transactions
-            : (Array.isArray(data.data) ? data.data
-              : (Array.isArray(data.records) ? data.records : [])));
-
-        const normalized = rawList.map(normalizeRemoteRecord).filter(Boolean);
-        if (normalized.length > 0 || appState.pendingSyncIds.length === 0) {
-          const byId = new Map();
-          normalized.forEach(function (item) {
-            byId.set(item.id, item);
-          });
-          // Keep any still-pending local records so nothing is lost
-          appState.transactions.forEach(function (localItem) {
-            if (appState.pendingSyncIds.includes(localItem.id) && !byId.has(localItem.id)) {
-              byId.set(localItem.id, localItem);
-            }
-          });
-          appState.transactions = Array.from(byId.values());
+        if (!rows) {
+          throw new Error(`Unexpected response structure from Apps Script`);
         }
 
-        appState.syncStatus = `synced`;
+        const pendingLocal = appState.transactions.filter((t) => t.syncStatus === `pending`);
+        const normalizedRemote = rows.map((r, index) => {
+          const credit = Number(r.credit ?? r.Credit ?? 0) || 0;
+          const debit = Number(r.debit ?? r.Debit ?? 0) || 0;
+          const rawType = String(r.type ?? r.Type ?? (credit > 0 ? `Credit` : `Debit`));
+          const type = rawType.toLowerCase().includes(`debit`) || debit > 0 ? `Debit` : `Credit`;
+          const descRaw = String(r.description ?? r.Description ?? ``);
+          const catMatch = descRaw.match(/\[([^\]]+)\]\s*$/);
+          const category = type === `Debit`
+            ? (catMatch ? catMatch[1] : inferCategoryFromDesc(descRaw))
+            : ``;
+          const cleanDesc = catMatch ? descRaw.replace(/\s*\[[^\]]+\]\s*$/, ``).trim() : descRaw;
+
+          return {
+            id: `remote_${index}_${r.timestamp || r.Timestamp || Date.now()}`,
+            timestamp: r.timestamp || r.Timestamp || new Date().toISOString(),
+            type,
+            name: String(r.name ?? r.Name ?? `Unknown`),
+            description: cleanDesc || descRaw,
+            category,
+            credit,
+            debit,
+            syncStatus: `synced`
+          };
+        }).reverse();
+
+        appState.transactions = [...pendingLocal, ...normalizedRemote];
+        appState.lastSyncState = `synced`;
         appState.lastSyncAt = new Date().toISOString();
-        appState.syncDetail = `Synced · ${formatTimestamp(appState.lastSyncAt)}`;
-        renderAll();
-        await persistState();
-        return true;
-      } catch (_err) {
-        appState.syncStatus = `offline`;
-        appState.syncDetail = `Local mode · Sheet unreachable`;
-        renderSyncChips();
-        await persistState();
-        return false;
+        showFeedback(`ok`, `Synced ${normalizedRemote.length} rows from Google Sheets.`);
+      } catch (err) {
+        appState.lastSyncState = `offline`;
+        showFeedback(`warn`, `Sheet GET sync unavailable (${err && err.message ? err.message : `network blocked`}). Local ledger remains active.`);
       } finally {
         if (syncBtn) syncBtn.disabled = false;
+        await persistState();
+        renderAll();
       }
     }
 
-    /* CSV Export */
-    function exportLedgerCsv() {
-      const headers = [`Timestamp`, `Type`, `Member`, `Category`, `Description`, `Round`, `Amount_THB`, `Note`, `Recorded_By`];
-      const rows = appState.transactions.map(function (tx) {
-        return [
-          tx.timestamp,
-          tx.type,
-          tx.member,
-          tx.category,
-          tx.description,
-          tx.round,
-          tx.amount,
-          tx.note,
-          tx.recordedBy
-        ].map(function (cell) {
-          const str = String(cell ?? ``).replace(/"/g, `""`);
-          return `"${str}"`;
-        }).join(`,`);
-      });
-      const csv = [headers.join(`,`)].concat(rows).join(`\n`);
+    async function removeTx(txId, btn) {
+      if (btn && btn.dataset.armed !== `true`) {
+        btn.dataset.armed = `true`;
+        btn.textContent = `Tap again`;
+        btn.classList.add(`btn-danger-outline`);
+        setTimeout(() => {
+          if (btn && btn.isConnected) {
+            btn.dataset.armed = `false`;
+            btn.textContent = `Remove`;
+            btn.classList.remove(`btn-danger-outline`);
+          }
+        }, 3500);
+        return;
+      }
 
+      appState.transactions = appState.transactions.filter((t) => t.id !== txId);
+      await persistState();
+      renderAll();
+    }
+
+    function setLedgerFilter(filterType, btnEl) {
+      appState.ledgerFilter = filterType;
+      const pills = document.querySelectorAll(`.filter-pills .preset-pill`);
+      pills.forEach((p) => p.setAttribute(`aria-pressed`, `false`));
+      if (btnEl) btnEl.setAttribute(`aria-pressed`, `true`);
+      renderLedger();
+    }
+
+    function exportLedgerCsv() {
+      const headers = [`Timestamp`, `Type`, `Name`, `Description`, `Category`, `Credit_THB`, `Debit_THB`, `SyncStatus`];
+      const csvEscape = (val) => `"${String(val ?? ``).replace(/"/g, `""`)}"`;
+      const rows = appState.transactions.map((tx) => [
+        tx.timestamp,
+        tx.type,
+        tx.name,
+        tx.description,
+        tx.category || ``,
+        tx.credit,
+        tx.debit,
+        tx.syncStatus
+      ].map(csvEscape).join(`,`));
+
+      const csvContent = [headers.join(`,`), ...rows].join(`\n`);
       if (window.notebookAppApi && typeof window.notebookAppApi.triggerFileDownload === `function`) {
         window.notebookAppApi.triggerFileDownload({
-          content: csv,
+          content: csvContent,
           contentType: `text/csv`,
           encoding: `UTF-8`,
-          filename: `thailand-trip-kitty-ledger.csv`
+          filename: `trip-kitty-ledger.csv`
         });
       }
+      showFeedback(`ok`, `Prepared CSV export with ${appState.transactions.length} transactions.`);
     }
 
-    /* Settings Modal */
     function openSettingsModal() {
-      const modal = document.getElementById(`settings-modal`);
+      const backdrop = document.getElementById(`settings-modal-backdrop`);
       const urlInput = document.getElementById(`setting-gas-url`);
-      const roundInput = document.getElementById(`setting-round-size`);
-      const syncSelect = document.getElementById(`setting-auto-sync`);
+      const postModeSelect = document.getElementById(`setting-post-mode`);
+      const roundInput = document.getElementById(`setting-round-amount`);
+      const lowInput = document.getElementById(`setting-low-threshold`);
+      const fb = document.getElementById(`settings-feedback`);
 
-      if (urlInput) urlInput.value = appState.settings.gasUrl || DEFAULT_GAS_URL;
-      if (roundInput) roundInput.value = String(appState.settings.roundAmount || 1000);
-      if (syncSelect) syncSelect.value = appState.settings.syncMode || `auto`;
-      showInlineMessage(`settings-msg`, ``);
+      if (urlInput) urlInput.value = appState.gasUrl || DEFAULT_GAS_URL;
+      if (postModeSelect) postModeSelect.value = appState.postMode || `text/plain`;
+      if (roundInput) roundInput.value = String(appState.roundAmount || 1000);
+      if (lowInput) lowInput.value = String(appState.lowThreshold || 2000);
+      if (fb) fb.classList.add(`hidden`);
 
-      if (modal) {
-        modal.classList.add(`is-open`);
+      if (backdrop) {
+        backdrop.classList.remove(`hidden`);
         if (urlInput) urlInput.focus();
       }
     }
 
     function closeSettingsModal() {
-      const modal = document.getElementById(`settings-modal`);
-      if (modal) modal.classList.remove(`is-open`);
-      const trigger = document.getElementById(`btn-open-settings`);
-      if (trigger) trigger.focus();
+      const backdrop = document.getElementById(`settings-modal-backdrop`);
+      if (backdrop) backdrop.classList.add(`hidden`);
+      const openBtn = document.getElementById(`btn-open-settings`);
+      if (openBtn) openBtn.focus();
     }
 
-    function restoreDefaultGasUrl() {
+    function handleBackdropClick(event) {
+      if (event.target && event.target.id === `settings-modal-backdrop`) {
+        closeSettingsModal();
+      }
+    }
+
+    function resetDefaultGasUrl() {
       const urlInput = document.getElementById(`setting-gas-url`);
       if (urlInput) urlInput.value = DEFAULT_GAS_URL;
-      showInlineMessage(`settings-msg`, `Restored the pre-configured Google Apps Script URL. Click Save Settings to apply.`, `info`);
+      showSettingsFeedback(`info`, `Restored the pre-configured Google Apps Script Web App URL. Click Save Settings to apply.`);
     }
 
-    async function testAndPullBackend() {
-      const urlInput = document.getElementById(`setting-gas-url`);
-      if (urlInput && urlInput.value.trim()) {
-        appState.settings.gasUrl = urlInput.value.trim();
-      }
-      showInlineMessage(`settings-msg`, `Connecting to Google Apps Script endpoint…`, `warn`);
-      const ok = await syncWithBackend();
-      if (ok) {
-        showInlineMessage(`settings-msg`, `Connected and pulled ${appState.transactions.length} transactions from Google Sheets.`, `ok`);
-      } else {
-        showInlineMessage(`settings-msg`, `Could not reach the Google Apps Script endpoint from this environment (CSP or offline). Entries remain safely stored locally.`, `warn`);
-      }
-    }
-
-    async function handleSettingsSave(event) {
+    async function saveSettings(event) {
       event.preventDefault();
       const urlInput = document.getElementById(`setting-gas-url`);
-      const roundInput = document.getElementById(`setting-round-size`);
-      const syncSelect = document.getElementById(`setting-auto-sync`);
+      const postModeSelect = document.getElementById(`setting-post-mode`);
+      const roundInput = document.getElementById(`setting-round-amount`);
+      const lowInput = document.getElementById(`setting-low-threshold`);
 
-      const newUrl = urlInput ? urlInput.value.trim() : DEFAULT_GAS_URL;
-      const newRound = Number(roundInput ? roundInput.value : 1000);
-      const newSyncMode = syncSelect ? syncSelect.value : `auto`;
-
-      if (!newUrl.startsWith(`https://`)) {
-        showInlineMessage(`settings-msg`, `Enter a valid https:// Google Apps Script Web App URL.`, `error`);
-        return;
-      }
-      if (!Number.isFinite(newRound) || newRound < 100) {
-        showInlineMessage(`settings-msg`, `Round size must be at least 100 THB.`, `error`);
+      const newUrl = (urlInput ? urlInput.value : ``).trim();
+      if (!newUrl || !newUrl.startsWith(`https://`)) {
+        showSettingsFeedback(`alert`, `Please provide a valid HTTPS Google Apps Script Web App URL.`);
         return;
       }
 
-      appState.settings.gasUrl = newUrl;
-      appState.settings.roundAmount = Math.round(newRound);
-      appState.settings.syncMode = newSyncMode;
+      appState.gasUrl = newUrl;
+      appState.postMode = postModeSelect ? postModeSelect.value : `text/plain`;
+      appState.roundAmount = Math.max(100, Math.round(Number(roundInput ? roundInput.value : 1000) || 1000));
+      appState.lowThreshold = Math.max(0, Math.round(Number(lowInput ? lowInput.value : 2000) || 0));
 
       await persistState();
       renderAll();
-      showInlineMessage(`settings-msg`, `Settings saved.`, `ok`);
-      setTimeout(closeSettingsModal, 450);
+      closeSettingsModal();
+      showFeedback(`ok`, `Settings saved. Active endpoint and round parameters updated.`);
     }
 
-    async function handleResetLocal(btn) {
-      if (btn.dataset.armed !== `true`) {
+    async function resetLocalLedger(btn) {
+      if (btn && btn.dataset.armed !== `true`) {
         btn.dataset.armed = `true`;
-        btn.className = `btn btn-danger-armed`;
-        btn.textContent = `Click again to clear local cache`;
+        btn.textContent = `Click again to confirm reset`;
+        setTimeout(() => {
+          if (btn && btn.isConnected) {
+            btn.dataset.armed = `false`;
+            btn.textContent = `Reset Local Ledger`;
+          }
+        }, 4000);
         return;
       }
-      btn.dataset.armed = `false`;
-      btn.className = `btn btn-danger-outline`;
-      btn.textContent = `Clear Local Cache`;
 
+      if (btn) {
+        btn.dataset.armed = `false`;
+        btn.textContent = `Reset Local Ledger`;
+      }
       appState.transactions = [];
-      appState.pendingSyncIds = [];
-      appState.syncStatus = `idle`;
-      appState.syncDetail = `Local cache cleared`;
+      appState.lastSyncState = `ready`;
       await persistState();
       renderAll();
-      showInlineMessage(`settings-msg`, `Local transactions cleared. You can pull again from Google Sheets or start fresh.`, `ok`);
+      showSettingsFeedback(`ok`, `Local ledger cleared. Remote Google Sheet rows remain untouched.`);
     }
 
-    /* Keyboard handling for Settings modal */
-    document.addEventListener(`keydown`, function (e) {
+    document.addEventListener(`keydown`, function onGlobalKeydown(e) {
       if (e.key === `Escape`) {
-        const modal = document.getElementById(`settings-modal`);
-        if (modal && modal.classList.contains(`is-open`)) {
+        const backdrop = document.getElementById(`settings-modal-backdrop`);
+        if (backdrop && !backdrop.classList.contains(`hidden`)) {
           closeSettingsModal();
         }
       }
     });
 
     async function initApp() {
-      try {
-        if (window.notebookAppApi && typeof window.notebookAppApi.getAppState === `function`) {
-          const saved = await window.notebookAppApi.getAppState();
-          if (saved && typeof saved === `object`) {
-            appState = {
-              role: saved.role === `fc` ? `fc` : `member`,
-              settings: {
-                gasUrl: (saved.settings && saved.settings.gasUrl) ? saved.settings.gasUrl : DEFAULT_GAS_URL,
-                roundAmount: (saved.settings && Number(saved.settings.roundAmount)) ? Number(saved.settings.roundAmount) : 1000,
-                syncMode: (saved.settings && saved.settings.syncMode) ? saved.settings.syncMode : `auto`
-              },
-              transactions: Array.isArray(saved.transactions) ? saved.transactions : [],
-              pendingSyncIds: Array.isArray(saved.pendingSyncIds) ? saved.pendingSyncIds : [],
-              lastSyncAt: saved.lastSyncAt || null,
-              syncStatus: saved.syncStatus || `idle`,
-              syncDetail: saved.syncDetail || `Local session ready`
-            };
-          }
-        }
-      } catch (_err) {
-        // Start with clean default state
-      }
-
+      await loadPersistedState();
       renderAll();
-
       if (window.notebookAppApi && typeof window.notebookAppApi.notifyAppReady === `function`) {
         window.notebookAppApi.notifyAppReady();
-      }
-
-      if (appState.settings.syncMode === `auto`) {
-        syncWithBackend();
       }
     }
 
