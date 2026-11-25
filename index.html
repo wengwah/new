@@ -1,0 +1,2777 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="artifact-type" content="dashboard">
+  <meta name="design-style" content="briefing">
+  <title>Thailand Tenasserim &amp; River Kwai — 10-Day Route Dossier (26 Nov – 05 Dec 2026)</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/topojson-client@3.1.0/dist/topojson-client.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.1/dist/chart.umd.min.js"></script>
+
+  <style>
+    :root {
+      color-scheme: light;
+
+      /* 1. Briefing style tokens */
+      --background: #faf9f5;
+      --surface-container-low: #ffffff;
+      --surface-container: #f1efe8;
+      --surface-container-high: #e6e2d6;
+
+      --on-surface: #17181a;
+      --on-surface-variant: #56585c;
+
+      --outline: #17181a;
+      --outline-variant: #dedad0;
+
+      --primary: #17181a;
+      --on-primary: #faf9f5;
+      --primary-container: #f2b705;
+      --on-primary-container: #17181a;
+      --secondary: #1f4e5f;
+      --tertiary: #785008;
+      --error: #b42318;
+      --on-error: #ffffff;
+
+      --data-1: #1f4e5f;
+      --data-2: #d99000;
+      --data-3: #2b6e52;
+      --data-4: #b84a39;
+      --data-context: #c4bfb2;
+
+      --font-headline: 'Source Serif 4', serif;
+      --font-body: 'Plus Jakarta Sans', sans-serif;
+      --font-label: 'Geist Mono', monospace;
+
+      --rounded: 0.25rem;
+      --rounded-lg: 0.375rem;
+      --rounded-full: 0.25rem;
+
+      --section-rule: 1.5px solid var(--outline);
+      --card-border: 1px solid var(--outline-variant);
+      --badge-radius: 2px;
+      --heading-tracking: -0.02em;
+      --label-tracking: 0.08em;
+
+      /* 2. Extended domain & semantic tokens */
+      --positive: #2b6e52;
+      --warning: #b45309;
+      --focus: #1f4e5f;
+      --tag-bg: #f5e6c4;
+      --pill-border: #c8c4b8;
+
+      --map-ocean: #d6e4ec;
+      --map-land: #efeadd;
+      --map-neighbor: #e5dfd1;
+      --map-border: #9f9682;
+      --map-river: #4b8399;
+      --map-road: #7c7566;
+      --map-ridge: #c2b69c;
+
+      --map-sat-bg: #14221c;
+      --map-sat-land: #1f3428;
+      --map-sat-highland: #2d4c39;
+      --map-sat-water: #112d3d;
+      --map-sat-border: #6f947d;
+
+      --map-ter-low: #dce7cf;
+      --map-ter-mid: #e8deb8;
+      --map-ter-high: #cda87a;
+      --map-ter-peak: #9f6f4c;
+
+      --sky-bg: #121824;
+      --sky-surface: #1a2333;
+      --sky-border: #2c3a52;
+      --sky-ink: #f2f0ea;
+      --sky-muted: #a6b2c6;
+      --sky-gold: #f2b705;
+      --sky-cyan: #7cc4e8;
+
+      --shadow-soft: 0 2px 10px rgba(23, 24, 26, 0.06);
+      --shadow-elevated: 0 8px 24px rgba(23, 24, 26, 0.12);
+      --nav-bg: rgba(255, 255, 255, 0.96);
+
+      /* 3. Type scale (Dashboard) */
+      --display-size: clamp(1.75rem, 1.4rem + 1.2vw, 2.35rem);
+      --headline-size: clamp(1.25rem, 1.1rem + 0.5vw, 1.5rem);
+      --subhead-size: clamp(1.0625rem, 1rem + 0.25vw, 1.1875rem);
+      --body-size: clamp(0.9375rem, 0.9rem + 0.15vw, 1rem);
+      --label-size: 0.75rem;
+
+      /* 4. Spacing scale */
+      --space-xs: 0.25rem;
+      --space-sm: 0.5rem;
+      --space-md: 1rem;
+      --space-lg: 1.5rem;
+      --space-xl: 2.5rem;
+      --space-2xl: 4rem;
+      --space-3xl: 6rem;
+
+      /* 5. Motion */
+      --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+      --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+      --dur-micro: 120ms;
+      --dur-short: 220ms;
+      --dur-long: 420ms;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body {
+      overflow-x: clip;
+      margin: 0;
+      padding: 0;
+      background: var(--background);
+      color: var(--on-surface);
+      font-family: var(--font-body);
+      font-size: var(--body-size);
+      line-height: 1.55;
+      -webkit-font-smoothing: antialiased;
+    }
+    header { position: static !important; }
+
+    button, input, select, textarea {
+      font-family: inherit;
+      font-size: inherit;
+      color: inherit;
+    }
+
+    button:focus-visible, input:focus-visible, select:focus-visible {
+      outline: 2.5px solid var(--focus);
+      outline-offset: 2px;
+    }
+
+    .app-shell {
+      max-width: 1220px;
+      margin: 0 auto;
+      padding: var(--space-lg) var(--space-lg) var(--space-3xl);
+      display: grid;
+      gap: var(--space-lg);
+    }
+    .app-shell * { min-width: 0; }
+
+    /* Dossier Header */
+    .dossier-bar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-sm);
+      border-bottom: var(--section-rule);
+      padding-bottom: var(--space-sm);
+      margin-bottom: var(--space-md);
+    }
+    .dossier-bar-left {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: var(--space-sm);
+    }
+    .dossier-pill {
+      background: var(--primary-container);
+      color: var(--on-primary-container);
+      font-family: var(--font-body);
+      font-weight: 700;
+      font-size: 0.6875rem;
+      letter-spacing: var(--label-tracking);
+      text-transform: uppercase;
+      padding: 0.1875rem 0.5rem;
+      border-radius: var(--badge-radius);
+      display: inline-block;
+    }
+    .dossier-meta {
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      color: var(--on-surface-variant);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .title-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: var(--space-md);
+      margin-bottom: var(--space-md);
+    }
+    .page-title {
+      font-family: var(--font-headline);
+      font-weight: 600;
+      font-size: var(--display-size);
+      letter-spacing: var(--heading-tracking);
+      line-height: 1.08;
+      margin: 0;
+      color: var(--on-surface);
+    }
+    .route-badge-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: var(--space-xs);
+    }
+    .tag-chip {
+      background: var(--tag-bg);
+      color: var(--tertiary);
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      font-weight: 600;
+      padding: 0.25rem 0.55rem;
+      border-radius: var(--rounded);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    /* Hero Auto-Rotating Carousel */
+    .hero-carousel-section {
+      display: grid;
+      gap: var(--space-sm);
+    }
+    .carousel-controls-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-sm);
+    }
+    .carousel-dots {
+      display: flex;
+      align-items: center;
+      gap: var(--space-xs);
+    }
+    .carousel-dot-btn {
+      min-height: 44px;
+      min-width: 44px;
+      padding: 0 var(--space-sm);
+      border: 1px solid var(--outline-variant);
+      background: var(--surface-container-low);
+      border-radius: var(--rounded);
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      font-weight: 600;
+      color: var(--on-surface-variant);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: background-color var(--dur-micro) var(--ease-out), color var(--dur-micro) var(--ease-out), box-shadow var(--dur-micro) var(--ease-out);
+    }
+    .carousel-dot-btn:hover {
+      background: var(--surface-container);
+      color: var(--on-surface);
+    }
+    .carousel-dot-btn.is-active {
+      background: var(--primary);
+      color: var(--on-primary);
+      border-color: var(--primary);
+    }
+    .carousel-nav-group {
+      display: flex;
+      align-items: center;
+      gap: var(--space-xs);
+    }
+    .btn-secondary {
+      min-height: 44px;
+      padding: 0 var(--space-md);
+      background: var(--surface-container-low);
+      border: 1px solid var(--pill-border);
+      border-radius: var(--rounded);
+      font-weight: 600;
+      font-size: 0.875rem;
+      color: var(--on-surface);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-xs);
+      transition: background-color var(--dur-micro) var(--ease-out), box-shadow var(--dur-micro) var(--ease-out);
+    }
+    .btn-secondary:hover {
+      background: var(--surface-container);
+    }
+    .btn-primary {
+      min-height: 44px;
+      padding: 0 var(--space-md);
+      background: var(--primary);
+      border: 1px solid var(--primary);
+      border-radius: var(--rounded);
+      font-weight: 600;
+      font-size: 0.875rem;
+      color: var(--on-primary);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-xs);
+      transition: opacity var(--dur-micro) var(--ease-out), transform var(--dur-micro) var(--ease-out);
+    }
+    .btn-primary:hover {
+      opacity: 0.9;
+    }
+
+    .hero-carousel-viewport {
+      overflow: hidden;
+      border-radius: var(--rounded-lg);
+    }
+    .hero-carousel-track {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: var(--space-md);
+      transition: transform var(--dur-long) var(--ease-out);
+    }
+    .hero-card {
+      background: var(--surface-container-low);
+      border: var(--card-border);
+      border-top: 3px solid var(--outline-variant);
+      border-radius: var(--rounded-lg);
+      padding: var(--space-md) var(--space-lg);
+      cursor: pointer;
+      text-align: left;
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-xs);
+      transition: border-top-color var(--dur-short) var(--ease-out), box-shadow var(--dur-short) var(--ease-out), background-color var(--dur-short) var(--ease-out);
+    }
+    .hero-card:hover {
+      box-shadow: var(--shadow-soft);
+    }
+    .hero-card.is-active {
+      border-top-color: var(--primary-container);
+      box-shadow: var(--shadow-soft);
+      background: var(--surface-container-low);
+      outline: 1.5px solid var(--outline);
+      outline-offset: -1.5px;
+    }
+    .hero-card-kicker {
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      text-transform: uppercase;
+      letter-spacing: var(--label-tracking);
+      color: var(--secondary);
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-xs);
+    }
+    .hero-card-value {
+      font-family: var(--font-headline);
+      font-weight: 600;
+      font-size: clamp(1.375rem, 1.15rem + 0.8vw, 1.85rem);
+      font-variant-numeric: lining-nums tabular-nums;
+      line-height: 1.15;
+      color: var(--on-surface);
+    }
+    .hero-card-sub {
+      font-size: 0.875rem;
+      color: var(--on-surface-variant);
+      font-weight: 500;
+    }
+
+    /* Horizontal Scrollable Day Selector (D1 - D10) */
+    .day-selector-wrap {
+      display: grid;
+      gap: var(--space-xs);
+    }
+    .day-selector-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-sm);
+    }
+    .section-kicker {
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: var(--label-tracking);
+      color: var(--on-surface-variant);
+    }
+    .day-scroll-shell {
+      display: flex;
+      align-items: center;
+      gap: var(--space-xs);
+    }
+    .day-scroll-strip {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      gap: var(--space-sm);
+      padding: var(--space-xs) 2px;
+      scroll-snap-type: x proximity;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: thin;
+      flex: 1 1 auto;
+      cursor: grab;
+    }
+    .day-scroll-strip:active {
+      cursor: grabbing;
+    }
+    .day-pill {
+      flex: 0 0 auto;
+      min-height: 52px;
+      min-width: 108px;
+      padding: var(--space-xs) var(--space-md);
+      background: var(--surface-container-low);
+      border: var(--card-border);
+      border-radius: var(--rounded-lg);
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: center;
+      gap: 2px;
+      cursor: pointer;
+      scroll-snap-align: start;
+      transition: background-color var(--dur-micro) var(--ease-out), box-shadow var(--dur-micro) var(--ease-out), color var(--dur-micro) var(--ease-out);
+    }
+    .day-pill:hover {
+      background: var(--surface-container);
+    }
+    .day-pill.is-active {
+      background: var(--primary);
+      color: var(--on-primary);
+      border-color: var(--primary);
+      box-shadow: var(--shadow-soft);
+    }
+    .day-pill-top {
+      display: flex;
+      align-items: center;
+      gap: var(--space-xs);
+      width: 100%;
+      justify-content: space-between;
+    }
+    .day-pill-code {
+      font-family: var(--font-label);
+      font-weight: 600;
+      font-size: 0.8125rem;
+      letter-spacing: 0.04em;
+    }
+    .day-pill.is-active .day-pill-code {
+      color: var(--primary-container);
+    }
+    .day-pill-date {
+      font-family: var(--font-label);
+      font-size: 0.6875rem;
+      color: var(--on-surface-variant);
+    }
+    .day-pill.is-active .day-pill-date {
+      color: var(--surface-container-high);
+    }
+    .day-pill-place {
+      font-size: 0.8125rem;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    /* Desktop Top Tab Bar (mirrors exact Bottom Nav order) */
+    .desktop-tab-bar {
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+      border-bottom: var(--section-rule);
+      padding-bottom: var(--space-sm);
+    }
+    .tab-btn {
+      min-height: 44px;
+      padding: var(--space-xs) var(--space-md);
+      border: 1px solid transparent;
+      background: transparent;
+      border-radius: var(--rounded);
+      font-weight: 600;
+      font-size: 0.9375rem;
+      color: var(--on-surface-variant);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-xs);
+      transition: background-color var(--dur-micro) var(--ease-out), color var(--dur-micro) var(--ease-out);
+    }
+    .tab-btn:hover {
+      background: var(--surface-container);
+      color: var(--on-surface);
+    }
+    .tab-btn.is-active {
+      background: var(--primary-container);
+      color: var(--on-primary-container);
+      border-color: var(--outline);
+    }
+
+    /* View Panels */
+    .view-panel {
+      display: none;
+      gap: var(--space-lg);
+      animation: panelFade var(--dur-short) var(--ease-out);
+    }
+    .view-panel.is-active {
+      display: grid;
+    }
+    @keyframes panelFade {
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Figure Cards & Dossier Typography */
+    .figure-card {
+      background: var(--surface-container-low);
+      border: var(--card-border);
+      border-radius: var(--rounded-lg);
+      padding: var(--space-lg);
+    }
+    .section-heading {
+      font-family: var(--font-headline);
+      font-weight: 600;
+      font-size: var(--headline-size);
+      letter-spacing: var(--heading-tracking);
+      line-height: 1.15;
+      margin: 0;
+    }
+    .standfirst {
+      font-weight: 600;
+      color: var(--secondary);
+      margin: var(--space-xs) 0 0;
+      font-size: var(--subhead-size);
+    }
+
+    /* Side-by-Side Day Detail Metrics */
+    .day-metrics-row {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: var(--space-sm);
+    }
+    .metric-badge-card {
+      background: var(--surface-container-low);
+      border: var(--card-border);
+      border-left: 3px solid var(--secondary);
+      border-radius: var(--rounded-lg);
+      padding: var(--space-sm) var(--space-md);
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .metric-badge-card.is-gold {
+      border-left-color: var(--data-2);
+    }
+    .metric-badge-card.is-pine {
+      border-left-color: var(--data-3);
+    }
+    .metric-badge-card.is-brick {
+      border-left-color: var(--data-4);
+    }
+    .metric-label {
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--on-surface-variant);
+    }
+    .metric-value {
+      font-family: var(--font-headline);
+      font-weight: 600;
+      font-size: 1.0625rem;
+      font-variant-numeric: tabular-nums;
+      color: var(--on-surface);
+      word-break: break-word;
+    }
+
+    /* Itinerary Layout */
+    .itinerary-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr);
+      gap: var(--space-lg);
+      align-items: start;
+    }
+    .stops-list {
+      display: grid;
+      gap: var(--space-md);
+    }
+    .stop-card {
+      background: var(--surface-container-low);
+      border: var(--card-border);
+      border-radius: var(--rounded-lg);
+      padding: var(--space-md) var(--space-lg);
+      display: grid;
+      gap: var(--space-sm);
+    }
+    .stop-card-top {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-sm);
+      border-bottom: 1px solid var(--outline-variant);
+      padding-bottom: var(--space-sm);
+    }
+    .stop-time-title {
+      display: flex;
+      align-items: baseline;
+      gap: var(--space-sm);
+      flex-wrap: wrap;
+    }
+    .index-num {
+      font-family: var(--font-label);
+      font-weight: 600;
+      font-size: var(--label-size);
+      color: var(--secondary);
+      background: var(--surface-container);
+      padding: 0.15rem 0.45rem;
+      border-radius: var(--rounded);
+    }
+    .stop-title {
+      font-family: var(--font-headline);
+      font-weight: 600;
+      font-size: 1.15rem;
+      margin: 0;
+    }
+    .stop-notes {
+      margin: 0;
+      color: var(--on-surface);
+      max-width: 65ch;
+    }
+    .stop-meta-actions {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-sm);
+      padding-top: var(--space-xs);
+    }
+    .stop-coords {
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      color: var(--on-surface-variant);
+    }
+    .map-pin-btn {
+      min-height: 44px;
+      padding: 0 var(--space-md);
+      background: var(--surface-container);
+      border: 1px solid var(--pill-border);
+      border-radius: var(--rounded);
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      font-weight: 600;
+      color: var(--secondary);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-xs);
+      transition: background-color var(--dur-micro) var(--ease-out);
+    }
+    .map-pin-btn:hover {
+      background: var(--surface-container-high);
+    }
+    .source-note-box {
+      background: var(--surface-container);
+      border-left: 3px solid var(--primary-container);
+      padding: var(--space-sm) var(--space-md);
+      border-radius: var(--rounded);
+      font-size: 0.875rem;
+      color: var(--on-surface);
+    }
+
+    /* Packing Checklist Aside */
+    .aside-box {
+      background: var(--surface-container);
+      border-top: var(--section-rule);
+      border-radius: 0 0 var(--rounded-lg) var(--rounded-lg);
+      padding: var(--space-md) var(--space-lg);
+      display: grid;
+      gap: var(--space-md);
+    }
+    .progress-track {
+      height: 8px;
+      background: var(--surface-container-high);
+      border-radius: var(--rounded);
+      overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%;
+      background: var(--positive);
+      width: 0%;
+      transition: width var(--dur-short) var(--ease-out);
+    }
+    .checklist-filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-xs);
+    }
+    .filter-chip {
+      min-height: 36px;
+      padding: 0 var(--space-sm);
+      border: 1px solid var(--pill-border);
+      background: var(--surface-container-low);
+      border-radius: var(--rounded);
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      cursor: pointer;
+    }
+    .filter-chip.is-active {
+      background: var(--secondary);
+      color: var(--on-primary);
+      border-color: var(--secondary);
+    }
+    .pack-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: grid;
+      gap: var(--space-xs);
+      max-height: 440px;
+      overflow-y: auto;
+    }
+    .pack-item {
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+      background: var(--surface-container-low);
+      border: var(--card-border);
+      border-radius: var(--rounded);
+      padding: var(--space-xs) var(--space-sm);
+      min-height: 44px;
+    }
+    .pack-item input[type="checkbox"] {
+      width: 20px;
+      height: 20px;
+      accent-color: var(--positive);
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+    .pack-item label {
+      flex: 1 1 auto;
+      cursor: pointer;
+      font-size: 0.875rem;
+    }
+    .pack-item.is-checked label {
+      text-decoration: line-through;
+      color: var(--on-surface-variant);
+    }
+    .pack-cat-badge {
+      font-family: var(--font-label);
+      font-size: 0.6875rem;
+      color: var(--on-surface-variant);
+      text-transform: uppercase;
+    }
+
+    /* Interactive Vector Map */
+    .map-toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-md);
+      padding-bottom: var(--space-md);
+      border-bottom: 1px solid var(--outline-variant);
+    }
+    .map-layer-group {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: var(--space-xs);
+    }
+    .map-mode-btn {
+      min-height: 44px;
+      padding: 0 var(--space-md);
+      border: 1px solid var(--pill-border);
+      background: var(--surface-container-low);
+      border-radius: var(--rounded);
+      font-weight: 600;
+      font-size: 0.875rem;
+      cursor: pointer;
+    }
+    .map-mode-btn.is-active {
+      background: var(--primary);
+      color: var(--on-primary);
+      border-color: var(--primary);
+    }
+    .map-zoom-controls {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: var(--space-xs);
+    }
+    .zoom-readout {
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      font-weight: 600;
+      padding: var(--space-xs) var(--space-sm);
+      background: var(--surface-container);
+      border-radius: var(--rounded);
+      min-width: 64px;
+      text-align: center;
+    }
+    .map-stage-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.65fr) minmax(0, 1fr);
+      gap: var(--space-lg);
+      align-items: start;
+      margin-top: var(--space-md);
+    }
+    .map-viewport {
+      position: relative;
+      min-height: 480px;
+      height: 520px;
+      border: 1.5px solid var(--outline);
+      border-radius: var(--rounded-lg);
+      overflow: hidden;
+      background: var(--map-ocean);
+      touch-action: none;
+      user-select: none;
+      cursor: grab;
+    }
+    .map-viewport:active {
+      cursor: grabbing;
+    }
+    .map-viewport.mode-satellite {
+      background: var(--map-sat-water);
+    }
+    .map-viewport.mode-terrain {
+      background: var(--map-ocean);
+    }
+    .map-viewport.mode-street {
+      background: var(--background);
+    }
+    .map-svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+    .map-hud-bottom {
+      position: absolute;
+      left: var(--space-sm);
+      right: var(--space-sm);
+      bottom: var(--space-sm);
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-xs);
+      pointer-events: none;
+    }
+    .map-hud-pill {
+      pointer-events: auto;
+      background: var(--nav-bg);
+      border: 1px solid var(--outline-variant);
+      border-radius: var(--rounded);
+      padding: 0.25rem 0.55rem;
+      font-family: var(--font-label);
+      font-size: 0.72rem;
+      color: var(--on-surface);
+      box-shadow: var(--shadow-soft);
+    }
+    .map-inspector {
+      display: grid;
+      gap: var(--space-md);
+    }
+    .street-preview-box {
+      background: var(--surface-container);
+      border: var(--card-border);
+      border-radius: var(--rounded-lg);
+      padding: var(--space-md);
+      display: grid;
+      gap: var(--space-sm);
+    }
+
+    /* Sky & Weather */
+    .sky-hero-card {
+      background: var(--sky-bg);
+      color: var(--sky-ink);
+      border: 1px solid var(--sky-border);
+      border-radius: var(--rounded-lg);
+      padding: var(--space-lg);
+      display: grid;
+      gap: var(--space-md);
+    }
+    .sky-hero-top {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: var(--space-md);
+      border-bottom: 1px solid var(--sky-border);
+      padding-bottom: var(--space-md);
+    }
+    .sky-pill {
+      background: var(--sky-gold);
+      color: var(--on-primary-container);
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      font-weight: 700;
+      padding: 0.2rem 0.55rem;
+      border-radius: var(--badge-radius);
+      text-transform: uppercase;
+      letter-spacing: var(--label-tracking);
+    }
+    .sky-kpis {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: var(--space-sm);
+    }
+    .sky-kpi-box {
+      background: var(--sky-surface);
+      border: 1px solid var(--sky-border);
+      border-radius: var(--rounded);
+      padding: var(--space-sm) var(--space-md);
+    }
+    .sky-kpi-label {
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      color: var(--sky-muted);
+      text-transform: uppercase;
+    }
+    .sky-kpi-val {
+      font-family: var(--font-headline);
+      font-weight: 600;
+      font-size: 1.2rem;
+      color: var(--sky-ink);
+      font-variant-numeric: tabular-nums;
+    }
+    .astro-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+      gap: var(--space-lg);
+    }
+    .preset-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-xs);
+    }
+    .astro-settings-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: var(--space-sm);
+    }
+
+    /* Tables */
+    .table-wrap {
+      overflow-x: auto;
+      background: var(--surface-container-low);
+      border: var(--card-border);
+      border-radius: var(--rounded-lg);
+    }
+    table.dossier-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.875rem;
+    }
+    table.dossier-table th {
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      text-align: left;
+      padding: var(--space-sm) var(--space-md);
+      background: var(--surface-container);
+      border-bottom: var(--section-rule);
+      white-space: nowrap;
+    }
+    table.dossier-table td {
+      padding: var(--space-sm) var(--space-md);
+      border-bottom: 1px solid var(--outline-variant);
+      vertical-align: middle;
+    }
+    table.dossier-table tr.is-selected-row {
+      background: var(--tag-bg);
+    }
+    .num-cell {
+      font-family: var(--font-label);
+      font-variant-numeric: tabular-nums;
+      white-space: nowrap;
+    }
+
+    /* Budget Layout */
+    .budget-top-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+      gap: var(--space-lg);
+      align-items: start;
+    }
+    .chart-box {
+      min-height: 280px;
+      position: relative;
+    }
+    .fx-controls {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: var(--space-md);
+      align-items: end;
+    }
+    .field-group {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-xs);
+    }
+    .field-group label {
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      font-weight: 600;
+      text-transform: uppercase;
+      color: var(--on-surface-variant);
+    }
+    .field-input, .field-select {
+      min-height: 44px;
+      padding: 0 var(--space-sm);
+      border: 1px solid var(--pill-border);
+      border-radius: var(--rounded);
+      background: var(--surface-container-low);
+    }
+    .field-select {
+      padding-right: var(--space-lg);
+    }
+
+    /* Toast Message */
+    .inline-toast {
+      position: fixed;
+      top: var(--space-md);
+      right: var(--space-md);
+      z-index: 60;
+      background: var(--primary);
+      color: var(--on-primary);
+      padding: var(--space-sm) var(--space-md);
+      border-radius: var(--rounded);
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      box-shadow: var(--shadow-elevated);
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(-8px);
+      transition: opacity var(--dur-short) var(--ease-out), transform var(--dur-short) var(--ease-out);
+    }
+    .inline-toast.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Sticky / Fixed Mobile Portrait Bottom Navigation Bar */
+    .bottom-nav {
+      display: none;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 50;
+      background: var(--nav-bg);
+      border-top: var(--section-rule);
+      padding: var(--space-xs) var(--space-xs) max(var(--space-xs), env(safe-area-inset-bottom));
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: var(--space-xs);
+      box-shadow: var(--shadow-elevated);
+    }
+    .bottom-nav-btn {
+      min-height: 48px;
+      padding: var(--space-xs) 4px;
+      border: 1px solid transparent;
+      background: transparent;
+      border-radius: var(--rounded);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2px;
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: var(--on-surface-variant);
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .bottom-nav-btn.is-active {
+      background: var(--primary-container);
+      color: var(--on-primary-container);
+      border-color: var(--outline);
+    }
+
+    .footer-credits {
+      border-top: 1px solid var(--outline-variant);
+      padding-top: var(--space-md);
+      font-size: 0.8125rem;
+      color: var(--on-surface-variant);
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: var(--space-sm);
+    }
+
+    /* Responsive Breakpoints */
+    @media (max-width: 900px) {
+      .itinerary-grid,
+      .map-stage-grid,
+      .astro-grid,
+      .budget-top-grid {
+        grid-template-columns: 1fr;
+      }
+      .sky-kpis {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 759px) {
+      .hero-carousel-track {
+        display: flex;
+        flex-wrap: nowrap;
+        gap: 0;
+        width: 100%;
+      }
+      .hero-card {
+        flex: 0 0 100%;
+        width: 100%;
+      }
+      .day-metrics-row {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+      .astro-settings-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 640px), (orientation: portrait) and (max-width: 900px) {
+      .app-shell {
+        padding: var(--space-md) var(--space-md) 5.5rem;
+      }
+      .desktop-tab-bar {
+        display: none;
+      }
+      .bottom-nav {
+        display: grid;
+      }
+      .map-viewport {
+        min-height: 360px;
+        height: 400px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="inline-toast" class="inline-toast" role="status" aria-live="polite"></div>
+
+  <div class="app-shell">
+    <!-- Header & Auto-Rotating 4-Card Hero Carousel (No sub-header text, No Member Notice) -->
+    <header>
+      <div class="dossier-bar">
+        <div class="dossier-bar-left">
+          <span class="dossier-pill">FIELD DOSSIER</span>
+          <span class="dossier-meta">26 NOV – 05 DEC 2026 · PRIVATE VAN &amp; LOCAL DRIVER</span>
+        </div>
+        <span class="dossier-meta" id="saved-sync-status">STATE READY</span>
+      </div>
+
+      <div class="title-row">
+        <h1 class="page-title">Thailand Route &amp; Telemetry: Lopburi, Kanchanaburi &amp; Sangkhla Buri</h1>
+        <div class="route-badge-row">
+          <span class="tag-chip">10-Day Private Circuit</span>
+          <span class="tag-chip">BKK → LOPBURI → SAI YOK → SANGKHLA → BKK</span>
+        </div>
+      </div>
+
+      <section class="hero-carousel-section" aria-label="Trip summary carousel">
+        <div class="carousel-controls-bar">
+          <div class="carousel-dots" role="tablist" aria-label="Carousel cards">
+            <button type="button" class="carousel-dot-btn is-active" data-slide="0" onclick="goToHeroSlide(0)" aria-label="Card 1: Circuit Span">01</button>
+            <button type="button" class="carousel-dot-btn" data-slide="1" onclick="goToHeroSlide(1)" aria-label="Card 2: Individual Budget">02</button>
+            <button type="button" class="carousel-dot-btn" data-slide="2" onclick="goToHeroSlide(2)" aria-label="Card 3: Elevation Band">03</button>
+            <button type="button" class="carousel-dot-btn" data-slide="3" onclick="goToHeroSlide(3)" aria-label="Card 4: Mon Bridge Sky Window">04</button>
+          </div>
+          <div class="carousel-nav-group">
+            <button type="button" class="btn-secondary" id="carousel-pause-btn" onclick="toggleHeroAutoplay()" aria-pressed="false">Pause Rotation</button>
+            <button type="button" class="btn-secondary" onclick="stepHeroSlide(-1)" aria-label="Previous highlight card">Prev</button>
+            <button type="button" class="btn-secondary" onclick="stepHeroSlide(1)" aria-label="Next highlight card">Next</button>
+          </div>
+        </div>
+
+        <div class="hero-carousel-viewport" onmouseenter="pauseHeroOnHover(true)" onmouseleave="pauseHeroOnHover(false)">
+          <div class="hero-carousel-track" id="hero-carousel-track">
+            <button type="button" class="hero-card is-active" data-card-index="0" onclick="goToHeroSlide(0)">
+              <span class="hero-card-kicker"><span>Card 1 · Circuit Span</span><span>01/04</span></span>
+              <span class="hero-card-value">10 Days</span>
+              <span class="hero-card-sub">26 Nov – 05 Dec 2026 · Private Van</span>
+            </button>
+            <button type="button" class="hero-card" data-card-index="1" onclick="goToHeroSlide(1)">
+              <span class="hero-card-kicker"><span>Card 2 · Individual Budget</span><span>02/04</span></span>
+              <span class="hero-card-value">SGD 1,420.69</span>
+              <span class="hero-card-sub">37,222 THB @ 26.2 THB/SGD</span>
+            </button>
+            <button type="button" class="hero-card" data-card-index="2" onclick="goToHeroSlide(2)">
+              <span class="hero-card-kicker"><span>Card 3 · Elevation Band</span><span>03/04</span></span>
+              <span class="hero-card-value">5m – 1,260m</span>
+              <span class="hero-card-sub">Chao Phraya Plain to Tenasserim Ridge</span>
+            </button>
+            <button type="button" class="hero-card" data-card-index="3" onclick="goToHeroSlide(3)">
+              <span class="hero-card-kicker"><span>Card 4 · Mon Bridge Sky Window</span><span>04/04</span></span>
+              <span class="hero-card-value">4.5 Hours</span>
+              <span class="hero-card-sub">01 Dec · 19:00–23:30 Dark Sky</span>
+            </button>
+          </div>
+        </div>
+      </section>
+    </header>
+
+    <!-- Horizontal Scrollable Day Selector (D1 - D10) -->
+    <section class="day-selector-wrap" aria-label="Day selector D1 to D10">
+      <div class="day-selector-header">
+        <span class="section-kicker">Select Journey Day (D1 – D10 · Scroll Horizontally)</span>
+        <span class="dossier-meta" id="active-day-badge">D1 · 26 NOV 2026</span>
+      </div>
+      <div class="day-scroll-shell">
+        <button type="button" class="btn-secondary" onclick="nudgeDayStrip(-220)" aria-label="Scroll days left">‹</button>
+        <div class="day-scroll-strip" id="day-scroll-strip" role="tablist" aria-label="Journey days"></div>
+        <button type="button" class="btn-secondary" onclick="nudgeDayStrip(220)" aria-label="Scroll days right">›</button>
+      </div>
+    </section>
+
+    <!-- Desktop Tab Switcher (exact same 4-tab order as Mobile Bottom Bar) -->
+    <nav class="desktop-tab-bar" aria-label="Primary sections">
+      <button type="button" class="tab-btn is-active" data-tab="itinerary" onclick="switchTab('itinerary')">📅 Itinerary</button>
+      <button type="button" class="tab-btn" data-tab="map" onclick="switchTab('map')">🗺️ Map</button>
+      <button type="button" class="tab-btn" data-tab="sky" onclick="switchTab('sky')">🌌 Sky &amp; Weather</button>
+      <button type="button" class="tab-btn" data-tab="budget" onclick="switchTab('budget')">💳 Budget</button>
+    </nav>
+
+    <main>
+      <!-- TAB 1: ITINERARY -->
+      <section id="panel-itinerary" class="view-panel is-active" aria-label="Daily itinerary and packing dossier">
+        <div class="figure-card">
+          <div class="dossier-bar">
+            <div class="dossier-bar-left">
+              <span class="dossier-pill" id="itin-day-pill">DAY 1</span>
+              <span class="dossier-meta" id="itin-day-date">THU, 26 NOV 2026</span>
+            </div>
+            <button type="button" class="btn-primary" onclick="focusSelectedDayOnMap()">Locate Day on Map</button>
+          </div>
+          <h2 class="section-heading" id="itin-day-title">Bangkok Arrival &amp; Lopburi Sunflower Corridor</h2>
+          <p class="standfirst" id="itin-day-summary"></p>
+
+          <!-- Side-by-Side Day Detail Metrics -->
+          <div class="day-metrics-row" id="day-metrics-row" style="margin-top: var(--space-md);">
+            <div class="metric-badge-card">
+              <span class="metric-label">Elevation Tag</span>
+              <span class="metric-value" id="metric-elevation">42m Peak</span>
+            </div>
+            <div class="metric-badge-card is-gold">
+              <span class="metric-label">GPS Coordinates</span>
+              <span class="metric-value" id="metric-gps">14.800°N, 100.654°E</span>
+            </div>
+            <div class="metric-badge-card is-pine">
+              <span class="metric-label">Van Segment</span>
+              <span class="metric-value" id="metric-van">~2h 15m · 150 km</span>
+            </div>
+            <div class="metric-badge-card is-brick">
+              <span class="metric-label">Overnight Base</span>
+              <span class="metric-value" id="metric-base">Lopburi Town</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="itinerary-grid">
+          <div class="stops-list" id="itin-stops-list"></div>
+
+          <aside class="aside-box" aria-label="Packing checklist">
+            <div style="display:flex; justify-content:space-between; align-items:center; gap:var(--space-sm);">
+              <div>
+                <span class="dossier-pill">FIELD GEAR</span>
+                <h3 style="margin:var(--space-xs) 0 0; font-family:var(--font-headline); font-size:1.2rem;">Packing Checklist</h3>
+              </div>
+              <span class="dossier-meta" id="pack-progress-text">0 / 18 PACKED</span>
+            </div>
+
+            <div class="progress-track" aria-hidden="true">
+              <div class="progress-fill" id="pack-progress-bar"></div>
+            </div>
+
+            <div class="checklist-filters" id="pack-filter-row">
+              <button type="button" class="filter-chip is-active" data-cat="All" onclick="setPackFilter('All')">All</button>
+              <button type="button" class="filter-chip" data-cat="Apparel" onclick="setPackFilter('Apparel')">Apparel</button>
+              <button type="button" class="filter-chip" data-cat="Trail & Water" onclick="setPackFilter('Trail & Water')">Trail &amp; Water</button>
+              <button type="button" class="filter-chip" data-cat="Astro & Camp" onclick="setPackFilter('Astro & Camp')">Astro &amp; Camp</button>
+            </div>
+
+            <ul class="pack-list" id="pack-list"></ul>
+
+            <div style="display:flex; justify-content:space-between; align-items:center; gap:var(--space-sm);">
+              <span class="dossier-meta">Saved automatically</span>
+              <button type="button" class="btn-secondary" id="reset-pack-btn" onclick="resetPackingList(this)">Reset Checklist</button>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <!-- TAB 2: INTERACTIVE ROUTE MAP -->
+      <section id="panel-map" class="view-panel" aria-label="Interactive route map">
+        <div class="figure-card">
+          <div class="map-toolbar">
+            <div class="map-layer-group" role="group" aria-label="Map visual layers">
+              <span class="section-kicker" style="margin-right:var(--space-xs);">Map Layer:</span>
+              <button type="button" class="map-mode-btn is-active" data-map-mode="terrain" onclick="setMapMode('terrain')">Terrain</button>
+              <button type="button" class="map-mode-btn" data-map-mode="satellite" onclick="setMapMode('satellite')">Satellite</button>
+              <button type="button" class="map-mode-btn" data-map-mode="street" onclick="setMapMode('street')">Street View</button>
+            </div>
+
+            <div class="map-zoom-controls">
+              <button type="button" class="btn-secondary" onclick="adjustMapZoom(-0.5)" aria-label="Zoom out">−</button>
+              <label for="map-zoom-slider" class="section-kicker" style="position:absolute; width:1px; height:1px; overflow:hidden;">Map Zoom</label>
+              <input type="range" id="map-zoom-slider" min="0.25" max="12" step="0.05" value="0.5" oninput="setMapZoomFromSlider(this.value)" style="width:110px;">
+              <button type="button" class="btn-secondary" onclick="adjustMapZoom(0.5)" aria-label="Zoom in">+</button>
+              <span class="zoom-readout" id="map-zoom-readout">0.50×</span>
+              <button type="button" class="btn-secondary" onclick="resetMapView()">Reset 0.5×</button>
+            </div>
+          </div>
+
+          <div class="map-stage-grid">
+            <div class="map-viewport mode-terrain" id="map-viewport" tabindex="0" aria-label="Interactive vector route map of Central and Western Thailand">
+              <svg id="route-map-svg" class="map-svg" viewBox="0 0 800 520" xmlns="http://www.w3.org/2000/svg">
+                <g id="map-pan-zoom-group"></g>
+              </svg>
+              <div class="map-hud-bottom">
+                <span class="map-hud-pill" id="map-cursor-coords">14.354°N, 98.953°E · Drag to pan</span>
+                <span class="map-hud-pill">Zoom range 0.25× – 12.00× · Vector Natural Earth</span>
+              </div>
+            </div>
+
+            <div class="map-inspector">
+              <div class="street-preview-box">
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                  <span class="dossier-pill" id="map-inspector-day">DAY 1 PIN</span>
+                  <span class="dossier-meta" id="map-inspector-elev">42m Peak</span>
+                </div>
+                <h3 style="margin:0; font-family:var(--font-headline); font-size:1.25rem;" id="map-inspector-title">Lopburi Corridor</h3>
+                <p style="margin:0; font-size:0.875rem; color:var(--on-surface-variant);" id="map-inspector-street"></p>
+              </div>
+
+              <div id="map-stop-links" style="display:grid; gap:var(--space-sm);"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 3: SKY & WEATHER -->
+      <section id="panel-sky" class="view-panel" aria-label="Sky and weather telemetry">
+        <div class="sky-hero-card">
+          <div class="sky-hero-top">
+            <div>
+              <span class="sky-pill">DAY 6 · MON BRIDGE DARK SKY TELEMETRY</span>
+              <h2 class="section-heading" style="color:var(--sky-ink); margin-top:var(--space-sm);">Sangkhla Buri Stargazing Window — 01 Dec 2026</h2>
+              <p style="margin:var(--space-xs) 0 0; color:var(--sky-muted); max-width:65ch;">
+                Moonless astronomical dark-sky window between end of twilight and Last Quarter moonrise over Khao Laem Reservoir and Uttamanusorn (Mon) Bridge.
+              </p>
+            </div>
+            <div style="text-align:right;">
+              <div style="font-family:var(--font-label); font-size:var(--label-size); color:var(--sky-muted);">NIGHT LOW · PACK WINDBREAKER</div>
+              <div style="font-family:var(--font-headline); font-size:1.75rem; font-weight:600; color:var(--sky-gold);">15°C · Bortle 3–4</div>
+            </div>
+          </div>
+
+          <div class="sky-kpis">
+            <div class="sky-kpi-box">
+              <div class="sky-kpi-label">Dark Sky Window</div>
+              <div class="sky-kpi-val">19:00 – 23:30</div>
+            </div>
+            <div class="sky-kpi-box">
+              <div class="sky-kpi-label">Total Clear Duration</div>
+              <div class="sky-kpi-val">4.5 Hours</div>
+            </div>
+            <div class="sky-kpi-box">
+              <div class="sky-kpi-label">Sunset / Twilight End</div>
+              <div class="sky-kpi-val">17:51 / 19:02</div>
+            </div>
+            <div class="sky-kpi-box">
+              <div class="sky-kpi-label">Moonrise (49% Waning)</div>
+              <div class="sky-kpi-val">23:32 ICT</div>
+            </div>
+          </div>
+
+          <!-- Night Sky Timeline Graphic -->
+          <div style="background:var(--sky-surface); border:1px solid var(--sky-border); border-radius:var(--rounded); padding:var(--space-md);">
+            <div style="display:flex; justify-content:space-between; font-family:var(--font-label); font-size:0.72rem; color:var(--sky-muted); margin-bottom:var(--space-xs);">
+              <span>17:30 SUNSET</span>
+              <span>19:00 DARK SKY START</span>
+              <span style="color:var(--sky-gold);">★ 4.5H OPTIMAL WINDOW ★</span>
+              <span>23:32 MOONRISE</span>
+              <span>05:30 DAWN</span>
+            </div>
+            <div style="display:grid; grid-template-columns:15% 45% 40%; height:18px; border-radius:var(--rounded); overflow:hidden; border:1px solid var(--sky-border);">
+              <div style="background:var(--data-2); opacity:0.65;" title="Dusk & Astronomical Twilight 17:51–19:00"></div>
+              <div style="background:var(--sky-cyan); opacity:0.9;" title="Moonless Dark Sky Window 19:00–23:30"></div>
+              <div style="background:var(--sky-muted); opacity:0.35;" title="Moonlit Sky 23:32–05:30"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="astro-grid">
+          <div class="figure-card" style="display:grid; gap:var(--space-md);">
+            <div class="dossier-bar" style="margin-bottom:0;">
+              <div class="dossier-bar-left">
+                <span class="dossier-pill">10-DAY TELEMETRY</span>
+                <span class="dossier-meta">TEMPS, SUN, MOON &amp; SKY RATING</span>
+              </div>
+            </div>
+            <div class="table-wrap">
+              <table class="dossier-table" id="weather-table">
+                <thead>
+                  <tr>
+                    <th>Day</th>
+                    <th>Base</th>
+                    <th>High / Low</th>
+                    <th>Sun (Rise/Set)</th>
+                    <th>Moon (Phase · Rise)</th>
+                    <th>Sky</th>
+                  </tr>
+                </thead>
+                <tbody id="weather-tbody"></tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="figure-card" style="display:grid; gap:var(--space-md); align-content:start;">
+            <div class="dossier-bar" style="margin-bottom:0;">
+              <div class="dossier-bar-left">
+                <span class="dossier-pill">ASTRO GUIDE</span>
+                <span class="dossier-meta">CAMERA &amp; FILTER SETTINGS</span>
+              </div>
+            </div>
+
+            <div class="preset-tabs" role="tablist" aria-label="Astrophotography presets">
+              <button type="button" class="filter-chip is-active" data-astro="milkyway" onclick="setAstroPreset('milkyway')">Wide Night Sky</button>
+              <button type="button" class="filter-chip" data-astro="trails" onclick="setAstroPreset('trails')">Bridge Star Trails</button>
+              <button type="button" class="filter-chip" data-astro="portrait" onclick="setAstroPreset('portrait')">Lantern + Sky</button>
+            </div>
+
+            <div class="field-group">
+              <label for="sensor-select">Camera Sensor &amp; Focal Length</label>
+              <select id="sensor-select" class="field-select" onchange="updateAstroGuide()">
+                <option value="ff14">Full-Frame · 14mm f/2.8</option>
+                <option value="ff24">Full-Frame · 24mm f/1.8</option>
+                <option value="apsc16">APS-C · 16mm (24mm eq.) f/2.0</option>
+              </select>
+            </div>
+
+            <div class="astro-settings-grid" id="astro-settings-grid"></div>
+
+            <div class="source-note-box" id="astro-filter-note"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 4: BUDGET -->
+      <section id="panel-budget" class="view-panel" aria-label="Individual budget ledger">
+        <div class="budget-top-grid">
+          <div class="figure-card" style="display:grid; gap:var(--space-md);">
+            <div class="dossier-bar" style="margin-bottom:0;">
+              <div class="dossier-bar-left">
+                <span class="dossier-pill">EXPENSE LEDGER</span>
+                <span class="dossier-meta">INDIVIDUAL SHARE · 10 DAYS</span>
+              </div>
+              <button type="button" class="btn-secondary" onclick="exportBudgetCsv()">Export CSV</button>
+            </div>
+
+            <div style="display:flex; flex-wrap:wrap; align-items:baseline; justify-content:space-between; gap:var(--space-md);">
+              <div>
+                <div class="section-kicker">Total Individual Package Budget</div>
+                <div class="hero-card-value" id="budget-headline-sgd" style="font-size:2.1rem;">SGD 1,420.69</div>
+                <div class="dossier-meta" id="budget-headline-thb">37,222 THB @ 26.2 THB/SGD</div>
+              </div>
+              <div class="checklist-filters" role="group" aria-label="Currency view">
+                <button type="button" class="filter-chip is-active" data-curr="both" onclick="setCurrencyMode('both')">SGD + THB</button>
+                <button type="button" class="filter-chip" data-curr="sgd" onclick="setCurrencyMode('sgd')">SGD Only</button>
+                <button type="button" class="filter-chip" data-curr="thb" onclick="setCurrencyMode('thb')">THB Only</button>
+              </div>
+            </div>
+
+            <div class="fx-controls">
+              <div class="field-group">
+                <label for="fx-rate-input">Exchange Rate (THB per 1 SGD)</label>
+                <input type="number" id="fx-rate-input" class="field-input" value="26.2" min="20" max="35" step="0.1" oninput="updateFxRate(this.value)">
+              </div>
+              <button type="button" class="btn-secondary" onclick="resetFxRate()">Reset 26.2 Rate</button>
+            </div>
+          </div>
+
+          <div class="figure-card">
+            <div class="dossier-bar" style="margin-bottom:var(--space-sm);">
+              <div class="dossier-bar-left">
+                <span class="dossier-pill">ALLOCATION</span>
+                <span class="dossier-meta">BY COST CATEGORY</span>
+              </div>
+            </div>
+            <div class="chart-box">
+              <canvas id="budget-chart" aria-label="Budget breakdown chart"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <div class="figure-card" style="display:grid; gap:var(--space-md);">
+          <div style="display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:var(--space-sm);">
+            <div>
+              <span class="dossier-pill">ITEMIZED SCHEDULE</span>
+              <h3 style="margin:var(--space-xs) 0 0; font-family:var(--font-headline); font-size:1.25rem;">Private Tour &amp; Field Expenses</h3>
+            </div>
+            <span class="dossier-meta" id="budget-paid-summary">0 / 6 ITEMS MARKED SETTLED</span>
+          </div>
+
+          <div class="table-wrap">
+            <table class="dossier-table">
+              <thead>
+                <tr>
+                  <th>Settled</th>
+                  <th>Category</th>
+                  <th>Scope &amp; Notes</th>
+                  <th>THB</th>
+                  <th>SGD</th>
+                  <th>Share</th>
+                </tr>
+              </thead>
+              <tbody id="budget-tbody"></tbody>
+              <tfoot id="budget-tfoot"></tfoot>
+            </table>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer-credits">
+      <span>Sources: Wanderlog (After the Rain Coffee &amp; Gallery, Nakhon Pathom), Trip.com (The Hub Erawan Resort &amp; P. Guest House Sangkhla Buri), Trip Packing Note, &amp; Natural Earth Public-Domain Cartography.</span>
+      <span>26 Nov – 05 Dec 2026 · Route Telemetry</span>
+    </footer>
+  </div>
+
+  <!-- Fixed Mobile Portrait Bottom Navigation Bar (Exact Required Order) -->
+  <nav class="bottom-nav" aria-label="Mobile quick navigation">
+    <button type="button" class="bottom-nav-btn is-active" data-tab="itinerary" onclick="switchTab('itinerary')">📅 Itinerary</button>
+    <button type="button" class="bottom-nav-btn" data-tab="map" onclick="switchTab('map')">🗺️ Map</button>
+    <button type="button" class="bottom-nav-btn" data-tab="sky" onclick="switchTab('sky')">🌌 Sky &amp; Weather</button>
+    <button type="button" class="bottom-nav-btn" data-tab="budget" onclick="switchTab('budget')">💳 Budget</button>
+  </nav>
+
+  <api-shim></api-shim>
+
+  <script>
+    const TRIP_DAYS = [
+      {
+        code: 'D1',
+        date: 'Thu, 26 Nov 2026',
+        shortDate: '26 Nov',
+        shortPlace: 'Lopburi',
+        title: `Bangkok Arrival → Lopburi Sunflower Corridor`,
+        summary: `Depart Bangkok north across the Chao Phraya Plain toward Lopburi for late-November sunflower fields and Khmer-era ruins.`,
+        elevation: `42m Peak`,
+        elevNum: 42,
+        gps: `14.800°N, 100.654°E`,
+        lat: 14.800,
+        lon: 100.654,
+        van: `~2h 15m · 150 km`,
+        base: `Lopburi Town`,
+        streetNote: `Highway 1 (Phahonyothin) north across flat paddy plain into Lopburi heritage quarter; easy flat van drop-off near Phra Prang Sam Yot.`,
+        weather: { high: 32, low: 22, rain: `10%`, sunrise: `06:23`, sunset: `17:48`, moonPhase: `Waning Gibbous (94%)`, moonRise: `19:28`, moonSet: `07:55`, sky: `Fair (Moonlit)` },
+        stops: [
+          { time: `09:00`, name: `Bangkok Pickup & Chao Phraya Departure`, coords: `13.756°N, 100.502°E`, note: `Private van departs Bangkok north on Route 1; pick up bottled water and SIM/ice chest.` },
+          { time: `11:30`, name: `Khao Chin Lae Sunflower Fields`, coords: `14.795°N, 100.748°E`, note: `Peak late-November bloom beneath limestone karst; wide-angle photo stop.` },
+          { time: `15:00`, name: `Phra Prang Sam Yot & King Narai Palace`, coords: `14.803°N, 100.614°E`, note: `13th-century laterite prang towers in old Lopburi before check-in.` }
+        ]
+      },
+      {
+        code: 'D2',
+        date: 'Fri, 27 Nov 2026',
+        shortDate: '27 Nov',
+        shortPlace: 'Sai Yok',
+        title: `Lopburi → Suphan Buri → Sai Yok Valley`,
+        summary: `Cross the central plain westward into the River Kwai basin and limestone foothills of Sai Yok.`,
+        elevation: `190m Peak`,
+        elevNum: 190,
+        gps: `14.354°N, 98.953°E`,
+        lat: 14.354,
+        lon: 98.953,
+        van: `~3h 15m · 195 km`,
+        base: `Sai Yok / Kanchanaburi`,
+        streetNote: `Route 321 & Highway 323 west from Suphan Buri into Kanchanaburi foothills; smooth two-lane tarmac along River Kwai Noi.`,
+        weather: { high: 31, low: 21, rain: `10%`, sunrise: `06:26`, sunset: `17:50`, moonPhase: `Waning Gibbous (86%)`, moonRise: `20:22`, moonSet: `08:52`, sky: `Clear Early Evening` },
+        stops: [
+          { time: `08:30`, name: `Lopburi → Suphan Buri Transit`, coords: `14.474°N, 100.117°E`, note: `Westbound drive across Chao Phraya irrigation canals; coffee break in Suphan Buri.` },
+          { time: `13:00`, name: `Prasat Muang Singh Historical Park`, coords: `14.041°N, 99.242°E`, note: `Westernmost Angkor-period Khmer sanctuary on the Kwai Noi bend.` },
+          { time: `16:00`, name: `Sai Yok Riverside Check-In`, coords: `14.354°N, 98.953°E`, note: `Settle into river-valley lodge; unpack swimwear and wet shoes for tomorrow.` }
+        ]
+      },
+      {
+        code: 'D3',
+        date: 'Sat, 28 Nov 2026',
+        shortDate: '28 Nov',
+        shortPlace: 'Erawan',
+        title: `Erawan 7-Tier Waterfalls & The Hub Erawan Resort`,
+        summary: `Full waterfall trek along emerald limestone pools followed by river rafting right beside The Hub Erawan Resort.`,
+        elevation: `420m Peak`,
+        elevNum: 420,
+        gps: `14.369°N, 99.144°E`,
+        lat: 14.369,
+        lon: 99.144,
+        van: `~1h 15m · 68 km`,
+        base: `The Hub Erawan (Si Sawat)`,
+        streetNote: `Route 3199 north along the Khwae Yai river valley to Erawan National Park; The Hub Erawan Resort is a 10–15 minute drive from the park gate.`,
+        weather: { high: 30, low: 20, rain: `15%`, sunrise: `06:27`, sunset: `17:50`, moonPhase: `Waning Gibbous (76%)`, moonRise: `21:14`, moonSet: `09:47`, sky: `Partly Clear` },
+        stops: [
+          { time: `08:15`, name: `Erawan National Park (Tiers 1–7)`, coords: `14.369°N, 99.144°E`, note: `Hike all 7 limestone waterfall tiers early before crowds. Pack swimwear, 2nd pair of wet shoes, hiking sticks, and energy gel.` },
+          { time: `14:00`, name: `The Hub Erawan Resort`, coords: `14.312°N, 99.172°E`, note: `Source insight (8.6/10, 65 Trip.com reviews): 10–15 min from Erawan Waterfall, river bungalows/verandas, on-site coffee shop, and free afternoon wet raft float. Note: pack insect repellent for night insects.` },
+          { time: `16:30`, name: `River Raft Float & Coffee Terrace`, coords: `14.312°N, 99.172°E`, note: `Guided wet-raft float down the river; dry clothes on balcony cable/rope.` }
+        ]
+      },
+      {
+        code: 'D4',
+        date: 'Sun, 29 Nov 2026',
+        shortDate: '29 Nov',
+        shortPlace: 'Pilok Ridge',
+        title: `Si Sawat → Thong Pha Phum → Tenasserim Ridge (Pilok)`,
+        summary: `Climb 399 switchbacks up the Tenasserim mountain spine to misty Pilok and Nern Chang Suek ridge near the Myanmar border.`,
+        elevation: `1,260m Peak`,
+        elevNum: 1260,
+        gps: `14.677°N, 98.372°E`,
+        lat: 14.677,
+        lon: 98.372,
+        van: `~3h 40m · 185 km`,
+        base: `Ban Etong / Pilok`,
+        streetNote: `Highway 323 to Thong Pha Phum then steep winding mountain Road 3272 ascending Tenasserim Ridge (1,260m peak) to Ban Etong timber village.`,
+        weather: { high: 24, low: 14, rain: `20%`, sunrise: `06:30`, sunset: `17:51`, moonPhase: `Waning Gibbous (66%)`, moonRise: `22:02`, moonSet: `10:39`, sky: `Crisp Ridge Air` },
+        stops: [
+          { time: `09:00`, name: `Thong Pha Phum Market Resupply`, coords: `14.745°N, 98.636°E`, note: `Last major town before the ridge climb; grab hot snacks and fuel up van.` },
+          { time: `13:30`, name: `Ban Etong & Pilok Old Tin Mine`, coords: `14.677°N, 98.372°E`, note: `Cool mountain hamlet perched on the Myanmar watershed; windbreaker essential.` },
+          { time: `16:45`, name: `Nern Chang Suek Viewpoint (1,260m)`, coords: `14.688°N, 98.361°E`, note: `Highest elevation of the circuit overlooking Andaman cloud banks and Tenasserim Ridge.` }
+        ]
+      },
+      {
+        code: 'D5',
+        date: 'Mon, 30 Nov 2026',
+        shortDate: '30 Nov',
+        shortPlace: 'Sangkhla',
+        title: `Pilok Descent → Vajiralongkorn Dam → Sangkhla Buri`,
+        summary: `Descend from Pilok along Khao Laem Reservoir to the lakeside frontier town of Sangkhla Buri.`,
+        elevation: `340m Peak`,
+        elevNum: 340,
+        gps: `15.156°N, 98.454°E`,
+        lat: 15.156,
+        lon: 98.454,
+        van: `~2h 50m · 142 km`,
+        base: `P. Guest House (Sangkhla Buri)`,
+        streetNote: `Descend Road 3272 and turn north on Highway 323 skirting Khao Laem Reservoir, crossing Pom Pee viewpoint toward Sangkhla Buri.`,
+        weather: { high: 28, low: 16, rain: `10%`, sunrise: `06:32`, sunset: `17:51`, moonPhase: `Waning Gibbous (58%)`, moonRise: `22:47`, moonSet: `11:28`, sky: `Clear Reservoir` },
+        stops: [
+          { time: `09:30`, name: `Vajiralongkorn Dam & Pom Pee`, coords: `14.800°N, 98.596°E`, note: `Reservoir shoreline pause and light trail walk; watch for damp trail leeches (pack leech socks).` },
+          { time: `14:00`, name: `P. Guest House Check-In`, coords: `15.156°N, 98.454°E`, note: `Sangkhla Buri lakeside base (Trip.com listed P. Guest House); prep tripod and camera filters for Day 6 astro night.` },
+          { time: `17:15`, name: `Songkalia River Sunset Walk`, coords: `15.144°N, 98.445°E`, note: `Scout wooden Mon Bridge angles before tomorrow's dawn and dark-sky shoot.` }
+        ]
+      },
+      {
+        code: 'D6',
+        date: 'Tue, 01 Dec 2026',
+        shortDate: '01 Dec',
+        shortPlace: 'Mon Bridge',
+        title: `Mon Bridge, Sunken Temple & 4.5-Hour Dark Sky Window`,
+        summary: `Full cultural immersion in Sangkhla Buri by boat, capped by the moonless 19:00–23:30 Mon Bridge stargazing window.`,
+        elevation: `240m Peak`,
+        elevNum: 240,
+        gps: `15.144°N, 98.445°E`,
+        lat: 15.144,
+        lon: 98.445,
+        van: `~0h 45m · 32 km`,
+        base: `P. Guest House (Sangkhla Buri)`,
+        streetNote: `Local Sangkhla loop connecting Mon Village, Uttamanusorn Bridge pier, Wat Wang Wiwekaram, and Three Pagodas Pass corridor.`,
+        weather: { high: 28, low: 15, rain: `5%`, sunrise: `06:33`, sunset: `17:51`, moonPhase: `Last Quarter (49%)`, moonRise: `23:32`, moonSet: `12:14`, sky: `4.5h Dark Sky (19:00–23:30)` },
+        stops: [
+          { time: `06:15`, name: `Uttamanusorn (Mon) Bridge Morning Mist`, coords: `15.144°N, 98.445°E`, note: `Sunrise walk across Thailand's longest wooden bridge; wear windbreaker for crisp 15°C morning air.` },
+          { time: `09:30`, name: `Sunken Temple (Wat Wang Wiwekaram) Boat Tour`, coords: `15.128°N, 98.452°E`, note: `Private longtail boat across reservoir; pack headwear, sunblock, and kayaking sleeves.` },
+          { time: `19:00`, name: `Mon Bridge Dark Sky Window (19:00–23:30)`, coords: `15.144°N, 98.445°E`, note: `4.5 hours of completely moonless Bortle 3–4 skies until Last Quarter moonrise at 23:32. Bring camera filters, tripod, and windbreaker.` }
+        ]
+      },
+      {
+        code: 'D7',
+        date: 'Wed, 02 Dec 2026',
+        shortDate: '02 Dec',
+        shortPlace: 'Hot Springs',
+        title: `Mon Alms → Hin Dat Hot Springs → Sai Yok Return`,
+        summary: `Morning alms offering in Mon Village before heading southeast down Highway 323 to soak at Hin Dat Hot Springs.`,
+        elevation: `280m Peak`,
+        elevNum: 280,
+        gps: `14.623°N, 98.724°E`,
+        lat: 14.623,
+        lon: 98.724,
+        van: `~3h 10m · 165 km`,
+        base: `Sai Yok Valley`,
+        streetNote: `Highway 323 southeast from Sangkhla Buri via Thong Pha Phum to Hin Dat mineral pools and Sai Yok riverfront.`,
+        weather: { high: 30, low: 19, rain: `10%`, sunrise: `06:33`, sunset: `17:51`, moonPhase: `Waning Crescent (39%)`, moonRise: `00:18`, moonSet: `12:58`, sky: `Clear Evening` },
+        stops: [
+          { time: `06:30`, name: `Mon Village Alms & Morning Market`, coords: `15.142°N, 98.441°E`, note: `Traditional morning alms and Burmese-Mon noodle breakfast near the bridge.` },
+          { time: `12:30`, name: `Hin Dat Hot Springs`, coords: `14.623°N, 98.724°E`, note: `Natural riverside mineral thermal pools beside cool creek; use standby body towel and swimwear.` },
+          { time: `16:30`, name: `Sai Yok Yai Waterfall & Camp`, coords: `14.438°N, 98.850°E`, note: `Afternoon river walk and laundry wash using travel detergent & clothesline cable.` }
+        ]
+      },
+      {
+        code: 'D8',
+        date: 'Thu, 03 Dec 2026',
+        shortDate: '03 Dec',
+        shortPlace: 'River Kwai',
+        title: `Hellfire Pass → Krasae Cave Railway → Kanchanaburi`,
+        summary: `Follow the historic Death Railway alignment through Hellfire Pass and Krasae Cliff into Kanchanaburi Town.`,
+        elevation: `165m Peak`,
+        elevNum: 165,
+        gps: `14.041°N, 99.504°E`,
+        lat: 14.041,
+        lon: 99.504,
+        van: `~2h 05m · 115 km`,
+        base: `Kanchanaburi Town`,
+        streetNote: `Highway 323 south past Hellfire Pass Memorial and Tham Krasae trestle bridge into Kanchanaburi River Kwai district.`,
+        weather: { high: 31, low: 21, rain: `10%`, sunrise: `06:32`, sunset: `17:51`, moonPhase: `Waning Crescent (29%)`, moonRise: `01:06`, moonSet: `13:42`, sky: `Clear` },
+        stops: [
+          { time: `09:00`, name: `Hellfire Pass Interpretive Centre`, coords: `14.354°N, 98.953°E`, note: `Walking trail along the historic Konyu Cutting in limestone gorge.` },
+          { time: `12:00`, name: `Tham Krasae Wooden Viaduct`, coords: `14.104°N, 99.166°E`, note: `Walk the dramatic cliffside timber railway trestle above the Kwai Noi.` },
+          { time: `16:00`, name: `Bridge Over the River Kwai`, coords: `14.041°N, 99.504°E`, note: `Golden hour walk across the steel truss bridge and riverside dinner.` }
+        ]
+      },
+      {
+        code: 'D9',
+        date: 'Fri, 04 Dec 2026',
+        shortDate: '04 Dec',
+        shortPlace: 'Nakhon Pathom',
+        title: `Kanchanaburi → After the Rain Coffee & Gallery → Bangkok`,
+        summary: `Return across the delta to Sam Phran's coconut canal cafe before re-entering Bangkok for the final evening.`,
+        elevation: `35m Peak`,
+        elevNum: 35,
+        gps: `13.783°N, 100.269°E`,
+        lat: 13.783,
+        lon: 100.269,
+        van: `~2h 20m · 128 km`,
+        base: `Bangkok Central`,
+        streetNote: `Highway 323 & Route 4 east to Song Khanong (Sam Phran, Nakhon Pathom) then Borommaratchachonnani Expressway into Bangkok.`,
+        weather: { high: 32, low: 23, rain: `10%`, sunrise: `06:30`, sunset: `17:50`, moonPhase: `Waning Crescent (20%)`, moonRise: `01:57`, moonSet: `14:26`, sky: `Warm Clear` },
+        stops: [
+          { time: `09:30`, name: `Phra Pathom Chedi Stop`, coords: `13.819°N, 100.060°E`, note: `Quick visit to Thailand's tallest stupa in Nakhon Pathom en route.` },
+          { time: `11:30`, name: `After the Rain Coffee & Gallery`, coords: `13.783°N, 100.269°E`, note: `Source insight (Wanderlog 4.4/5, 3,814 reviews): 45, 8 Song Khanong, Sam Phran. Open Fri 8:30 AM–6:30 PM (closed Mon). Ask staff to reserve canal boat paddling when ordering! Try Coconut Coffee, Apple Tea, Miang Kham, Pad Thai, or Cake. Inquire on halal options & note small extra fee for charging/tissues.` },
+          { time: `15:30`, name: `Bangkok Hotel Check-In & Evening Market`, coords: `13.756°N, 100.502°E`, note: `Drop bags in Bangkok; wash remaining trail clothes or organize souvenirs.` }
+        ]
+      },
+      {
+        code: 'D10',
+        date: 'Sat, 05 Dec 2026',
+        shortDate: '05 Dec',
+        shortPlace: 'Bangkok',
+        title: `Bangkok Chao Phraya Plain & Departure`,
+        summary: `Final lowland morning at 5m elevation before private van airport transfer to Suvarnabhumi (BKK).`,
+        elevation: `5m Peak`,
+        elevNum: 5,
+        gps: `13.756°N, 100.502°E`,
+        lat: 13.756,
+        lon: 100.502,
+        van: `~0h 55m · 38 km`,
+        base: `Departure (BKK)`,
+        streetNote: `Chao Phraya Plain lowland grid (5m elevation) connecting downtown Bangkok to Suvarnabhumi Airport via Motorway 7.`,
+        weather: { high: 33, low: 24, rain: `10%`, sunrise: `06:31`, sunset: `17:50`, moonPhase: `Waning Crescent (12%)`, moonRise: `02:51`, moonSet: `15:11`, sky: `Sunny Lowland` },
+        stops: [
+          { time: `09:30`, name: `Talad Noi & Chao Phraya Riverside`, coords: `13.733°N, 100.513°E`, note: `Morning heritage coffee walk and last souvenir shopping.` },
+          { time: `13:30`, name: `Final Van Packing & Driver Farewell`, coords: `13.756°N, 100.502°E`, note: `Settle local driver tip and verify all camera filters, wet shoes, and documents.` },
+          { time: `16:00`, name: `Suvarnabhumi Airport (BKK) Drop-Off`, coords: `13.690°N, 100.750°E`, note: `Circuit complete — 10 days from 5m plain to 1,260m Tenasserim Ridge.` }
+        ]
+      }
+    ];
+
+    const PACKING_ITEMS = [
+      { id: 'p1', label: `Wind breaker (Mon Bridge, low temp)`, cat: 'Apparel' },
+      { id: 'p2', label: `Swim wear (swimming & hot springs)`, cat: 'Apparel' },
+      { id: 'p3', label: `Headwear (sun cap / beanie)`, cat: 'Apparel' },
+      { id: 'p4', label: `Shorts (hiking & warm lowland days)`, cat: 'Apparel' },
+      { id: 'p5', label: `2nd pair of wet shoes`, cat: 'Trail & Water' },
+      { id: 'p6', label: `Gloves & arm sleeves (kayaking, hiking)`, cat: 'Trail & Water' },
+      { id: 'p7', label: `Leech socks (dam & waterfall trails)`, cat: 'Trail & Water' },
+      { id: 'p8', label: `Hiking sticks (Erawan & Pilok)`, cat: 'Trail & Water' },
+      { id: 'p9', label: `Energy gel (can buy in Thailand)`, cat: 'Trail & Water' },
+      { id: 'p10', label: `Sunblock`, cat: 'Trail & Water' },
+      { id: 'p11', label: `Insect repellent (crucial for river resorts)`, cat: 'Trail & Water' },
+      { id: 'p12', label: `Camera filters (Mon Bridge stargazing)`, cat: 'Astro & Camp' },
+      { id: 'p13', label: `Body towel (standby)`, cat: 'Astro & Camp' },
+      { id: 'p14', label: `Body and hair foam (some resorts omit)`, cat: 'Astro & Camp' },
+      { id: 'p15', label: `Detergent (washing clothes)`, cat: 'Astro & Camp' },
+      { id: 'p16', label: `Cable / rope to hang clothes`, cat: 'Astro & Camp' }
+    ];
+
+    /* Exact budget items summing to 37,222 THB (SGD 1,420.69 @ 26.2 THB/SGD) */
+    const BUDGET_ITEMS = [
+      { id: 'b1', category: `Private Van & Local Driver`, scope: `10-day private charter, fuel, expressway tolls & mountain transit`, thb: 11200 },
+      { id: 'b2', category: `Accommodation (9 Nights)`, scope: `Lopburi, Sai Yok, The Hub Erawan, Pilok, P. Guest House Sangkhla, Kanchanaburi, BKK`, thb: 10800 },
+      { id: 'b3', category: `Meals, Cafes & Dining`, scope: `10 days local meals + After the Rain Coffee & Gallery + riverside dining`, thb: 6850 },
+      { id: 'b4', category: `Parks, Boats & Activities`, scope: `Erawan NP entry, Mon Bridge boat tour, Hin Dat hot springs, Railway & sites`, thb: 3920 },
+      { id: 'b5', category: `Driver Tips & Trip Utilities`, scope: `Local driver gratuity, temple offerings, SIM data, laundry & ice`, thb: 2452 },
+      { id: 'b6', category: `Contingency & Souvenir Reserve`, scope: `Extra charging/tissue fees, emergency buffer & final day BKK market`, thb: 2000 }
+    ];
+
+    const ASTRO_PRESETS = {
+      milkyway: {
+        title: `Wide Night Sky + Mon Bridge Silhouette`,
+        iso: `ISO 2500`,
+        aperture: `f/2.0 – f/2.8`,
+        wb: `3900K (Manual)`,
+        focus: `Manual Infinity (Live View 10× on bright star)`,
+        filterNote: `Use your stargazing clear/light-pollution cut filter only if village bridge lamps cast warm sodium glare; remove heavy diffusion filters if wind kicks up reservoir mist.`
+      },
+      trails: {
+        title: `Concentric Star Trails Over Khao Laem`,
+        iso: `ISO 800`,
+        aperture: `f/2.8 – f/4.0`,
+        wb: `4000K (Locked)`,
+        focus: `Manual Infinity + Tape Ring`,
+        filterNote: `Shoot continuous 25–30s intervalometer frames from 19:15 to 22:30 (180+ frames) and stack in post; keep lens cloth ready for cool 15°C reservoir dew.`
+      },
+      portrait: {
+        title: `Lantern / Bridge Portrait Under Stars`,
+        iso: `ISO 3200`,
+        aperture: `f/1.8 – f/2.0`,
+        wb: `3800K`,
+        focus: `Subject at 3m + Hyperfocal`,
+        filterNote: `Soft star-glow filter enhances bridge deck warm bulbs while retaining crisp constellation geometry overhead prior to 23:32 moonrise.`
+      }
+    };
+
+    /* Fallback Thailand outline polygon in [lon, lat] if CDN TopoJSON is unreachable */
+    const FALLBACK_THAILAND = [
+      [97.9, 18.4], [98.2, 16.5], [98.3, 15.2], [98.4, 14.6], [99.1, 13.8],
+      [99.6, 12.6], [100.1, 13.5], [100.6, 13.5], [101.2, 12.7], [102.6, 12.2],
+      [103.5, 14.3], [105.4, 15.2], [104.8, 17.4], [103.1, 18.2], [101.2, 19.4],
+      [100.1, 20.3], [98.9, 19.6], [97.9, 18.4]
+    ];
+
+    /* Application State */
+    let appState = {
+      selectedDayIndex: 0,
+      activeTab: 'itinerary',
+      heroSlide: 0,
+      heroAutoplay: true,
+      heroHoverPaused: false,
+      packFilter: 'All',
+      packedIds: [],
+      paidBudgetIds: [],
+      fxRate: 26.2,
+      currencyMode: 'both',
+      mapMode: 'terrain',
+      mapZoom: 0.5,
+      mapPanX: 0,
+      mapPanY: 0,
+      astroPreset: 'milkyway',
+      sensorKey: 'ff14'
+    };
+
+    let heroTimerId = null;
+    let worldCountriesGeo = null;
+    let budgetChartInstance = null;
+    let isMapDragging = false;
+    let mapDragStart = { x: 0, y: 0, panX: 0, panY: 0 };
+
+    function getCssToken(name) {
+      return getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+    }
+
+    function showToast(message) {
+      const toast = document.getElementById('inline-toast');
+      if (!toast) return;
+      toast.textContent = message;
+      toast.classList.add('is-visible');
+      clearTimeout(toast._hideTimer);
+      toast._hideTimer = setTimeout(() => {
+        toast.classList.remove('is-visible');
+      }, 2600);
+    }
+
+    async function persistState() {
+      const syncEl = document.getElementById('saved-sync-status');
+      if (window.notebookAppApi && typeof window.notebookAppApi.setAppState === 'function') {
+        try {
+          await window.notebookAppApi.setAppState({
+            selectedDayIndex: appState.selectedDayIndex,
+            activeTab: appState.activeTab,
+            packedIds: appState.packedIds,
+            paidBudgetIds: appState.paidBudgetIds,
+            fxRate: appState.fxRate,
+            currencyMode: appState.currencyMode,
+            mapMode: appState.mapMode
+          });
+          if (syncEl) syncEl.textContent = `SAVED`;
+        } catch (err) {
+          if (syncEl) syncEl.textContent = `LOCAL SESSION`;
+        }
+      }
+    }
+
+    /* Hero Auto-Rotating Carousel */
+    function renderHeroCarousel() {
+      const track = document.getElementById('hero-carousel-track');
+      const dots = document.querySelectorAll('.carousel-dot-btn');
+      const cards = document.querySelectorAll('.hero-card');
+      if (!track) return;
+
+      cards.forEach((card, idx) => {
+        card.classList.toggle('is-active', idx === appState.heroSlide);
+      });
+      dots.forEach((dot, idx) => {
+        dot.classList.toggle('is-active', idx === appState.heroSlide);
+      });
+
+      if (window.innerWidth < 760) {
+        track.style.transform = `translateX(-${appState.heroSlide * 100}%)`;
+      } else {
+        track.style.transform = `translateX(0)`;
+      }
+    }
+
+    function goToHeroSlide(index) {
+      appState.heroSlide = ((index % 4) + 4) % 4;
+      renderHeroCarousel();
+    }
+
+    function stepHeroSlide(delta) {
+      goToHeroSlide(appState.heroSlide + delta);
+    }
+
+    function toggleHeroAutoplay() {
+      appState.heroAutoplay = !appState.heroAutoplay;
+      const btn = document.getElementById('carousel-pause-btn');
+      if (btn) {
+        btn.textContent = appState.heroAutoplay ? `Pause Rotation` : `Resume Rotation`;
+        btn.setAttribute('aria-pressed', String(!appState.heroAutoplay));
+      }
+      startHeroInterval();
+    }
+
+    function pauseHeroOnHover(paused) {
+      appState.heroHoverPaused = paused;
+    }
+
+    function startHeroInterval() {
+      if (heroTimerId) clearInterval(heroTimerId);
+      const reducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (!appState.heroAutoplay || reducedMotion) return;
+      heroTimerId = setInterval(() => {
+        if (!appState.heroHoverPaused) {
+          stepHeroSlide(1);
+        }
+      }, 4500);
+    }
+
+    /* Day Selector (Horizontal Scrollable Row) */
+    function renderDaySelector() {
+      const strip = document.getElementById('day-scroll-strip');
+      if (!strip) return;
+      strip.innerHTML = TRIP_DAYS.map((day, idx) => {
+        const activeClass = idx === appState.selectedDayIndex ? 'is-active' : '';
+        return `
+          <button type="button" class="day-pill ${activeClass}" data-day-idx="${idx}" onclick="selectDay(${idx})" role="tab" aria-selected="${idx === appState.selectedDayIndex}">
+            <span class="day-pill-top">
+              <span class="day-pill-code">${day.code}</span>
+              <span class="day-pill-date">${day.shortDate}</span>
+            </span>
+            <span class="day-pill-place">${day.shortPlace}</span>
+          </button>
+        `;
+      }).join('');
+
+      const activeBtn = strip.querySelector('.day-pill.is-active');
+      if (activeBtn && typeof activeBtn.scrollIntoView === 'function') {
+        activeBtn.scrollIntoView({ behavior: 'smooth', inline: 'nearest', block: 'nearest' });
+      }
+
+      const badge = document.getElementById('active-day-badge');
+      const d = TRIP_DAYS[appState.selectedDayIndex];
+      if (badge && d) {
+        badge.textContent = `${d.code} · ${d.date.toUpperCase()}`;
+      }
+    }
+
+    function nudgeDayStrip(px) {
+      const strip = document.getElementById('day-scroll-strip');
+      if (!strip) return;
+      if (typeof strip.scrollBy === 'function') {
+        strip.scrollBy({ left: px, behavior: 'smooth' });
+      } else {
+        strip.scrollLeft = (strip.scrollLeft || 0) + px;
+      }
+    }
+
+    function setupDayStripDragScroll() {
+      const strip = document.getElementById('day-scroll-strip');
+      if (!strip) return;
+      let dragging = false;
+      let startX = 0;
+      let startScroll = 0;
+      strip.addEventListener('mousedown', (e) => {
+        dragging = true;
+        startX = e.pageX - strip.offsetLeft;
+        startScroll = strip.scrollLeft;
+      });
+      window.addEventListener('mouseup', () => { dragging = false; });
+      strip.addEventListener('mousemove', (e) => {
+        if (!dragging) return;
+        e.preventDefault();
+        const x = e.pageX - strip.offsetLeft;
+        strip.scrollLeft = startScroll - (x - startX);
+      });
+    }
+
+    function selectDay(idx) {
+      if (idx < 0 || idx >= TRIP_DAYS.length) return;
+      appState.selectedDayIndex = idx;
+      renderDaySelector();
+      renderItineraryDay();
+      renderMapSvg();
+      renderMapInspector();
+      renderWeatherTable();
+      persistState();
+    }
+
+    /* Tab Switching (Exact 4-tab order mirrored in Desktop & Fixed Mobile Bottom Bar) */
+    function switchTab(tabKey) {
+      appState.activeTab = tabKey;
+      const panels = document.querySelectorAll('.view-panel');
+      panels.forEach(p => p.classList.toggle('is-active', p.id === `panel-${tabKey}`));
+
+      const allTabBtns = document.querySelectorAll('.tab-btn, .bottom-nav-btn');
+      allTabBtns.forEach(btn => {
+        btn.classList.toggle('is-active', btn.dataset.tab === tabKey);
+      });
+
+      if (tabKey === 'map') {
+        renderMapSvg();
+        renderMapInspector();
+      } else if (tabKey === 'budget') {
+        renderBudgetView();
+      } else if (tabKey === 'sky') {
+        renderWeatherTable();
+        updateAstroGuide();
+      }
+      persistState();
+    }
+
+    function focusSelectedDayOnMap() {
+      switchTab('map');
+      const d = TRIP_DAYS[appState.selectedDayIndex];
+      if (d) showToast(`Centered on ${d.code}: ${d.shortPlace}`);
+    }
+
+    /* Copy Google Maps Pin / Query */
+    function copyGoogleMapsPin(stopName, coordsText) {
+      const query = `${stopName} (${coordsText})`;
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(query).then(() => {
+          showToast(`Google Maps query copied: ${stopName}`);
+        }).catch(() => {
+          showToast(`Maps Pin: ${query}`);
+        });
+      } else {
+        showToast(`Maps Pin: ${query}`);
+      }
+    }
+
+    /* Tab 1: Itinerary & Packing */
+    function renderItineraryDay() {
+      const d = TRIP_DAYS[appState.selectedDayIndex];
+      if (!d) return;
+
+      const setEl = (id, val) => {
+        const el = document.getElementById(id);
+        if (el) el.textContent = val;
+      };
+
+      setEl('itin-day-pill', d.code.replace('D', 'DAY '));
+      setEl('itin-day-date', d.date.toUpperCase());
+      setEl('itin-day-title', d.title);
+      setEl('itin-day-summary', d.summary);
+
+      setEl('metric-elevation', d.elevation);
+      setEl('metric-gps', d.gps);
+      setEl('metric-van', d.van);
+      setEl('metric-base', d.base);
+
+      const listEl = document.getElementById('itin-stops-list');
+      if (!listEl) return;
+
+      listEl.innerHTML = d.stops.map((stop, idx) => `
+        <article class="stop-card">
+          <div class="stop-card-top">
+            <div class="stop-time-title">
+              <span class="index-num">0${idx + 1} · ${stop.time}</span>
+              <h3 class="stop-title">${stop.name}</h3>
+            </div>
+            <span class="tag-chip">${d.shortPlace}</span>
+          </div>
+          <p class="stop-notes">${stop.note}</p>
+          <div class="stop-meta-actions">
+            <span class="stop-coords">GPS: ${stop.coords}</span>
+            <button type="button" class="map-pin-btn" onclick="copyGoogleMapsPin('${stop.name.replace(/'/g, '')}', '${stop.coords}')">
+              Open in Google Maps · Copy Pin
+            </button>
+          </div>
+        </article>
+      `).join('');
+    }
+
+    function setPackFilter(cat) {
+      appState.packFilter = cat;
+      document.querySelectorAll('#pack-filter-row .filter-chip').forEach(btn => {
+        btn.classList.toggle('is-active', btn.dataset.cat === cat);
+      });
+      renderPackingList();
+    }
+
+    function togglePackItem(id) {
+      const idx = appState.packedIds.indexOf(id);
+      if (idx >= 0) {
+        appState.packedIds.splice(idx, 1);
+      } else {
+        appState.packedIds.push(id);
+      }
+      renderPackingList();
+      persistState();
+    }
+
+    function resetPackingList(btn) {
+      if (btn.dataset.armed !== 'true') {
+        btn.dataset.armed = 'true';
+        btn.textContent = `Confirm Reset`;
+        setTimeout(() => {
+          btn.dataset.armed = 'false';
+          btn.textContent = `Reset Checklist`;
+        }, 3000);
+        return;
+      }
+      btn.dataset.armed = 'false';
+      btn.textContent = `Reset Checklist`;
+      appState.packedIds = [];
+      renderPackingList();
+      persistState();
+      showToast(`Packing checklist cleared`);
+    }
+
+    function renderPackingList() {
+      const list = document.getElementById('pack-list');
+      const progressText = document.getElementById('pack-progress-text');
+      const progressBar = document.getElementById('pack-progress-bar');
+      if (!list) return;
+
+      const total = PACKING_ITEMS.length;
+      const done = appState.packedIds.length;
+      if (progressText) progressText.textContent = `${done} / ${total} PACKED`;
+      if (progressBar) progressBar.style.width = `${Math.round((done / total) * 100)}%`;
+
+      const filtered = appState.packFilter === 'All'
+        ? PACKING_ITEMS
+        : PACKING_ITEMS.filter(item => item.cat === appState.packFilter);
+
+      list.innerHTML = filtered.map(item => {
+        const checked = appState.packedIds.includes(item.id);
+        return `
+          <li class="pack-item ${checked ? 'is-checked' : ''}">
+            <input type="checkbox" id="chk-${item.id}" ${checked ? 'checked' : ''} onchange="togglePackItem('${item.id}')">
+            <label for="chk-${item.id}">${item.label}</label>
+            <span class="pack-cat-badge">${item.cat}</span>
+          </li>
+        `;
+      }).join('');
+    }
+
+    /* Tab 2: Interactive Vector Map (0.5x default, 0.25x min, 12x max, 2D pan, Terrain/Satellite/Street) */
+    function loadVectorGeography() {
+      fetch('https://cdn.jsdelivr.net/npm/world-atlas@2.0.2/countries-50m.json')
+        .then(res => res.json())
+        .then(topo => {
+          worldCountriesGeo = topojson.feature(topo, topo.objects.countries);
+          renderMapSvg();
+        })
+        .catch(() => {
+          renderMapSvg();
+        });
+    }
+
+    function setMapMode(mode) {
+      appState.mapMode = mode;
+      const vp = document.getElementById('map-viewport');
+      if (vp) {
+        vp.classList.remove('mode-terrain', 'mode-satellite', 'mode-street');
+        vp.classList.add(`mode-${mode}`);
+      }
+      document.querySelectorAll('.map-mode-btn').forEach(btn => {
+        btn.classList.toggle('is-active', btn.dataset.mapMode === mode);
+      });
+      renderMapSvg();
+      persistState();
+    }
+
+    function clampZoom(z) {
+      return Math.min(12, Math.max(0.25, Number(z)));
+    }
+
+    function applyZoomUi() {
+      const readout = document.getElementById('map-zoom-readout');
+      const slider = document.getElementById('map-zoom-slider');
+      if (readout) readout.textContent = `${appState.mapZoom.toFixed(2)}×`;
+      if (slider) slider.value = String(appState.mapZoom);
+    }
+
+    function adjustMapZoom(delta) {
+      appState.mapZoom = clampZoom(appState.mapZoom + delta);
+      applyZoomUi();
+      applyMapTransform();
+    }
+
+    function setMapZoomFromSlider(val) {
+      appState.mapZoom = clampZoom(parseFloat(val));
+      applyZoomUi();
+      applyMapTransform();
+    }
+
+    function resetMapView() {
+      appState.mapZoom = 0.5;
+      appState.mapPanX = 0;
+      appState.mapPanY = 0;
+      applyZoomUi();
+      applyMapTransform();
+    }
+
+    function applyMapTransform() {
+      const g = document.getElementById('map-pan-zoom-group');
+      if (!g) return;
+      /* Map internal scale: 0.5x corresponds to clean default framing (scale factor 1.0), 0.25x = 0.5x, 12x = 24x */
+      const cx = 400;
+      const cy = 260;
+      const visualScale = appState.mapZoom * 2;
+      g.setAttribute('transform', `translate(${cx + appState.mapPanX}, ${cy + appState.mapPanY}) scale(${visualScale}) translate(${-cx}, ${-cy})`);
+    }
+
+    function setupMapInteractions() {
+      const vp = document.getElementById('map-viewport');
+      if (!vp) return;
+
+      vp.addEventListener('pointerdown', (e) => {
+        if (e.target.closest('button') || e.target.closest('.map-pin-node')) return;
+        isMapDragging = true;
+        mapDragStart = {
+          x: e.clientX,
+          y: e.clientY,
+          panX: appState.mapPanX,
+          panY: appState.mapPanY
+        };
+        vp.setPointerCapture(e.pointerId);
+      });
+
+      vp.addEventListener('pointermove', (e) => {
+        if (!isMapDragging) return;
+        appState.mapPanX = mapDragStart.panX + (e.clientX - mapDragStart.x);
+        appState.mapPanY = mapDragStart.panY + (e.clientY - mapDragStart.y);
+        applyMapTransform();
+      });
+
+      vp.addEventListener('pointerup', (e) => {
+        isMapDragging = false;
+        try { vp.releasePointerCapture(e.pointerId); } catch (_) {}
+      });
+      vp.addEventListener('pointercancel', () => { isMapDragging = false; });
+
+      vp.addEventListener('wheel', (e) => {
+        if (e.ctrlKey || e.metaKey) {
+          e.preventDefault();
+          const step = e.deltaY < 0 ? 0.25 : -0.25;
+          adjustMapZoom(step);
+        }
+      }, { passive: false });
+    }
+
+    function renderMapSvg() {
+      const svgEl = document.getElementById('route-map-svg');
+      const g = document.getElementById('map-pan-zoom-group');
+      if (!svgEl || !g || typeof d3 === 'undefined') return;
+
+      const projection = d3.geoMercator()
+        .center([99.45, 14.42])
+        .scale(11200)
+        .translate([400, 260]);
+      const geoPath = d3.geoPath(projection);
+
+      const mode = appState.mapMode;
+      const landFill = mode === 'satellite' ? getCssToken('--map-sat-land')
+        : mode === 'terrain' ? getCssToken('--map-ter-low')
+        : getCssToken('--map-land');
+      const neighborFill = mode === 'satellite' ? getCssToken('--map-sat-bg')
+        : getCssToken('--map-neighbor');
+      const borderStroke = mode === 'satellite' ? getCssToken('--map-sat-border')
+        : getCssToken('--map-border');
+      const riverColor = mode === 'satellite' ? getCssToken('--sky-cyan') : getCssToken('--map-river');
+      const routeColor = mode === 'satellite' ? getCssToken('--sky-gold') : getCssToken('--data-4');
+
+      const rootGroup = d3.select(g);
+      rootGroup.selectAll('*').remove();
+
+      /* 1. Street grid or satellite texture overlay */
+      if (mode === 'street') {
+        const gridG = rootGroup.append('g').attr('opacity', 0.28);
+        for (let x = -400; x <= 1200; x += 40) {
+          gridG.append('line').attr('x1', x).attr('y1', -400).attr('x2', x).attr('y2', 920)
+            .attr('stroke', getCssToken('--outline-variant')).attr('stroke-width', 0.6);
+        }
+        for (let y = -400; y <= 920; y += 40) {
+          gridG.append('line').attr('x1', -400).attr('y1', y).attr('x2', 1200).attr('y2', y)
+            .attr('stroke', getCssToken('--outline-variant')).attr('stroke-width', 0.6);
+        }
+      }
+
+      /* 2. Country vector polygons (Natural Earth 50m or fallback) */
+      if (worldCountriesGeo && worldCountriesGeo.features) {
+        rootGroup.append('g')
+          .selectAll('path')
+          .data(worldCountriesGeo.features)
+          .join('path')
+          .attr('d', geoPath)
+          .attr('fill', d => d.properties && d.properties.name === 'Thailand' ? landFill : neighborFill)
+          .attr('stroke', borderStroke)
+          .attr('stroke-width', 0.9);
+      } else {
+        const lineGen = d3.line().x(p => projection(p)[0]).y(p => projection(p)[1]);
+        rootGroup.append('path')
+          .attr('d', lineGen(FALLBACK_THAILAND) + 'Z')
+          .attr('fill', landFill)
+          .attr('stroke', borderStroke)
+          .attr('stroke-width', 1);
+      }
+
+      /* 3. Tenasserim Ridge Hypsometric Terrain Bands (5m Plain -> 1,260m Ridge) */
+      const ridgeCoords = [
+        [98.18, 15.35], [98.52, 15.22], [98.72, 14.82], [98.60, 14.42],
+        [98.95, 13.98], [98.60, 13.68], [98.15, 14.20], [98.18, 15.35]
+      ];
+      const peakCoords = [
+        [98.26, 15.22], [98.50, 15.10], [98.48, 14.62], [98.28, 14.60], [98.26, 15.22]
+      ];
+      const polyGen = d3.line().curve(d3.curveCatmullRomClosed).x(p => projection(p)[0]).y(p => projection(p)[1]);
+
+      rootGroup.append('path')
+        .attr('d', polyGen(ridgeCoords))
+        .attr('fill', mode === 'satellite' ? getCssToken('--map-sat-highland') : mode === 'terrain' ? getCssToken('--map-ter-high') : getCssToken('--surface-container'))
+        .attr('opacity', mode === 'street' ? 0.55 : 0.72)
+        .attr('stroke', getCssToken('--map-ridge'))
+        .attr('stroke-width', 0.8)
+        .attr('stroke-dasharray', '3 3');
+
+      rootGroup.append('path')
+        .attr('d', polyGen(peakCoords))
+        .attr('fill', mode === 'satellite' ? getCssToken('--map-sat-highland') : mode === 'terrain' ? getCssToken('--map-ter-peak') : getCssToken('--surface-container-high'))
+        .attr('opacity', mode === 'street' ? 0.4 : 0.55);
+
+      /* 4. River Systems (Kwai Noi, Kwai Yai, Chao Phraya) */
+      const rivers = [
+        [[98.45, 15.15], [98.60, 14.80], [98.85, 14.43], [99.16, 14.10], [99.50, 14.04]],
+        [[99.14, 14.37], [99.20, 14.22], [99.50, 14.04], [99.78, 13.85]],
+        [[100.48, 14.85], [100.52, 14.35], [100.50, 13.75], [100.58, 13.53]]
+      ];
+      const riverGen = d3.line().curve(d3.curveCatmullRom).x(p => projection(p)[0]).y(p => projection(p)[1]);
+      rivers.forEach(r => {
+        rootGroup.append('path')
+          .attr('d', riverGen(r))
+          .attr('fill', 'none')
+          .attr('stroke', riverColor)
+          .attr('stroke-width', 1.6)
+          .attr('opacity', 0.85);
+      });
+
+      /* 5. Street View Highway Labels */
+      if (mode === 'street') {
+        const hwys = [
+          { label: 'HWY 1 · LOPBURI', lon: 100.62, lat: 14.35 },
+          { label: 'HWY 323 · KWAI CORRIDOR', lon: 98.85, lat: 14.62 },
+          { label: 'RD 3272 · PILOK RIDGE', lon: 98.48, lat: 14.70 }
+        ];
+        hwys.forEach(h => {
+          const pt = projection([h.lon, h.lat]);
+          rootGroup.append('text')
+            .attr('x', pt[0]).attr('y', pt[1])
+            .attr('fill', getCssToken('--secondary'))
+            .attr('font-family', getCssToken('--font-label'))
+            .attr('font-size', '7px')
+            .attr('font-weight', '600')
+            .text(h.label);
+        });
+      }
+
+      /* 6. Complete 10-Day Route Polyline */
+      const routePoints = TRIP_DAYS.map(d => projection([d.lon, d.lat]));
+      const routeLine = d3.line().x(p => p[0]).y(p => p[1]);
+      rootGroup.append('path')
+        .attr('d', routeLine(routePoints))
+        .attr('fill', 'none')
+        .attr('stroke', routeColor)
+        .attr('stroke-width', 2.2)
+        .attr('stroke-dasharray', '5 3');
+
+      /* 7. D1 - D10 Interactive Pins */
+      TRIP_DAYS.forEach((d, idx) => {
+        const pt = typeof projection === 'function' ? projection([d.lon, d.lat]) : null;
+        if (!pt || !Array.isArray(pt) || pt.length < 2) return;
+        const x = pt[0];
+        const y = pt[1];
+        const isActive = idx === appState.selectedDayIndex;
+        const pinG = rootGroup.append('g')
+          .attr('class', 'map-pin-node')
+          .attr('transform', `translate(${x}, ${y})`)
+          .style('cursor', 'pointer')
+          .on('click', () => {
+            selectDay(idx);
+            showToast(`${d.code}: ${d.shortPlace} (${d.elevation})`);
+          })
+          .on('mouseenter', () => {
+            const coordHud = document.getElementById('map-cursor-coords');
+            if (coordHud) coordHud.textContent = `${d.code} ${d.shortPlace} · ${d.gps}`;
+          });
+
+        if (isActive) {
+          pinG.append('circle')
+            .attr('r', 13)
+            .attr('fill', getCssToken('--primary-container'))
+            .attr('opacity', 0.42);
+        }
+
+        pinG.append('circle')
+          .attr('r', isActive ? 8 : 5.5)
+          .attr('fill', isActive ? getCssToken('--primary-container') : getCssToken('--surface-container-low'))
+          .attr('stroke', isActive ? getCssToken('--on-surface') : getCssToken('--secondary'))
+          .attr('stroke-width', isActive ? 2 : 1.5);
+
+        pinG.append('text')
+          .attr('x', 9)
+          .attr('y', 3)
+          .attr('font-family', getCssToken('--font-label'))
+          .attr('font-size', isActive ? '8.5px' : '7px')
+          .attr('font-weight', '600')
+          .attr('fill', mode === 'satellite' ? getCssToken('--sky-ink') : getCssToken('--on-surface'))
+          .text(`${d.code} ${d.shortPlace}`);
+      });
+
+      applyZoomUi();
+      applyMapTransform();
+    }
+
+    function renderMapInspector() {
+      const d = TRIP_DAYS[appState.selectedDayIndex];
+      if (!d) return;
+      const setEl = (id, v) => {
+        const el = document.getElementById(id);
+        if (el) el.textContent = v;
+      };
+      setEl('map-inspector-day', `${d.code} · ${d.shortDate.toUpperCase()}`);
+      setEl('map-inspector-elev', `${d.elevation} · ${d.gps}`);
+      setEl('map-inspector-title', d.title);
+      setEl('map-inspector-street', `Street & Corridor View: ${d.streetNote}`);
+
+      const box = document.getElementById('map-stop-links');
+      if (!box) return;
+      box.innerHTML = d.stops.map((stop, idx) => `
+        <div class="figure-card" style="padding:var(--space-sm) var(--space-md); display:grid; gap:4px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; gap:var(--space-xs);">
+            <span class="index-num">0${idx + 1} · ${stop.time}</span>
+            <span class="dossier-meta">${stop.coords}</span>
+          </div>
+          <div style="font-weight:600; font-size:0.9375rem;">${stop.name}</div>
+          <button type="button" class="map-pin-btn" style="justify-self:start; margin-top:4px;" onclick="copyGoogleMapsPin('${stop.name.replace(/'/g, '')}', '${stop.coords}')">
+            Open in Google Maps · Copy Pin
+          </button>
+        </div>
+      `).join('');
+    }
+
+    /* Tab 3: Sky & Weather + Astrophotography Guide */
+    function renderWeatherTable() {
+      const tbody = document.getElementById('weather-tbody');
+      if (!tbody) return;
+      tbody.innerHTML = TRIP_DAYS.map((d, idx) => {
+        const w = d.weather;
+        const selected = idx === appState.selectedDayIndex ? 'is-selected-row' : '';
+        return `
+          <tr class="${selected}" style="cursor:pointer;" onclick="selectDay(${idx})">
+            <td class="num-cell"><strong>${d.code}</strong> · ${d.shortDate}</td>
+            <td>${d.shortPlace}<br><span class="dossier-meta">${d.elevation}</span></td>
+            <td class="num-cell">${w.high}° / ${w.low}°C<br><span class="dossier-meta">Rain ${w.rain}</span></td>
+            <td class="num-cell">${w.sunrise} / ${w.sunset}</td>
+            <td>${w.moonPhase}<br><span class="dossier-meta">Rise ${w.moonRise} · Set ${w.moonSet}</span></td>
+            <td><span class="tag-chip">${w.sky}</span></td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    function setAstroPreset(presetKey) {
+      appState.astroPreset = presetKey;
+      document.querySelectorAll('[data-astro]').forEach(btn => {
+        btn.classList.toggle('is-active', btn.dataset.astro === presetKey);
+      });
+      updateAstroGuide();
+    }
+
+    function updateAstroGuide() {
+      const select = document.getElementById('sensor-select');
+      if (select) appState.sensorKey = select.value;
+
+      const preset = ASTRO_PRESETS[appState.astroPreset] || ASTRO_PRESETS.milkyway;
+      const sensorMap = {
+        ff14: { eqFocal: 14, label: `Full-Frame 14mm` },
+        ff24: { eqFocal: 24, label: `Full-Frame 24mm` },
+        apsc16: { eqFocal: 24, label: `APS-C 16mm (24mm eq.)` }
+      };
+      const sensor = sensorMap[appState.sensorKey] || sensorMap.ff14;
+      const maxShutter = appState.astroPreset === 'trails'
+        ? `25–30s × 180 frames`
+        : `${Math.min(25, Math.round(400 / sensor.eqFocal))}s (NPF safe)`;
+
+      const grid = document.getElementById('astro-settings-grid');
+      if (grid) {
+        grid.innerHTML = `
+          <div class="metric-badge-card">
+            <span class="metric-label">Shutter Speed</span>
+            <span class="metric-value">${maxShutter}</span>
+          </div>
+          <div class="metric-badge-card is-gold">
+            <span class="metric-label">Aperture</span>
+            <span class="metric-value">${preset.aperture}</span>
+          </div>
+          <div class="metric-badge-card is-pine">
+            <span class="metric-label">ISO &amp; WB</span>
+            <span class="metric-value">${preset.iso} · ${preset.wb}</span>
+          </div>
+        `;
+      }
+      const noteEl = document.getElementById('astro-filter-note');
+      if (noteEl) {
+        noteEl.innerHTML = `<strong>${preset.title} (${sensor.label})</strong> — Focus: ${preset.focus}. ${preset.filterNote}`;
+      }
+    }
+
+    /* Tab 4: Budget Ledger */
+    function setCurrencyMode(mode) {
+      appState.currencyMode = mode;
+      document.querySelectorAll('[data-curr]').forEach(btn => {
+        btn.classList.toggle('is-active', btn.dataset.curr === mode);
+      });
+      renderBudgetView();
+      persistState();
+    }
+
+    function updateFxRate(val) {
+      const parsed = parseFloat(val);
+      if (!isNaN(parsed) && parsed >= 15 && parsed <= 45) {
+        appState.fxRate = parsed;
+        renderBudgetView();
+        persistState();
+      }
+    }
+
+    function resetFxRate() {
+      appState.fxRate = 26.2;
+      const inp = document.getElementById('fx-rate-input');
+      if (inp) inp.value = '26.2';
+      renderBudgetView();
+      persistState();
+    }
+
+    function toggleBudgetPaid(id) {
+      const idx = appState.paidBudgetIds.indexOf(id);
+      if (idx >= 0) {
+        appState.paidBudgetIds.splice(idx, 1);
+      } else {
+        appState.paidBudgetIds.push(id);
+      }
+      renderBudgetView();
+      persistState();
+    }
+
+    function formatMoney(thb) {
+      const sgd = thb / appState.fxRate;
+      return {
+        thbStr: `${thb.toLocaleString('en-US')} THB`,
+        sgdStr: `SGD ${sgd.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
+      };
+    }
+
+    function renderBudgetView() {
+      const totalThb = BUDGET_ITEMS.reduce((acc, x) => acc + x.thb, 0);
+      const totals = formatMoney(totalThb);
+
+      const hSgd = document.getElementById('budget-headline-sgd');
+      const hThb = document.getElementById('budget-headline-thb');
+      if (hSgd && hThb) {
+        if (appState.currencyMode === 'thb') {
+          hSgd.textContent = totals.thbStr;
+          hThb.textContent = `Equivalent to ${totals.sgdStr} @ ${appState.fxRate.toFixed(1)} THB/SGD`;
+        } else if (appState.currencyMode === 'sgd') {
+          hSgd.textContent = totals.sgdStr;
+          hThb.textContent = `Converted @ ${appState.fxRate.toFixed(1)} THB/SGD`;
+        } else {
+          hSgd.textContent = totals.sgdStr;
+          hThb.textContent = `${totals.thbStr} @ ${appState.fxRate.toFixed(1)} THB/SGD`;
+        }
+      }
+
+      const paidSummary = document.getElementById('budget-paid-summary');
+      if (paidSummary) {
+        paidSummary.textContent = `${appState.paidBudgetIds.length} / ${BUDGET_ITEMS.length} ITEMS MARKED SETTLED`;
+      }
+
+      const tbody = document.getElementById('budget-tbody');
+      const tfoot = document.getElementById('budget-tfoot');
+      if (tbody) {
+        tbody.innerHTML = BUDGET_ITEMS.map(item => {
+          const m = formatMoney(item.thb);
+          const pct = ((item.thb / totalThb) * 100).toFixed(1);
+          const paid = appState.paidBudgetIds.includes(item.id);
+          return `
+            <tr>
+              <td>
+                <input type="checkbox" aria-label="Mark ${item.category} settled" ${paid ? 'checked' : ''} onchange="toggleBudgetPaid('${item.id}')" style="width:18px; height:18px; accent-color:var(--positive); cursor:pointer;">
+              </td>
+              <td><strong>${item.category}</strong></td>
+              <td>${item.scope}</td>
+              <td class="num-cell">${appState.currencyMode === 'sgd' ? '—' : m.thbStr}</td>
+              <td class="num-cell">${appState.currencyMode === 'thb' ? '—' : m.sgdStr}</td>
+              <td class="num-cell">${pct}%</td>
+            </tr>
+          `;
+        }).join('');
+      }
+      if (tfoot) {
+        tfoot.innerHTML = `
+          <tr style="background:var(--surface-container); font-weight:700;">
+            <td></td>
+            <td>Total Individual Package</td>
+            <td>10 Days · Private Tour</td>
+            <td class="num-cell">${appState.currencyMode === 'sgd' ? '—' : totals.thbStr}</td>
+            <td class="num-cell">${appState.currencyMode === 'thb' ? '—' : totals.sgdStr}</td>
+            <td class="num-cell">100.0%</td>
+          </tr>
+        `;
+      }
+
+      renderBudgetChart();
+    }
+
+    function renderBudgetChart() {
+      const canvas = document.getElementById('budget-chart');
+      if (!canvas || typeof Chart === 'undefined') return;
+
+      const colors = [
+        getCssToken('--data-1'),
+        getCssToken('--data-2'),
+        getCssToken('--data-3'),
+        getCssToken('--data-4'),
+        getCssToken('--secondary'),
+        getCssToken('--tertiary')
+      ];
+
+      const labels = BUDGET_ITEMS.map(b => b.category.split(' (')[0]);
+      const dataVals = BUDGET_ITEMS.map(b => appState.currencyMode === 'thb' ? b.thb : Number((b.thb / appState.fxRate).toFixed(2)));
+      const unitLabel = appState.currencyMode === 'thb' ? 'THB' : 'SGD';
+
+      if (budgetChartInstance) {
+        budgetChartInstance.destroy();
+      }
+
+      budgetChartInstance = new Chart(canvas.getContext('2d'), {
+        type: 'bar',
+        data: {
+          labels: labels,
+          datasets: [{
+            label: `Individual Cost (${unitLabel})`,
+            data: dataVals,
+            backgroundColor: colors,
+            borderRadius: 4
+          }]
+        },
+        options: {
+          indexAxis: 'y',
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { display: false }
+          },
+          scales: {
+            x: {
+              grid: { color: getCssToken('--outline-variant') },
+              ticks: { color: getCssToken('--on-surface-variant') }
+            },
+            y: {
+              grid: { display: false },
+              ticks: { color: getCssToken('--on-surface') }
+            }
+          }
+        }
+      });
+    }
+
+    function exportBudgetCsv() {
+      const lines = ['Category,Scope,THB,SGD'];
+      BUDGET_ITEMS.forEach(item => {
+        const sgd = (item.thb / appState.fxRate).toFixed(2);
+        lines.push(`"${item.category}","${item.scope}",${item.thb},${sgd}`);
+      });
+      const csvContent = lines.join('\n');
+      if (window.notebookAppApi && typeof window.notebookAppApi.triggerFileDownload === 'function') {
+        window.notebookAppApi.triggerFileDownload({
+          content: csvContent,
+          contentType: 'text/csv',
+          encoding: 'UTF-8',
+          filename: 'thailand-10day-budget.csv'
+        });
+        showToast(`Budget CSV exported`);
+      } else {
+        showToast(`Prepared ${BUDGET_ITEMS.length} rows (${csvContent.length} bytes)`);
+      }
+    }
+
+    /* Initialization & Shim State Hydration */
+    async function initDashboard() {
+      if (window.notebookAppApi && typeof window.notebookAppApi.getAppState === 'function') {
+        try {
+          const saved = await window.notebookAppApi.getAppState();
+          if (saved && typeof saved === 'object') {
+            if (typeof saved.selectedDayIndex === 'number') appState.selectedDayIndex = saved.selectedDayIndex;
+            if (typeof saved.activeTab === 'string') appState.activeTab = saved.activeTab;
+            if (Array.isArray(saved.packedIds)) appState.packedIds = saved.packedIds;
+            if (Array.isArray(saved.paidBudgetIds)) appState.paidBudgetIds = saved.paidBudgetIds;
+            if (typeof saved.fxRate === 'number') appState.fxRate = saved.fxRate;
+            if (typeof saved.currencyMode === 'string') appState.currencyMode = saved.currencyMode;
+            if (typeof saved.mapMode === 'string') appState.mapMode = saved.mapMode;
+          }
+        } catch (_) {}
+      }
+
+      const fxInp = document.getElementById('fx-rate-input');
+      if (fxInp) fxInp.value = String(appState.fxRate);
+
+      renderHeroCarousel();
+      startHeroInterval();
+      window.addEventListener('resize', renderHeroCarousel);
+
+      renderDaySelector();
+      setupDayStripDragScroll();
+      renderItineraryDay();
+      renderPackingList();
+      setupMapInteractions();
+      setMapMode(appState.mapMode);
+      renderWeatherTable();
+      updateAstroGuide();
+      renderBudgetView();
+      switchTab(appState.activeTab);
+
+      loadVectorGeography();
+
+      if (window.notebookAppApi && typeof window.notebookAppApi.notifyAppReady === 'function') {
+        window.notebookAppApi.notifyAppReady();
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', initDashboard);
+  </script>
+</body>
+</html>
